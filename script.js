@@ -152,48 +152,56 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-      // --- CALCULATOR SECRET PASSCODE: 902197 ---
-const display = document.getElementById("calc-display");
-document.querySelectorAll(".calc-buttons button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const value = btn.textContent;
+// --- CALCULATOR SECRET PASSCODE: 902197 ---
+window.addEventListener("DOMContentLoaded", () => {
+  const display = document.getElementById("calc-display");
+  const buttons = document.querySelectorAll(".calc-buttons button");
 
-    if (value === "C") {
-      display.value = "";
-      return;
-    }
+  if (!display || !buttons.length) {
+    console.error("Calculator not found on page.");
+    return;
+  }
 
-    if (value === "=") {
-      // ✅ Secret code check
-      if (display.value === "902197") {
-        const newTab = window.open("about:blank", "_blank");
-        newTab.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>Plumet Tournament</title>
-            <style>
-              html, body { margin:0; padding:0; height:100%; overflow:hidden; }
-              iframe { width:100vw; height:100vh; border:none; }
-            </style>
-          </head>
-          <body>
-            <iframe src="${location.href}"></iframe>
-          </body>
-          </html>
-        `);
-        newTab.document.close();
-      } else {
-        try {
-          display.value = eval(display.value);
-        } catch {
-          display.value = "Error";
-        }
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const value = btn.textContent;
+
+      if (value === "C") {
+        display.value = "";
+        return;
       }
-      return;
-    }
 
-    display.value += value;
+      if (value === "=") {
+        if (display.value === "902197") {
+          const newTab = window.open("about:blank", "_blank");
+          newTab.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Plumet Tournament</title>
+              <style>
+                html, body { margin:0; padding:0; height:100%; overflow:hidden; }
+                iframe { width:100vw; height:100vh; border:none; }
+              </style>
+            </head>
+            <body>
+              <iframe src="${location.href}"></iframe>
+            </body>
+            </html>
+          `);
+          newTab.document.close();
+        } else {
+          try {
+            display.value = eval(display.value);
+          } catch {
+            display.value = "Error";
+          }
+        }
+        return;
+      }
+
+      display.value += value;
+    });
   });
 });
 
