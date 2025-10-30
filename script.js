@@ -50,11 +50,10 @@ window.addEventListener('DOMContentLoaded', () => {
     oliver.addEventListener('click', () => spinNameOnce(oliver, 'Ollie G'));
   }
 
-
   /**************************************
    * ABOUT:BLANK BUTTON (Runs site cloaked)
    **************************************/
- document.getElementById("open-blank").addEventListener("click", () => {
+document.getElementById("open-blank").addEventListener("click", () => {
   const newPage = window.open("about:blank", "_blank");
 
   if (!newPage) {
@@ -67,6 +66,10 @@ window.addEventListener('DOMContentLoaded', () => {
   <html>
   <head>
     <title>Plumet Tournament</title>
+
+    <!-- ✅ Ruffle (Flash emulator) required for the game to load -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
       body {
@@ -91,10 +94,9 @@ window.addEventListener('DOMContentLoaded', () => {
         border-bottom: 1px solid #555;
         padding-bottom: 8px;
       }
-      iframe {
+      object {
         width: 100%;
         height: 500px;
-        border: none;
         border-radius: 12px;
       }
       table {
@@ -112,15 +114,13 @@ window.addEventListener('DOMContentLoaded', () => {
   </head>
   <body>
 
-    <!-- GAME CONTAINER -->
+    <!-- ✅ GAME (with Ruffle working now) -->
     <section class="card">
       <div class="card__header">Play</div>
-      <div class="card__body">
-        <iframe src="Plumet2.swf"></iframe>
-      </div>
+      <object data="Plumet2.swf" type="application/x-shockwave-flash"></object>
     </section>
 
-    <!-- LEADERBOARD -->
+    <!-- ✅ LEADERBOARD -->
     <aside class="card">
       <div class="card__header">Leaderboard</div>
       <div class="card__body">
@@ -151,7 +151,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   newPage.document.close();
 });
-
 
   /**************************************
    * CALCULATOR SECRET CODE LOGIC (902197)
