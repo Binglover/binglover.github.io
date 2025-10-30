@@ -152,7 +152,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// --- CALCULATOR SECRET PASSCODE: 902197 ---
+  // --- LEADERBOARD NAVIGATION ---
+  const leaderboardBtn = el('goto-leaderboard');
+  if (leaderboardBtn) {
+    leaderboardBtn.addEventListener('click', () => {
+      const section = el('leaderboard-section');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+});
+
+    // --- CALCULATOR SECRET PASSCODE: 902197 ---
 window.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("calc-display");
   const buttons = document.querySelectorAll(".calc-buttons button");
@@ -203,16 +215,4 @@ window.addEventListener("DOMContentLoaded", () => {
       display.value += value;
     });
   });
-});
-
-  // --- LEADERBOARD NAVIGATION ---
-  const leaderboardBtn = el('goto-leaderboard');
-  if (leaderboardBtn) {
-    leaderboardBtn.addEventListener('click', () => {
-      const section = el('leaderboard-section');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
 });
