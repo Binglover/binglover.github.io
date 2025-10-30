@@ -54,14 +54,12 @@ window.addEventListener('DOMContentLoaded', () => {
    * 🚀 "Run in about:blank" BUTTON
    **************************************/
 document.getElementById("open-blank").addEventListener("click", () => {
-  const win = window.open("about:blank", "_blank");
 
+  const win = window.open("about:blank", "_blank");
   if (!win) {
     alert("Popup blocked. Enable pop-ups.");
     return;
   }
-
-  const htmlCopy = document.querySelector(".site").outerHTML;
 
   win.document.open();
   win.document.write(`
@@ -71,18 +69,69 @@ document.getElementById("open-blank").addEventListener("click", () => {
 <meta charset="utf-8" />
 <title>Plumet Tournament</title>
 
-<!-- ✅ Forces all URLs to resolve from LIVE WEBSITE -->
+<!-- ✅ Make relative URLs work -->
 <base href="https://binglover.github.io/">
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body style="margin:0;background:#111;color:white;">
-<div id="container">${htmlCopy}</div>
 
-<!-- ✅ scripts MUST be added AFTER the HTML, NOT inside document.write -->
+<style>
+  body {
+    background: #111;
+    color: white;
+    font-family: Poppins, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .card {
+    background: #222;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 900px;
+  }
+  object {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+  }
+</style>
+
+</head>
+<body>
+
+<section class="card">
+  <div class="card__header">
+    <h2 class="card__title">Play</h2>
+  </div>
+  <object data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+</section>
+
+<aside class="card">
+  <div class="card__header">
+    <h2>Leaderboard</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Player</th><th>Score</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+      <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+      <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
+      <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+      <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+      <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+      <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+      <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+      <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+    </tbody>
+  </table>
+</aside>
+
+<!-- ✅ Include Ruffle so Flash runs -->
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-<script src="script.js"></script>
 
 </body>
 </html>
@@ -90,8 +139,6 @@ document.getElementById("open-blank").addEventListener("click", () => {
 
   win.document.close();
 
-  // ✅ Keep URL bar showing "about:blank"
-  setTimeout(() => win.history.pushState({}, "", "about:blank"), 200);
 });
 
 
