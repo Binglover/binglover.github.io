@@ -193,11 +193,10 @@ main[role="main"] {
 
 .game-frame object,
 .game-frame embed {
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  display: block;
+  width: 100%;
+  height: calc(80vh - 100px); /* fills 80% of screen height */
 }
+
 
 table {
   width: 100%;
