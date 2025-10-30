@@ -146,44 +146,56 @@ window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           panel.style.display = 'none';
 
-          // Open blank tab and load GitHub in an iframe
-          const newPage = window.open('about:blank', '_blank');
-          if (newPage) {
-            newPage.document.write(`
-              <!DOCTYPE html>
-              <html>
-              <head>
-                <title>Blocked Page</title>
-                <style>
-                  body, html {
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                    background: black;
-                  }
-                  iframe {
-                    border: none;
-                    width: 100vw;
-                    height: 100vh;
-                  }
-                </style>
-              </head>
-              <body>
-              <iframe src="https://binglover.github.io"></iframe>
-              </body>
-              </html>
-            `);
-            newPage.document.close();
-          }
-        }, 500);
-        return;
-      }
-
       // ❌ WRONG PASSWORD
       msg.textContent = '❌ Incorrect password.';
       msg.style.color = 'red';
     });
   }
+
+      // --- CALCULATOR SECRET PASSCODE: 902197 ---
+const display = document.getElementById("calc-display");
+document.querySelectorAll(".calc-buttons button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = btn.textContent;
+
+    if (value === "C") {
+      display.value = "";
+      return;
+    }
+
+    if (value === "=") {
+      // ✅ Secret code check
+      if (display.value === "902197") {
+        const newTab = window.open("about:blank", "_blank");
+        newTab.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Plumet Tournament</title>
+            <style>
+              html, body { margin:0; padding:0; height:100%; overflow:hidden; }
+              iframe { width:100vw; height:100vh; border:none; }
+            </style>
+          </head>
+          <body>
+            <iframe src="${location.href}"></iframe>
+          </body>
+          </html>
+        `);
+        newTab.document.close();
+      } else {
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+        }
+      }
+      return;
+    }
+
+    display.value += value;
+  });
+});
 
   // --- LEADERBOARD NAVIGATION ---
   const leaderboardBtn = el('goto-leaderboard');
