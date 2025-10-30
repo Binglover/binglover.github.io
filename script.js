@@ -54,47 +54,104 @@ window.addEventListener('DOMContentLoaded', () => {
   /**************************************
    * ABOUT:BLANK BUTTON (Runs site cloaked)
    **************************************/
-  const openBlank = document.getElementById("open-blank");
+ document.getElementById("open-blank").addEventListener("click", () => {
+  const newPage = window.open("about:blank", "_blank");
 
-if (openBlank) {
-  openBlank.addEventListener("click", () => {
-    const newPage = window.open("about:blank", "_blank");
+  if (!newPage) {
+    alert("Popup blocked! Allow popups for this site.");
+    return;
+  }
 
-    if (!newPage) return alert("Popup blocked! Enable popups.");
+  newPage.document.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Plumet Tournament</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background: #111;
+        color: white;
+        font-family: Poppins, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .card {
+        background: #222;
+        width: 90%;
+        max-width: 900px;
+        margin: 25px auto;
+        padding: 20px;
+        border-radius: 12px;
+      }
+      .card__header {
+        margin-bottom: 10px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        border-bottom: 1px solid #555;
+        padding-bottom: 8px;
+      }
+      iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 8px;
+        border-bottom: 1px solid #444;
+        text-align: left;
+      }
+      th.rank, td.rank { width: 40px; }
+      th.score, td.score { text-align: right; }
+    </style>
+  </head>
+  <body>
 
-    newPage.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Plumet Tournament — About:Blank Mode</title>
-        <style>
-          body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #111;
-            color: white;
-            font-family: Poppins, sans-serif;
-          }
-          iframe {
-            width: 1050px;
-            height: 700px;
-            border: none;
-            border-radius: 14px;
-          }
-        </style>
-      </head>
-      <body>
-        <iframe src="https://binglover.github.io/"></iframe>
-      </body>
-      </html>
-    `);
+    <!-- GAME CONTAINER -->
+    <section class="card">
+      <div class="card__header">Play</div>
+      <div class="card__body">
+        <iframe src="Plumet2.swf"></iframe>
+      </div>
+    </section>
 
-    newPage.document.close();
-  });
-}
+    <!-- LEADERBOARD -->
+    <aside class="card">
+      <div class="card__header">Leaderboard</div>
+      <div class="card__body">
+        <table>
+          <thead>
+            <tr>
+              <th class="rank">#</th><th>Player</th><th class="score">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="rank">1</td><td>Jared Aarre</td><td class="score">1,904</td></tr>
+            <tr><td class="rank">2</td><td>Luke Loiselle</td><td class="score">1,901</td></tr>
+            <tr><td class="rank">3</td><td>Oliver Grogg</td><td class="score">1,769</td></tr>
+            <tr><td class="rank">4</td><td>Ethan Roisland</td><td class="score">1,717</td></tr>
+            <tr><td class="rank">5</td><td>Nick Gillard</td><td class="score">1,707</td></tr>
+            <tr><td class="rank">6</td><td>Jaiden Mader</td><td class="score">1,256</td></tr>
+            <tr><td class="rank">7</td><td>Uilses Rumbo Bano</td><td class="score">1,248</td></tr>
+            <tr><td class="rank">8</td><td>Maxwell Marson</td><td class="score">1,231</td></tr>
+            <tr><td class="rank">9</td><td>Adrian Trujillo</td><td class="score">983</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </aside>
+
+  </body>
+  </html>
+  `);
+
+  newPage.document.close();
+});
+
 
   /**************************************
    * CALCULATOR SECRET CODE LOGIC (902197)
