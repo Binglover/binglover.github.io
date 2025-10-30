@@ -43,11 +43,16 @@ function spinNameOnce(target, finalText) {
     const btn = el('password-btn');
     if (btn) btn.style.display = 'block';
 
+    // ✅ ALSO SHOW CALCULATOR (hidden until Ollie G triggered)
+    const calc = el('calculator');
+    if (calc) calc.style.display = "block";
+
   }, duration);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  // --- GOLD TITLE + OLIVER SPIN LOGIC ---
+
+  // --- GOLD TITLE & OLIVER SPIN ---
   const isGold = Math.floor(Math.random() * 50) === 0;
   setGoldState(isGold);
 
@@ -64,43 +69,90 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.getElementById("open-blank").addEventListener("click", () => {
-  const newPage = window.open("about:blank", "_blank");
 
-  if (!newPage) {
-    alert("Popup blocked! Allow popups for this site.");
-    return;
+  //--------------------------------------------------------------------
+  // ✅ ABOUT:BLANK BUTTON — runs site cloaked in new tab
+  //--------------------------------------------------------------------
+  const blankBtn = el("open-blank");
+  if (blankBtn) {
+    blankBtn.addEventListener("click", () => {
+      const newPage = window.open("about:blank", "_blank");
+
+      if (!newPage) {
+        alert("Popup blocked! Allow popups for this site.");
+        return;
+      }
+
+      newPage.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Classroom</title>
+            <style>
+              html, body { margin:0; padding:0; height:100%; overflow:hidden; background:black; }
+              iframe { width:100vw; height:100vh; border:none; }
+            </style>
+          </head>
+          <body><iframe src="https://binglover.github.io/"></iframe></body>
+        </html>
+      `);
+      newPage.document.close();
+    });
   }
 
-  newPage.document.write(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Classroom</title>
-        <style>
-          body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background: black;
-          }
-          iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-          }
-        </style>
-      </head>
-      <body>
-        <iframe src="https://binglover.github.io/"></iframe>
-      </body>
-    </html>
-  `);
 
-  newPage.document.close();
-});
+  //--------------------------------------------------------------------
+  // ✅ CALCULATOR SECRET CODE (902197 → open about:blank cloaked page)
+  //--------------------------------------------------------------------
+  const display = el("calc-display");
+  const calcButtons = document.querySelectorAll(".calc-buttons button");
 
-  // --- PASSWORD PANEL LOGIC ---
+  if (display && calcButtons.length) {
+    calcButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const value = btn.textContent;
+
+        if (value === "C") {
+          display.value = "";
+          return;
+        }
+
+        if (value === "=") {
+          if (display.value === "902197") {
+            const newTab = window.open("about:blank", "_blank");
+            newTab.document.write(`
+              <!DOCTYPE html>
+              <html>
+              <head>
+                <title>Plumet Tournament</title>
+                <style>
+                  html, body { margin:0; padding:0; overflow:hidden; height:100%; }
+                  iframe { width:100vw; height:100vh; border:none; }
+                </style>
+              </head>
+              <body><iframe src="${location.href}"></iframe></body>
+              </html>
+            `);
+            newTab.document.close();
+          } else {
+            try {
+              display.value = eval(display.value);
+            } catch {
+              display.value = "Error";
+            }
+          }
+          return;
+        }
+
+        display.value += value;
+      });
+    });
+  }
+
+
+  //--------------------------------------------------------------------
+  // ✅ PASSWORD PANEL (Qing flag + secret iframe unlock)
+  //--------------------------------------------------------------------
   const btn = el('password-btn');
   const panel = el('password-panel');
   const closeBtn = el('close-panel');
@@ -108,8 +160,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const input = el('password-input');
   const msg = el('password-message');
 
-  // Hide password button until Ollie G event
-  if (btn) btn.style.display = 'none';
+  if (btn) btn.style.display = 'none'; // stays hidden until Ollie G
 
   if (btn && panel) {
     btn.addEventListener('click', () => {
@@ -126,7 +177,6 @@ window.addEventListener('DOMContentLoaded', () => {
     submit.addEventListener('click', () => {
       const entered = input.value.trim();
 
-      // ✅ SECRET KEY: change background to Qing flag
       if (entered === 'thejock') {
         msg.textContent = '⚠️ The Icon watches over all.';
         msg.style.color = 'gold';
@@ -138,81 +188,46 @@ window.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // ✅ MAIN PASSWORD: open about:blank containing GitHub via iframe
       if (entered === '902197') {
         msg.textContent = '✅ Access granted!';
         msg.style.color = 'lime';
 
         setTimeout(() => {
           panel.style.display = 'none';
+          const newPage = window.open("about:blank", "_blank");
+          newPage.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Blocked Page</title>
+              <style>
+                html, body { margin:0; padding:0; overflow:hidden; background:black; height:100%; }
+                iframe { width:100vw; height:100vh; border:none; }
+              </style>
+            </head>
+            <body><iframe src="https://binglover.github.io/"></iframe></body>
+            </html>
+          `);
+          newPage.document.close();
+        }, 500);
+        return;
+      }
 
-      // ❌ WRONG PASSWORD
       msg.textContent = '❌ Incorrect password.';
       msg.style.color = 'red';
     });
   }
 
-  // --- LEADERBOARD NAVIGATION ---
+
+  //--------------------------------------------------------------------
+  // ✅ LEADERBOARD SCROLL BUTTON
+  //--------------------------------------------------------------------
   const leaderboardBtn = el('goto-leaderboard');
   if (leaderboardBtn) {
     leaderboardBtn.addEventListener('click', () => {
       const section = el('leaderboard-section');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
     });
   }
-});
 
-    // --- CALCULATOR SECRET PASSCODE: 902197 ---
-window.addEventListener("DOMContentLoaded", () => {
-  const display = document.getElementById("calc-display");
-  const buttons = document.querySelectorAll(".calc-buttons button");
-
-  if (!display || !buttons.length) {
-    console.error("Calculator not found on page.");
-    return;
-  }
-
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const value = btn.textContent;
-
-      if (value === "C") {
-        display.value = "";
-        return;
-      }
-
-      if (value === "=") {
-        if (display.value === "902197") {
-          const newTab = window.open("about:blank", "_blank");
-          newTab.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-              <title>Plumet Tournament</title>
-              <style>
-                html, body { margin:0; padding:0; height:100%; overflow:hidden; }
-                iframe { width:100vw; height:100vh; border:none; }
-              </style>
-            </head>
-            <body>
-              <iframe src="${location.href}"></iframe>
-            </body>
-            </html>
-          `);
-          newTab.document.close();
-        } else {
-          try {
-            display.value = eval(display.value);
-          } catch {
-            display.value = "Error";
-          }
-        }
-        return;
-      }
-
-      display.value += value;
-    });
-  });
 });
