@@ -191,12 +191,12 @@ main[role="main"] {
   align-items: center;
 }
 
-.game-frame object,
-.game-frame embed {
-  width: 100%;
-  height: calc(80vh - 100px); /* fills 80% of screen height */
+ /* FORCE the Plumet SWF to go wide */
+#game-frame object,
+#game-frame embed {
+  width: 100% !important;
+  height: 750px !important; /* <- change this number to adjust size */
 }
-
 
 table {
   width: 100%;
