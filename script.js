@@ -55,11 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
    **************************************/
 document.getElementById("open-blank").addEventListener("click", () => {
   const newPage = window.open("about:blank", "_blank");
-
-  if (!newPage) {
-    alert("Popup blocked! Allow popups for this site.");
-    return;
-  }
+  if (!newPage) return alert("Popup blocked. Allow popups for this site.");
 
   newPage.document.write(`
   <!DOCTYPE html>
@@ -67,53 +63,49 @@ document.getElementById("open-blank").addEventListener("click", () => {
   <head>
     <title>Plumet Tournament</title>
 
-    <!-- ✅ RUFFLE -->
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <!-- ✅ IMPORTANT: fixes missing CSS + missing game -->
+    <base href="${location.origin}${location.pathname.replace(/\\/[^/]*$/, '/')}">
 
-    <!-- ✅ COPY YOUR CSS -->
+    <!-- Load original CSS + fonts -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+    <!-- Load ruffle -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
   </head>
   <body>
 
-    <!-- ✅ COPY YOUR EXISTING GAME CONTAINER -->
+    <!-- COPY OF YOUR GAME SECTION -->
     <main role="main">
       <section class="card">
         <div class="card__header"><h2 class="card__title">Play</h2></div>
         <div class="card__body">
           <div class="game-frame">
-            <ruffle-player>
-              <source src="./Plumet2.swf" />
+            <ruffle-player style="width: 100%; height: 550px;">
+              <source src="Plumet2.swf">
             </ruffle-player>
           </div>
         </div>
       </section>
 
-      <!-- ✅ COPY YOUR LEADERBOARD EXACTLY -->
-      <aside class="card" aria-labelledby="lb-title" id="leaderboard-section" style="margin-top: 25px;">
-        <div class="card__header">
-          <h2 id="lb-title" class="card__title">Leaderboard</h2>
-        </div>
+      <!-- COPY OF YOUR LEADERBOARD -->
+      <aside class="card" style="margin-top: 25px;">
+        <div class="card__header"><h2 class="card__title">Leaderboard</h2></div>
         <div class="card__body">
           <table>
             <thead>
-              <tr>
-                <th class="rank">#</th>
-                <th>Player</th>
-                <th class="score">Score</th>
-              </tr>
+              <tr><th class="rank">#</th><th>Player</th><th class="score">Score</th></tr>
             </thead>
             <tbody>
-              <tr><td class="rank">1</td><td>Jared Aarre</td><td class="score">1,904</td></tr>
-              <tr><td class="rank">2</td><td>Luke Loiselle</td><td class="score">1,901</td></tr>
-              <tr><td class="rank">3</td><td>Oliver Grogg</td><td class="score">1,769</td></tr>
-              <tr><td class="rank">4</td><td>Ethan Roisland</td><td class="score">1,717</td></tr>
-              <tr><td class="rank">5</td><td>Nick Gillard</td><td class="score">1,707</td></tr>
-              <tr><td class="rank">6</td><td>Jaiden Mader</td><td class="score">1,256</td></tr>
-              <tr><td class="rank">7</td><td>Uilses Rumbo Bano</td><td class="score">1,248</td></tr>
-              <tr><td class="rank">8</td><td>Maxwell Marson</td><td class="score">1,231</td></tr>
-              <tr><td class="rank">9</td><td>Adrian Trujillo</td><td class="score">983</td></tr>
+              <tr><td>1</td><td>Jared Aarre</td><td class="score">1,904</td></tr>
+              <tr><td>2</td><td>Luke Loiselle</td><td class="score">1,901</td></tr>
+              <tr><td>3</td><td>Oliver Grogg</td><td class="score">1,769</td></tr>
+              <tr><td>4</td><td>Ethan Roisland</td><td class="score">1,717</td></tr>
+              <tr><td>5</td><td>Nick Gillard</td><td class="score">1,707</td></tr>
+              <tr><td>6</td><td>Jaiden Mader</td><td class="score">1,256</td></tr>
+              <tr><td>7</td><td>Uilses Rumbo Bano</td><td class="score">1,248</td></tr>
+              <tr><td>8</td><td>Maxwell Marson</td><td class="score">1,231</td></tr>
+              <tr><td>9</td><td>Adrian Trujillo</td><td class="score">983</td></tr>
             </tbody>
           </table>
         </div>
@@ -126,6 +118,7 @@ document.getElementById("open-blank").addEventListener("click", () => {
 
   newPage.document.close();
 });
+
 
   /**************************************
    * ✅ CALCULATOR SECRET CODE (902197)
