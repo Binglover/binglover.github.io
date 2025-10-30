@@ -55,65 +55,84 @@ window.addEventListener('DOMContentLoaded', () => {
    **************************************/
 document.getElementById("open-blank").addEventListener("click", () => {
   const newPage = window.open("about:blank", "_blank");
-  if (!newPage) return alert("Popup blocked. Allow popups for this site.");
+  if (!newPage) {
+    alert("Popup blocked! Enable pop-ups for this site.");
+    return;
+  }
 
   newPage.document.write(`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Plumet Tournament</title>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Plumet Tournament</title>
 
-    <!-- ✅ IMPORTANT: fixes missing CSS + missing game -->
-    <base href="${location.origin}${location.pathname.replace(/\\/[^/]*$/, '/')}">
+      <!-- ✅ Fixes missing CSS, JS, and SWF -->
+      <base href="https://binglover.github.io/">
 
-    <!-- Load original CSS + fonts -->
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+      <!-- CSS + fonts -->
+      <link rel="stylesheet" href="style.css">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
 
-    <!-- Load ruffle -->
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-  </head>
-  <body>
+      <!-- Ruffle emulator -->
+      <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-    <!-- COPY OF YOUR GAME SECTION -->
-    <main role="main">
-      <section class="card">
-        <div class="card__header"><h2 class="card__title">Play</h2></div>
-        <div class="card__body">
-          <div class="game-frame">
-            <ruffle-player style="width: 100%; height: 550px;">
-              <source src="Plumet2.swf">
-            </ruffle-player>
-          </div>
-        </div>
-      </section>
+      <!-- ✅ THIS FIXES YOUR BUTTONS + CALCULATOR -->
+      <script src="script.js" defer></script>
+    </head>
+    <body>
 
-      <!-- COPY OF YOUR LEADERBOARD -->
-      <aside class="card" style="margin-top: 25px;">
-        <div class="card__header"><h2 class="card__title">Leaderboard</h2></div>
-        <div class="card__body">
-          <table>
-            <thead>
-              <tr><th class="rank">#</th><th>Player</th><th class="score">Score</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>Jared Aarre</td><td class="score">1,904</td></tr>
-              <tr><td>2</td><td>Luke Loiselle</td><td class="score">1,901</td></tr>
-              <tr><td>3</td><td>Oliver Grogg</td><td class="score">1,769</td></tr>
-              <tr><td>4</td><td>Ethan Roisland</td><td class="score">1,717</td></tr>
-              <tr><td>5</td><td>Nick Gillard</td><td class="score">1,707</td></tr>
-              <tr><td>6</td><td>Jaiden Mader</td><td class="score">1,256</td></tr>
-              <tr><td>7</td><td>Uilses Rumbo Bano</td><td class="score">1,248</td></tr>
-              <tr><td>8</td><td>Maxwell Marson</td><td class="score">1,231</td></tr>
-              <tr><td>9</td><td>Adrian Trujillo</td><td class="score">983</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </aside>
-    </main>
+      <!-- ✅ EXACT COPY OF YOUR SITE CONTENT -->
+      <div class="site">
+        <header role="banner">
+          <h1 id="title" class="title">Plumet Tournament</h1>
+        </header>
 
-  </body>
-  </html>
+        <main role="main">
+          <section class="card">
+            <div class="card__header">
+              <h2 class="card__title">Play</h2>
+            </div>
+            <div class="card__body">
+              <div class="game-frame">
+                <ruffle-player style="width:100%; height:550px;">
+                  <source src="Plumet2.swf">
+                </ruffle-player>
+              </div>
+            </div>
+          </section>
+
+          <aside class="card" aria-labelledby="lb-title" id="leaderboard-section" style="margin-top: 25px;">
+            <div class="card__header">
+              <h2 id="lb-title" class="card__title">Leaderboard</h2>
+            </div>
+            <div class="card__body">
+              <table role="table">
+                <thead>
+                  <tr>
+                    <th class="rank">#</th>
+                    <th>Player</th>
+                    <th class="score">Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+                  <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+                  <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
+                  <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+                  <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+                  <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+                  <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+                  <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+                  <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </aside>
+        </main>
+      </div>
+
+    </body>
+    </html>
   `);
 
   newPage.document.close();
