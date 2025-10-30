@@ -109,37 +109,45 @@ main[role="main"] {
 @media (max-width: 980px) 
 
 .calculator {
-  width: 280px;
-  margin: 30px auto;
-  padding: 15px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
+  display: none;
+  width: 300px;
+  margin: 20px auto;
+  padding: 18px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
 #calc-display {
   width: 100%;
-  height: 55px;
+  padding: 12px;
   font-size: 2rem;
   text-align: right;
-  margin-bottom: 12px;
+  border-radius: 12px;
   border: none;
-  border-radius: 8px;
-  padding: 5px 10px;
+  background: rgba(255,255,255,0.75);
+}
+
+#calculator button {
+  background: var(--gold-1);
+  border: none;
+  padding: 16px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  color: black;
+  transition: transform .1s;
+}
+
+#calculator button:active {
+  transform: scale(0.9);
 }
 
 .calc-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-}
-
-.calc-buttons button {
-  padding: 15px;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+  margin-top: 10px;
 }
 
 .card {
