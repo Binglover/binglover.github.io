@@ -54,17 +54,47 @@ window.addEventListener('DOMContentLoaded', () => {
   /**************************************
    * ABOUT:BLANK BUTTON (Runs site cloaked)
    **************************************/
-  const openBlank = el("open-blank");
-  if (openBlank) {
-    openBlank.addEventListener("click", () => {
-      const newPage = window.open("about:blank", "_blank");
-      newPage.document.write(`
-        <iframe src="https://binglover.github.io/" style="border:none;width:100vw;height:100vh;"></iframe>
-      `);
-      newPage.document.close();
-    });
-  }
+  const openBlank = document.getElementById("open-blank");
 
+if (openBlank) {
+  openBlank.addEventListener("click", () => {
+    const newPage = window.open("about:blank", "_blank");
+
+    if (!newPage) return alert("Popup blocked! Enable popups.");
+
+    newPage.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Plumet Tournament — About:Blank Mode</title>
+        <style>
+          body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            color: white;
+            font-family: Poppins, sans-serif;
+          }
+          iframe {
+            width: 1050px;
+            height: 700px;
+            border: none;
+            border-radius: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <iframe src="https://binglover.github.io/"></iframe>
+      </body>
+      </html>
+    `);
+
+    newPage.document.close();
+  });
+}
 
   /**************************************
    * CALCULATOR SECRET CODE LOGIC (902197)
