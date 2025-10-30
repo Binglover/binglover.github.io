@@ -54,15 +54,39 @@ window.addEventListener('DOMContentLoaded', () => {
    * 🚀 "Run in about:blank" BUTTON
    **************************************/
 document.getElementById("open-blank").addEventListener("click", () => {
-  let w = window.open("about:blank", "_blank");
+  const win = window.open("about:blank", "_blank");
 
-  // load the duplicate page into the new tab
-  w.location.href = "https://binglover.github.io/cloak.html";
+  if (!win) {
+    alert("Popup blocked. Allow pop-ups for this site.");
+    return;
+  }
 
-  // remove history trace (keeps about:blank as URL)
-  setTimeout(() => {
-    w.history.pushState({}, "", "about:blank");
-  }, 500);
+  win.document.open();
+  win.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Plumet Tournament</title>
+
+  <!-- ✅ Forces all relative paths to load from your live site -->
+  <base href="https://binglover.github.io/">
+
+  <!-- ✅ load your real resources -->
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <script src="script.js" defer></script>
+
+</head>
+<body>
+  ${document.querySelector(".site").outerHTML}
+</body>
+</html>
+  `);
+  win.document.close();
+
+  // ✅ keeps the URL bar showing "about:blank"
+  setTimeout(() => win.history.pushState({}, "", "about:blank"), 300);
 });
 
 
