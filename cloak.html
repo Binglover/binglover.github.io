@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Plumet Tournament</title>
+  <base href="https://binglover.github.io/">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <script src="script.js" defer></script>
+
+  <style>
+    body { margin:0; background:#111; }
+  </style>
+</head>
+<body>
+  <!-- inserts EXACT same HTML as your main site -->
+  <div class="site">
+    <header role="banner">
+      <h1 id="title" class="title">Plumet Tournament</h1>
+    </header>
+
+    <main role="main">
+      <section class="card">
+        <div class="card__header"><h2 class="card__title">Play</h2></div>
+        <div class="card__body">
+          <ruffle-player style="width:100%; height:550px;"><source src="Plumet2.swf"></ruffle-player>
+        </div>
+      </section>
+
+      <aside class="card" style="margin-top: 25px;">
+        <div class="card__header"><h2 class="card__title">Leaderboard</h2></div>
+        <div class="card__body">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Player</th><th>Score</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+              <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+              <tr><td>3</td><td id="player-oliver">Oliver Grogg</td><td>1,769</td></tr>
+              <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+              <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+              <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+              <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+              <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+              <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+    </main>
+  </div>
+</body>
+</html>
