@@ -53,72 +53,55 @@ window.addEventListener('DOMContentLoaded', () => {
   /**************************************
    * 🚀 "Run in about:blank" BUTTON
    **************************************/
-  document.getElementById("open-blank").addEventListener("click", () => {
-    const newPage = window.open("about:blank", "_blank");
+document.getElementById("open-blank").addEventListener("click", () => {
+  const newPage = window.open("about:blank", "_blank");
 
-    if (!newPage) {
-      alert("Popup blocked! Allow popups for this site.");
-      return;
-    }
+  if (!newPage) {
+    alert("Popup blocked! Allow popups for this site.");
+    return;
+  }
 
-    newPage.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Plumet Tournament</title>
+  newPage.document.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Plumet Tournament</title>
 
-        <!-- ✅ Required to make .swf work -->
-        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <!-- ✅ RUFFLE -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- ✅ COPY YOUR CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-        <style>
-          body {
-            background: #111;
-            color: white;
-            font-family: Poppins, sans-serif;
-            margin: 0;
-            padding: 0;
-          }
-          .card {
-            background: #222;
-            width: 90%;
-            max-width: 900px;
-            margin: 25px auto;
-            padding: 20px;
-            border-radius: 12px;
-          }
-          .card__header {
-            margin-bottom: 10px;
-            font-size: 1.4rem;
-            font-weight: 600;
-            border-bottom: 1px solid #555;
-            padding-bottom: 8px;
-          }
-          ruffle-player {
-            width: 100%;
-            height: 500px;
-            border-radius: 12px;
-          }
-        </style>
-      </head>
-      <body>
+  </head>
+  <body>
 
-        <!-- ✅ GAME (using RUFFLE PLAYER instead of <object>) -->
-        <section class="card">
-          <div class="card__header">Play</div>
-          <ruffle-player>
-            <source src="./Plumet2.swf" />
-          </ruffle-player>
-        </section>
+    <!-- ✅ COPY YOUR EXISTING GAME CONTAINER -->
+    <main role="main">
+      <section class="card">
+        <div class="card__header"><h2 class="card__title">Play</h2></div>
+        <div class="card__body">
+          <div class="game-frame">
+            <ruffle-player>
+              <source src="./Plumet2.swf" />
+            </ruffle-player>
+          </div>
+        </div>
+      </section>
 
-        <!-- ✅ LEADERBOARD -->
-        <aside class="card">
-          <div class="card__header">Leaderboard</div>
+      <!-- ✅ COPY YOUR LEADERBOARD EXACTLY -->
+      <aside class="card" aria-labelledby="lb-title" id="leaderboard-section" style="margin-top: 25px;">
+        <div class="card__header">
+          <h2 id="lb-title" class="card__title">Leaderboard</h2>
+        </div>
+        <div class="card__body">
           <table>
             <thead>
               <tr>
-                <th class="rank">#</th><th>Player</th><th class="score">Score</th>
+                <th class="rank">#</th>
+                <th>Player</th>
+                <th class="score">Score</th>
               </tr>
             </thead>
             <tbody>
@@ -133,14 +116,16 @@ window.addEventListener('DOMContentLoaded', () => {
               <tr><td class="rank">9</td><td>Adrian Trujillo</td><td class="score">983</td></tr>
             </tbody>
           </table>
-        </aside>
+        </div>
+      </aside>
+    </main>
 
-      </body>
-      </html>
-    `);
+  </body>
+  </html>
+  `);
 
-    newPage.document.close();
-  });
+  newPage.document.close();
+});
 
   /**************************************
    * ✅ CALCULATOR SECRET CODE (902197)
