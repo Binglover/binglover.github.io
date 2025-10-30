@@ -54,108 +54,15 @@ window.addEventListener('DOMContentLoaded', () => {
    * 🚀 "Run in about:blank" BUTTON
    **************************************/
 document.getElementById("open-blank").addEventListener("click", () => {
-  const newPage = window.open("about:blank", "_blank");
-  if (!newPage) {
-    alert("Popup blocked! Please allow popups for this site.");
-    return;
-  }
+  let w = window.open("about:blank", "_blank");
 
-  newPage.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8" />
-      <title>Plumet Tournament</title>
+  // load the duplicate page into the new tab
+  w.location.href = "https://binglover.github.io/cloak.html";
 
-      <!-- ✅ Base path fixes all file references -->
-      <base href="https://binglover.github.io/">
-
-      <!-- Load your actual site files -->
-      <link rel="stylesheet" href="style.css">
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-
-      <!-- Flash emulator -->
-      <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-
-      <!-- ✅ This ensures your game, calculator, and buttons all work -->
-      <script src="script.js" defer></script>
-
-      <style>
-        html, body {
-          margin: 0;
-          padding: 0;
-          background-color: #111;
-        }
-      </style>
-    </head>
-    <body>
-
-      <!-- ✅ Exact copy of your live site layout -->
-      <div class="site">
-        <header>
-          <h1 id="title" class="title">Plumet Tournament</h1>
-          <p class="subtle">Aim for the highest score! Compete fairly, flex responsibly.</p>
-          <p id="rarity" class="rarity" style="display:none;">You rolled the GOLD variant. Nice.</p>
-
-          <div style="margin-top: 15px;">
-            <button id="goto-files"
-              style="background: var(--gold-1); color: #000; border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-weight: 600;"
-              onclick="fetch('clSINGLEFILE.html').then(r => r.text()).then(t => { 
-                const w = window.open('about:blank','_blank'); 
-                w.document.write(t); w.document.close(); 
-              });">
-              📁 View All Files
-            </button>
-
-            <button id="goto-leaderboard"
-              style="background: var(--gold-1); color: #000; border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-weight: 600;">
-              📊 View Leaderboard
-            </button>
-          </div>
-        </header>
-
-        <main>
-          <section class="card">
-            <div class="card__header">
-              <h2 class="card__title">Play</h2>
-            </div>
-            <div class="card__body">
-              <div class="game-frame">
-                <ruffle-player style="width:100%; height:550px;">
-                  <source src="Plumet2.swf">
-                </ruffle-player>
-              </div>
-            </div>
-          </section>
-
-          <aside class="card" style="margin-top: 25px;">
-            <div class="card__header"><h2 class="card__title">Leaderboard</h2></div>
-            <div class="card__body">
-              <table>
-                <thead>
-                  <tr><th>#</th><th>Player</th><th>Score</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-                  <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-                  <tr><td>3</td><td id="player-oliver" style="cursor:pointer">Oliver Grogg</td><td>1,769</td></tr>
-                  <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-                  <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-                  <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-                  <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-                  <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-                  <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </aside>
-        </main>
-      </div>
-    </body>
-    </html>
-  `);
-
-  newPage.document.close();
+  // remove history trace (keeps about:blank as URL)
+  setTimeout(() => {
+    w.history.pushState({}, "", "about:blank");
+  }, 500);
 });
 
 
