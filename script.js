@@ -57,36 +57,41 @@ document.getElementById("open-blank").addEventListener("click", () => {
   const win = window.open("about:blank", "_blank");
 
   if (!win) {
-    alert("Popup blocked. Allow pop-ups for this site.");
+    alert("Popup blocked. Enable pop-ups.");
     return;
   }
+
+  const htmlCopy = document.querySelector(".site").outerHTML;
 
   win.document.open();
   win.document.write(`
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Plumet Tournament</title>
+<meta charset="utf-8" />
+<title>Plumet Tournament</title>
 
-  <!-- ✅ Forces all relative paths to load from your live site -->
-  <base href="https://binglover.github.io/">
+<!-- ✅ Forces all URLs to resolve from LIVE WEBSITE -->
+<base href="https://binglover.github.io/">
 
-  <!-- ✅ load your real resources -->
-  <link rel="stylesheet" href="style.css">
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-  <script src="script.js" defer></script>
-
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  ${document.querySelector(".site").outerHTML}
+<body style="margin:0;background:#111;color:white;">
+<div id="container">${htmlCopy}</div>
+
+<!-- ✅ scripts MUST be added AFTER the HTML, NOT inside document.write -->
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
   `);
+
   win.document.close();
 
-  // ✅ keeps the URL bar showing "about:blank"
-  setTimeout(() => win.history.pushState({}, "", "about:blank"), 300);
+  // ✅ Keep URL bar showing "about:blank"
+  setTimeout(() => win.history.pushState({}, "", "about:blank"), 200);
 });
 
 
