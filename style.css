@@ -155,6 +155,8 @@ main[role="main"] {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  max-width: 1400px !important;
+  width: 95% !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
