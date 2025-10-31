@@ -41,6 +41,9 @@ body {
 }
 
 header[role="banner"] {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
   text-align: center;
   margin-top: 60px;
   animation: fadeIn 1.5s ease forwards;
