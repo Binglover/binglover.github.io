@@ -151,8 +151,7 @@ main[role="main"] {
 }
 
 .card {
-  .card {
-  max-width: 700px;
+  max-width: 600px;
   width: 90%;
   margin: 25px auto;
 }
@@ -195,7 +194,7 @@ main[role="main"] {
 #game-frame object,
 #game-frame embed {
   width: 100% !important;
-  height: 420px !important;
+  height: 360px !important;
 }
 
 table {
