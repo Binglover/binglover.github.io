@@ -20,36 +20,73 @@ window.addEventListener("DOMContentLoaded", () => {
   const isGold = Math.floor(Math.random() * 50) === 0;
   setGoldState(isGold);
 
-  /**************************************
-   * OLLIE G EFFECT + CALCULATOR REVEAL
-   **************************************/
-  function spinNameOnce(target, finalText) {
-    if (!target || target.dataset.spun === "true") return;
+ /**************************************
+ * OLLIE G EFFECT — bulletproof hookup
+ **************************************/
+function spinNameOnce(target, finalText) {
+  if (!target || target.dataset.spun === 'true') return;
 
-    const names = ["Olivi~r","Oliver","Ol1ver","0liver","O-L-I-V-E-R","Revilo","O.G.","Oll—","Oli.."];
-    let i = 0;
-    target.dataset.spun = "true";
+  const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
+  const interval = 70;
+  let i = 0;
 
-    const timer = setInterval(() => {
-      target.textContent = names[i++ % names.length];
-    }, 70);
+  target.dataset.spun = 'true';
+  target.classList.add('slotting');
 
-    setTimeout(() => {
-      clearInterval(timer);
-      target.textContent = finalText;
-      target.classList.add("slot-complete");
+  const timer = setInterval(() => {
+    target.textContent = pool[i++ % pool.length];
+  }, interval);
 
-      // ✅ Reveal calculator
-      const calc = el("calculator");
-      if (calc) calc.style.display = "block";
+  setTimeout(() => {
+    clearInterval(timer);
+    target.textContent = finalText;
+    target.classList.remove('slotting');
+    target.classList.add('slot-complete');
 
-    }, 1200);
-  }
+    // (Optional) reveal calculator / password button here if you want
+    const calc = document.getElementById('calculator');
+    if (calc) calc.style.display = 'block';
+    const pwdBtn = document.getElementById('password-btn');
+    if (pwdBtn) pwdBtn.style.display = 'block';
+  }, 1200);
+}
 
-  const oliver = el("player-oliver");
-  if (oliver) {
-    oliver.addEventListener("click", () => spinNameOnce(oliver, "Ollie G"));
-  }
+function onOllieActivate() {
+  const cell = document.getElementById('player-oliver');
+  if (!cell) return;
+  // call once
+  spinNameOnce(cell, 'Ollie G');
+}
+
+function hookOllie() {
+  const oliver = document.getElementById('player-oliver');
+  if (!oliver) return false;
+
+  // accessibility + clear affordance
+  oliver.setAttribute('role', 'button');
+  oliver.tabIndex = 0;
+  oliver.style.cursor = 'pointer';
+
+  // ensure it only triggers once
+  oliver.addEventListener('click', onOllieActivate, { once: true });
+  oliver.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onOllieActivate();
+    }
+  }, { once: true });
+
+  return true;
+}
+
+// Run on DOM ready; if the row is injected later, retry via MutationObserver
+if (!hookOllie()) {
+  const obs = new MutationObserver(() => {
+    if (hookOllie()) obs.disconnect();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+}
+
 
   /**************************************
    * RUN IN ABOUT:BLANK — game + leaderboard
