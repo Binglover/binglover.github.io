@@ -143,6 +143,46 @@ if (!hookOllie()) {
     </main>
   </div>
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+<script>
+  function spinNameOnce(target, finalText) {
+    if (!target || target.dataset.spun === 'true') return;
+
+    const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
+    let i = 0;
+    target.dataset.spun = 'true';
+
+    const timer = setInterval(() => {
+      target.textContent = pool[i++ % pool.length];
+    }, 70);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      target.textContent = finalText;
+      target.classList.add('slot-complete');
+    }, 1200);
+  }
+
+  function hookOllie() {
+    const oliver = document.getElementById('player-oliver');
+    if (!oliver) return;
+
+    oliver.style.cursor = 'pointer';
+    oliver.setAttribute('role', 'button');
+    oliver.tabIndex = 0;
+
+    oliver.addEventListener('click', () => spinNameOnce(oliver, 'Ollie G'), { once: true });
+    oliver.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        spinNameOnce(oliver, 'Ollie G');
+      }
+    }, { once: true });
+  }
+
+  document.addEventListener("DOMContentLoaded", hookOllie);
+</script>
+  
 </body>
 </html>
 `);
