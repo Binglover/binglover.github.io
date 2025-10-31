@@ -13,18 +13,13 @@
   --shadow-lg: 0 16px 50px rgba(0,0,0,.5);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   margin: 0;
-  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
   color: var(--text);
   background: linear-gradient(135deg, var(--bg-2), var(--accent));
   background-size: 300% 300%;
@@ -33,23 +28,16 @@ body {
 }
 
 @keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .site {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 header[role="banner"] {
@@ -61,53 +49,95 @@ header[role="banner"] {
 .title {
   font-size: clamp(2rem, 3.2vw + 1rem, 3.25rem);
   margin: 0;
-  letter-spacing: .4px;
   opacity: 0;
-  transform: translateY(-50px) rotateX(40deg) scale(0.9);
   animation: titleSwoop 1.5s ease-out forwards;
   animation-delay: 0.3s;
 }
 
 .title--gold {
-  background: linear-gradient(90deg, var(--gold-1), var(--gold-2), var(--gold-1));
+  background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 18px rgba(255, 204, 0, .25);
   animation: shimmer 2s infinite ease-in-out;
 }
 
-.subtle {
-  color: var(--muted);
-  margin: 0;
-  font-size: clamp(1rem, 1vw + .7rem, 1.2rem);
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 1.2s;
-}
+.subtle { color: var(--muted); margin: 0; }
+.rarity { display: none; color: var(--gold-1); font-weight: bold; }
 
-.rarity {
-  display: none;
-  color: var(--gold-1);
-  font-weight: 600;
-  margin-top: 8px;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards;
-  animation-delay: 1.5s;
-}
-
+/* ✅ MAIN LAYOUT: GAME + LEADERBOARD CENTERING */
 main[role="main"] {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 1600px;     /* ⬅️ adjust this to whatever width you want */
-  margin: 40px auto;     /* ⬅️ center it on screen */
 }
 
+/* ✅ Card container styling (shared by Game + Leaderboard) */
+.card {
+  width: 100%;
+  max-width: 900px;       /* <— Controls width of game + leaderboard */
+  background: var(--card);
+  margin: 22px auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
 
-@media (max-width: 980px) 
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
 
+.card__header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card__body { padding: 16px; }
+
+/* ✅ GAME FRAME STYLING */
+.game-frame {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ FORCE SWF TO FIT THE CONTAINER */
+#game-frame object,
+#game-frame embed {
+  width: 100% !important;
+  height: 420px !important;
+  border-radius: var(--radius);
+}
+
+/* ✅ LEADERBOARD TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  font-weight: 600;
+  padding: 10px 12px;
+  color: var(--muted);
+}
+
+tbody td {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,.04);
+}
+
+/* Column widths */
+.rank { width: 60px; text-align: right; color: var(--muted); }
+.score { text-align: right; }
+
+/* ✅ CALCULATOR */
 .calculator {
   display: none;
   width: 300px;
@@ -124,8 +154,14 @@ main[role="main"] {
   font-size: 2rem;
   text-align: right;
   border-radius: 12px;
-  border: none;
   background: rgba(255,255,255,0.75);
+}
+
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
 }
 
 #calculator button {
@@ -136,140 +172,25 @@ main[role="main"] {
   border-radius: 10px;
   cursor: pointer;
   color: black;
-  transition: transform .1s;
 }
 
 #calculator button:active {
   transform: scale(0.9);
 }
 
-.calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 10px;
-}
-
-/* Only shrink game card */
-#game-frame .card,
-.card:first-of-type {
-  max-width: 600px;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
-}
-
-.card__body {
-  padding: 16px;
-}
-
-.card__header {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card__title {
-  margin: 0;
-  font-size: 1.05rem;
-  letter-spacing: .2px;
-}
-
-.game-frame {
-  width: 100%;
-  border-radius: var(--radius);
-  overflow: hidden;
-  animation: fadeIn 1.5s ease forwards;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 600px !important;
-}
-
- /* FORCE the Plumet SWF to go wide */
-#game-frame object,
-#game-frame embed {
-  width: 100% !important;
-  height: 360px !important;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead th {
-  text-align: left;
-  font-weight: 600;
-  color: var(--muted);
-  padding: 10px 12px;
-}
-
-tbody td {
-  padding: 12px;
-  border-top: 1px solid var(--border);
-}
-
-tbody tr {
-  transition: background 0.3s ease;
-}
-
-tbody tr:hover {
-  background: rgba(255,255,255,.04);
-}
-
-.rank {
-  width: 64px;
-  text-align: right;
-  color: var(--muted);
-}
-
-.score {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.slotting {
-  filter: blur(0.6px) contrast(1.1);
-}
-
-.slot-complete {
-  text-shadow: 0 0 10px rgba(255,255,255,.25);
-}
-
-footer {
-  text-align: center;
-  color: var(--muted);
-  margin: 40px 0;
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 2.2s;
-}
-
+/* PASSWORD PANEL */
 #password-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
   background: var(--gold-1);
   color: #000;
-  border: none;
   border-radius: 50%;
   width: 60px;
   height: 60px;
   font-size: 1.5rem;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 1000;
-}
-
-#password-btn:hover {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-lg);
 }
 
 #password-panel {
@@ -283,40 +204,10 @@ footer {
 }
 
 #password-panel .panel-content {
-  position: relative;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
   padding: 24px;
-  text-align: center;
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius);
   width: 300px;
-}
-
-#password-panel input {
-  width: 80%;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.1);
-  color: var(--text);
-  text-align: center;
-}
-
-#password-panel button {
-  margin-top: 12px;
-  background: var(--gold-1);
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-}
-
-#password-message {
-  margin-top: 10px;
-  color: var(--muted);
 }
 
 #close-panel {
@@ -328,72 +219,9 @@ footer {
   color: var(--muted);
   font-size: 1.2rem;
   cursor: pointer;
-  transition: color 0.2s ease;
 }
 
-#close-panel:hover {
-  color: var(--gold-1);
-}
-
-/* FORCE leaderboard to show again */
-#leaderboard-section {
-  display: block !important;
-  visibility: visible !important;
-  max-height: none !important;
-}
-
-#leaderboard-section .card__body {
-  display: block !important;
-}
-
-#leaderboard-section table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 25px rgba(255, 204, 0, 1);
-  }
-  100% {
-    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-  }
-}
-
-@keyframes titleSwoop {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) rotateX(40deg) scale(0.9);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(20px) rotateX(0deg) scale(1.05);
-  }
-  100% {
-    transform: translateY(0) rotateX(0deg) scale(1);
-    opacity: 1;
-  }
-}
+/* Animations */
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes shimmer { 0%, 100% {text-shadow: 0 0 10px gold} 50% {text-shadow: 0 0 25px gold} }
+@keyframes titleSwoop { from {opacity: 0; transform: translateY(-40px)} }
