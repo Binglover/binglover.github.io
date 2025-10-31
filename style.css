@@ -151,12 +151,12 @@ main[role="main"] {
 }
 
 .card {
-  max-width: 900px;  /* <--- change this number to shrink or expand */
+  .card {
+  max-width: 700px;
   width: 90%;
   margin: 25px auto;
 }
 
-}
 
 .card:hover {
   transform: translateY(-6px);
@@ -195,7 +195,7 @@ main[role="main"] {
 #game-frame object,
 #game-frame embed {
   width: 100% !important;
-  height: 750px !important; /* <- change this number to adjust size */
+  height: 420px !important;
 }
 
 table {
