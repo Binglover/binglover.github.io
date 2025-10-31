@@ -151,7 +151,7 @@ main[role="main"] {
 }
 
 .card {
-  max-width: 600px;
+  max-width: 600px; !important;
   width: 90%;
   margin: 25px auto;
 }
