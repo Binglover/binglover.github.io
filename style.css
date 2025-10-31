@@ -188,6 +188,7 @@ main[role="main"] {
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 600px !important;
 }
 
  /* FORCE the Plumet SWF to go wide */
