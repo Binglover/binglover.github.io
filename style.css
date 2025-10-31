@@ -137,46 +137,49 @@ tbody tr:hover {
 .rank { width: 60px; text-align: right; color: var(--muted); }
 .score { text-align: right; }
 
-/* ✅ CALCULATOR */
+/* ✅ Calculator styling */
 .calculator {
-  display: none;
-  width: 300px;
-  margin: 20px auto;
+  width: 320px;
+  margin: 30px auto;
+  background: rgba(0,0,0,0.45);
   padding: 18px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 20px;
+  border-radius: 18px;
   backdrop-filter: blur(10px);
+  animation: fadeIn .6s ease;
 }
 
 #calc-display {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   font-size: 2rem;
-  text-align: right;
   border-radius: 12px;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.85);
+  border: none;
+  text-align: right;
 }
 
 .calc-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 #calculator button {
-  background: var(--gold-1);
-  border: none;
-  padding: 16px;
+  padding: 15px;
   font-size: 1.2rem;
-  border-radius: 10px;
-  cursor: pointer;
+  background: var(--gold-1);
   color: black;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 #calculator button:active {
-  transform: scale(0.9);
+  transform: scale(0.92);
 }
+
 
 /* PASSWORD PANEL */
 #password-btn {
