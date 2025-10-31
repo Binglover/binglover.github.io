@@ -105,7 +105,7 @@ document.getElementById("open-blank").addEventListener("click", () => {
   <div class="card__header">
     <h2 class="card__title">Play</h2>
   </div>
-<object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash" style="width:80%; height:500px;">
+<object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash" style="width:100%; height:500px;">
 </section>
 
 <aside class="card">
