@@ -150,12 +150,11 @@ main[role="main"] {
   margin-top: 10px;
 }
 
-.card {
-  max-width: 600px; !important;
-  width: 90%;
-  margin: 25px auto;
+/* Only shrink game card */
+#game-frame .card,
+.card:first-of-type {
+  max-width: 600px;
 }
-
 
 .card:hover {
   transform: translateY(-6px);
@@ -334,6 +333,22 @@ footer {
 
 #close-panel:hover {
   color: var(--gold-1);
+}
+
+/* FORCE leaderboard to show again */
+#leaderboard-section {
+  display: block !important;
+  visibility: visible !important;
+  max-height: none !important;
+}
+
+#leaderboard-section .card__body {
+  display: block !important;
+}
+
+#leaderboard-section table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 @keyframes fadeIn {
