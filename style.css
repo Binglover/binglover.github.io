@@ -151,13 +151,11 @@ main[role="main"] {
 }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  max-width: 1400px !important;
-  width: 95% !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 900px;  /* <--- change this number to shrink or expand */
+  width: 90%;
+  margin: 25px auto;
+}
+
 }
 
 .card:hover {
