@@ -139,12 +139,13 @@ tbody tr:hover {
 
 /* ✅ Calculator styling */
 .calculator {
-  width: 320px;
-  margin: 30px auto;
-  background: rgba(0,0,0,0.45);
+  width: 300px;
+  margin: 20px auto;
   padding: 18px;
-  border-radius: 18px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 20px;
   backdrop-filter: blur(10px);
+  display: block;    /* <-- THIS is the important part */
   animation: fadeIn .6s ease;
 }
 
