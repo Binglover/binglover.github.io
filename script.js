@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function spinNameOnce(target, finalText) {
     if (!target || target.dataset.spun === 'true') return;
 
-    const pool = ['Olivi~r','Oliver','Ol1ver','Olivia','0liver','O-L-I-V-E-R','Revilo Ggrog','Asian','O.G.','Oll—','Oli..','Oliver Oil'];
+    const pool = ['Olivi~r', 'Oliver', 'Ol1ver', 'Olivia', '0liver', 'O-L-I-V-E-R', 'Revilo Ggrog', 'Asian', 'O.G.', 'Oll—', 'Oli..', 'Oliver Oil'];
     let i = 0;
     target.dataset.spun = 'true';
 
@@ -53,16 +53,18 @@ window.addEventListener('DOMContentLoaded', () => {
   /**************************************
    * 🚀 "Run in about:blank" BUTTON
    **************************************/
-document.getElementById("open-blank").addEventListener("click", () => {
+  const openBlankBtn = el("open-blank");
+  if (openBlankBtn) {
+    openBlankBtn.addEventListener("click", () => {
 
-  const win = window.open("about:blank", "_blank");
-  if (!win) {
-    alert("Popup blocked. Enable pop-ups.");
-    return;
-  }
+      const win = window.open("about:blank", "_blank");
+      if (!win) {
+        alert("Popup blocked. Enable pop-ups.");
+        return;
+      }
 
-  win.document.open();
- win.document.write(`
+      win.document.open();
+      win.document.write(`
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,77 +86,102 @@ document.getElementById("open-blank").addEventListener("click", () => {
     padding: 0;
   }
 
-  /* ✅ Game card shrinks, leaderboard stays full width */
-  #game-card {
-    width: 850px;       /* shrink game */
-    max-width: 90%;
+  /* ✅ Unified game + leaderboard width */
+  .container {
+    width: 90%;
+    max-width: 850px;
     margin: 25px auto;
   }
 
-  #leaderboard-section {
-    width: 95%;         /* leaderboard wider */
-    max-width: 1250px;
-    margin: 25px auto;
+  .card {
+    background: #222;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
   }
 
   object {
-    width: 100% !important;
-    height: 380px !important;  /* adjust game height */
+    width: 100%;
+    height: 400px;
     border-radius: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+  }
+
+  th {
+    text-align: left;
+    color: #bbb;
+  }
+
+  td {
+    color: #fff;
   }
 </style>
 
 </head>
 <body>
 
-<!-- ✅ GAME CARD -->
-<section id="game-card" class="card">
-  <div class="card__header">
-    <h2 class="card__title">Play</h2>
-  </div>
+<div class="container">
 
-  <div class="card__body game-frame">
-    <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash">
-      <param name="movie" value="Plumet2.swf" />
-      <param name="allowFullScreen" value="true" />
-      <param name="allowScriptAccess" value="always" />
-    </object>
-  </div>
-</section>
+  <!-- ✅ GAME CARD -->
+  <section class="card">
+    <div class="card__header">
+      <h2 class="card__title">Play</h2>
+    </div>
+    <div class="card__body game-frame">
+      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash">
+        <param name="movie" value="Plumet2.swf" />
+        <param name="allowFullScreen" value="true" />
+        <param name="allowScriptAccess" value="always" />
+      </object>
+    </div>
+  </section>
 
+  <!-- ✅ LEADERBOARD BELOW GAME, SAME WIDTH -->
+  <aside class="card">
+    <div class="card__header">
+      <h2>Leaderboard</h2>
+    </div>
+    <div class="card__body">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Player</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+          <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+          <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
+          <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+          <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+          <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+          <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+          <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+          <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </aside>
 
-<!-- ✅ LEADERBOARD OUTSIDE MAIN, FULL WIDTH -->
-<aside id="leaderboard-section" class="card">
-  <div class="card__header">
-    <h2>Leaderboard</h2>
-  </div>
+</div>
 
-  <div class="card__body">
-    <table>
-      <thead>
-        <tr><th>#</th><th>Player</th><th>Score</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-        <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-        <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
-        <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-        <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-        <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-        <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-        <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-        <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-      </tbody>
-    </table>
-  </div>
-</aside>
-
-<!-- ✅ Ruffle = Flash Emulator -->
+<!-- ✅ Include Ruffle so Flash runs -->
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 </body>
 </html>
-`);
+      `);
+
+      win.document.close();
+    });
+  }
 
 
   /**************************************
@@ -186,7 +213,6 @@ document.getElementById("open-blank").addEventListener("click", () => {
       });
     });
 
-    // Keyboard Enter support
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         buttons.forEach(b => b.textContent === "=" && b.click());
@@ -196,7 +222,7 @@ document.getElementById("open-blank").addEventListener("click", () => {
 
 
   /**************************************
-   * LEADERBOARD BUTTON (scrolls to section)
+   * LEADERBOARD SCROLL (for main site)
    **************************************/
   const leaderboardBtn = el('goto-leaderboard');
   if (leaderboardBtn) {
@@ -205,4 +231,5 @@ document.getElementById("open-blank").addEventListener("click", () => {
       section?.scrollIntoView({ behavior: 'smooth' });
     });
   }
+
 });
