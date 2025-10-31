@@ -49,10 +49,12 @@ header[role="banner"] {
   animation: fadeIn 1.5s ease forwards;
 }
 
-.title {
+  /* ✅ Force title visible on the calculator page */
+body .title {
+  opacity: 1 !important;
+  transform: none !important;
   font-size: clamp(2rem, 3.2vw + 1rem, 3.25rem);
   margin: 0;
-  opacity: 0;
   animation: titleSwoop 1.5s ease-out forwards;
   animation-delay: 0.3s;
 }
