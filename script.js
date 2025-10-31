@@ -62,7 +62,7 @@ document.getElementById("open-blank").addEventListener("click", () => {
   }
 
   win.document.open();
-  win.document.write(`
+ win.document.write(`
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,17 +83,23 @@ document.getElementById("open-blank").addEventListener("click", () => {
     margin: 0;
     padding: 0;
   }
-  .card {
-    background: #222;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 900px;
+
+  /* ✅ Game card shrinks, leaderboard stays full width */
+  #game-card {
+    width: 850px;       /* shrink game */
+    max-width: 90%;
+    margin: 25px auto;
   }
+
+  #leaderboard-section {
+    width: 95%;         /* leaderboard wider */
+    max-width: 1250px;
+    margin: 25px auto;
+  }
+
   object {
-    width: 100%;
-    height: 500px;
+    width: 100% !important;
+    height: 380px !important;  /* adjust game height */
     border-radius: 12px;
   }
 </style>
@@ -101,45 +107,54 @@ document.getElementById("open-blank").addEventListener("click", () => {
 </head>
 <body>
 
-<section class="card">
+<!-- ✅ GAME CARD -->
+<section id="game-card" class="card">
   <div class="card__header">
     <h2 class="card__title">Play</h2>
   </div>
-<object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash" style="width:100%; height:500px;">
+
+  <div class="card__body game-frame">
+    <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash">
+      <param name="movie" value="Plumet2.swf" />
+      <param name="allowFullScreen" value="true" />
+      <param name="allowScriptAccess" value="always" />
+    </object>
+  </div>
 </section>
 
-<aside class="card">
+
+<!-- ✅ LEADERBOARD OUTSIDE MAIN, FULL WIDTH -->
+<aside id="leaderboard-section" class="card">
   <div class="card__header">
     <h2>Leaderboard</h2>
   </div>
-  <table>
-    <thead>
-      <tr><th>#</th><th>Player</th><th>Score</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-      <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-      <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
-      <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-      <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-      <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-      <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-      <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-      <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-    </tbody>
-  </table>
+
+  <div class="card__body">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Player</th><th>Score</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+        <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+        <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
+        <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+        <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+        <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+        <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+        <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+        <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+      </tbody>
+    </table>
+  </div>
 </aside>
 
-<!-- ✅ Include Ruffle so Flash runs -->
+<!-- ✅ Ruffle = Flash Emulator -->
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 </body>
 </html>
-  `);
-
-  win.document.close();
-
-});
+`);
 
 
   /**************************************
