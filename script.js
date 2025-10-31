@@ -21,9 +21,13 @@ window.addEventListener('DOMContentLoaded', () => {
   function spinNameOnce(target, finalText) {
     if (!target || target.dataset.spun === 'true') return;
 
-    const pool = ['Olivi~r', 'Oliver', 'Ol1ver', 'Olivia', '0liver', 'O-L-I-V-E-R', 'Revilo Ggrog', 'Asian', 'O.G.', 'Oll—', 'Oli..', 'Oliver Oil'];
+    const pool = [
+      'Olivi~r','Oliver','Ol1ver','Olivia','0liver',
+      'O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..','Oliver Oil'
+    ];
+
     let i = 0;
-    target.dataset.spun = 'true';
+    target.classList.add('slotting');
 
     const timer = setInterval(() => {
       target.textContent = pool[i++ % pool.length];
@@ -32,12 +36,9 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       clearInterval(timer);
       target.textContent = finalText;
+      target.classList.remove('slotting');
       target.classList.add('slot-complete');
-
-      // ✅ Show calculator AFTER Ollie G event
-      const calc = el("calculator");
-      if (calc) calc.style.display = "block";
-
+      target.dataset.spun = 'true';
     }, 2500);
   }
 
@@ -46,16 +47,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const oliver = el('player-oliver');
   if (oliver) {
+    oliver.setAttribute('tabindex', '0');
+    oliver.setAttribute('role', 'button');
+    oliver.style.cursor = 'pointer';
+    oliver.title = 'Try your luck!';
+
     oliver.addEventListener('click', () => spinNameOnce(oliver, 'Ollie G'));
+    oliver.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        spinNameOnce(oliver, 'Ollie G');
+      }
+    });
   }
 
 
   /**************************************
-   * 🚀 "Run in about:blank" BUTTON
+   * ✅ "RUN IN ABOUT:BLANK" BUTTON
    **************************************/
-  const openBlankBtn = el("open-blank");
-  if (openBlankBtn) {
-    openBlankBtn.addEventListener("click", () => {
+  const openBlank = el("open-blank");
+  if (openBlank) {
+    openBlank.addEventListener("click", () => {
 
       const win = window.open("about:blank", "_blank");
       if (!win) {
@@ -71,109 +83,50 @@ window.addEventListener('DOMContentLoaded', () => {
 <meta charset="utf-8" />
 <title>Plumet Tournament</title>
 
-<!-- ✅ Make relative URLs work -->
+<!-- Make relative URLs work -->
 <base href="https://binglover.github.io/">
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-  body {
-    background: #111;
-    color: white;
-    font-family: Poppins, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* ✅ Unified game + leaderboard width */
-  .container {
-    width: 90%;
-    max-width: 850px;
-    margin: 25px auto;
-  }
-
-  .card {
-    background: #222;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  object {
-    width: 100%;
-    height: 400px;
-    border-radius: 12px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-  }
-
-  th {
-    text-align: left;
-    color: #bbb;
-  }
-
-  td {
-    color: #fff;
-  }
-</style>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 </head>
 <body>
 
-<div class="container">
+<section class="card">
+  <div class="card__header"><h2 class="card__title">Play</h2></div>
 
-  <!-- ✅ GAME CARD -->
-  <section class="card">
-    <div class="card__header">
-      <h2 class="card__title">Play</h2>
-    </div>
-    <div class="card__body game-frame">
-      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash">
-        <param name="movie" value="Plumet2.swf" />
-        <param name="allowFullScreen" value="true" />
-        <param name="allowScriptAccess" value="always" />
-      </object>
-    </div>
-  </section>
+  <div class="game-frame">
+    <object id="game-object"
+            data="Plumet2.swf"
+            type="application/x-shockwave-flash"
+            style="width:100%; height:420px;">
+    </object>
+  </div>
+</section>
 
-  <!-- ✅ LEADERBOARD BELOW GAME, SAME WIDTH -->
-  <aside class="card">
-    <div class="card__header">
-      <h2>Leaderboard</h2>
-    </div>
-    <div class="card__body">
-      <table>
-        <thead>
-          <tr><th>#</th><th>Player</th><th>Score</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-          <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-          <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
-          <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-          <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-          <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-          <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-          <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-          <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </aside>
+<aside class="card" id="leaderboard-section">
+  <div class="card__header"><h2>Leaderboard</h2></div>
 
-</div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Player</th><th>Score</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+      <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+      <tr><td>3</td><td>Oliver Grogg</td><td>1,769</td></tr>
+      <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+      <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+      <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+      <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+      <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+      <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+    </tbody>
+  </table>
 
-<!-- ✅ Include Ruffle so Flash runs -->
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</aside>
 
 </body>
 </html>
@@ -222,7 +175,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   /**************************************
-   * LEADERBOARD SCROLL (for main site)
+   * SCROLL BUTTON FOR REAL SITE
    **************************************/
   const leaderboardBtn = el('goto-leaderboard');
   if (leaderboardBtn) {
