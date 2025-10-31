@@ -142,48 +142,76 @@ tbody tr:hover {
 .rank { width: 60px; text-align: right; color: var(--muted); }
 .score { text-align: right; }
 
-/* ✅ Calculator styling */
+/* ===== CALCULATOR: White / 3D / Pixel aesthetic ===== */
+
 .calculator {
-  width: 300px;
-  margin: 20px auto;
+  display: block;
+  width: 280px;
+  margin: 40px auto;
   padding: 18px;
-  background: rgba(0,0,0,0.45);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  display: block;    /* <-- THIS is the important part */
-  animation: fadeIn .6s ease;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 4px solid #d9d9d9;
+  box-shadow:
+    inset 0 0 0 2px #ffffff,
+    0 6px #bcbcbc,            /* 3D drop shadow */
+    0 10px 25px rgba(0,0,0,.25);
+  font-family: "Press Start 2P", monospace, sans-serif;
 }
 
+/* display window */
 #calc-display {
   width: 100%;
   padding: 14px;
-  font-size: 2rem;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.85);
-  border: none;
+  font-size: 1.4rem;
   text-align: right;
+  border-radius: 6px;
+  background: #f7f7f7;
+  border: 3px solid #cfcfcf;
+  color: #222;
+  font-family: inherit;
+  box-shadow:
+    inset 0 0 0 2px #ffffff,
+    inset 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* grid layout */
 .calc-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 12px;
+  gap: 6px;
+  margin-top: 14px;
 }
 
+/* button style */
 #calculator button {
-  padding: 15px;
-  font-size: 1.2rem;
-  background: var(--gold-1);
-  color: black;
-  border-radius: 10px;
-  border: none;
+  background: #ffffff;
+  border: 3px solid #cfcfcf;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: transform 0.1s ease;
+  color: #111;
+  font-family: inherit;
+  transition: transform .08s ease;
+  box-shadow:
+    0 4px #bcbcbc,
+    inset 0 0 0 2px #ffffff;
 }
 
+/* pressed animation */
 #calculator button:active {
-  transform: scale(0.92);
+  transform: translateY(3px);
+  box-shadow:
+    0 1px #bcbcbc,
+    inset 0 0 0 2px #ffffff;
+}
+
+/* equals button highlight */
+#calculator button:nth-child(16) {
+  background: #ffd200;
+  border-color: #ffb700;
+  color: #000;
 }
 
 
