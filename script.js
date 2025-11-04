@@ -200,6 +200,10 @@ if (!hookOllie()) {
    **************************************/
 const display = el("calc-display");
 const buttons = document.querySelectorAll("#calculator button");
+ 
+  display.addEventListener("input", () => {
+  display.value = display.value.replace(/[^0-9+\-*/]/g, "");
+  });
 
 if (display && buttons.length) {
   buttons.forEach(btn => {
@@ -224,10 +228,6 @@ if (display && buttons.length) {
       }
 
       display.value += value;
-
-        // ✅ Allow keyboard typing in calculator but restrict to valid characters
-      display.addEventListener("input", () => {
-        display.value = display.value.replace(/[^0-9+\-*/]/g, ""); // remove invalid chars
       });
     });
   }
