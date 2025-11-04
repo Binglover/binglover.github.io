@@ -112,6 +112,7 @@ main[role="main"] {
 #game-frame object,
 #game-frame embed {
   width: 120% !important;
+  max-width: 750px;
   height: 420px !important;
   border-radius: 14px
   padding: 16px
