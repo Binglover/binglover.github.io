@@ -134,7 +134,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   object, iframe {
-    width: 100%;
+    width: 120%;
     height: 520px;
     border-radius: 12px;
     border: none;
