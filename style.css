@@ -152,75 +152,61 @@ tbody tr:hover {
 .score { text-align: right; }
 
 /* ===== CALCULATOR: White / 3D / Pixel aesthetic ===== */
-
 .calculator {
   display: block;
   width: 280px;
   margin: 40px auto;
-  padding: 18px;
-  background: #ffffff;
-  border-radius: 8px;
-  border: 4px solid #d9d9d9;
-  box-shadow:
-    inset 0 0 0 2px #ffffff,
-    0 6px #bcbcbc,            /* 3D drop shadow */
-    0 10px 25px rgba(0,0,0,.25);
-  font-family: "Press Start 2P", monospace, sans-serif;
+  padding: 16px;
+
+  background: #000;                /* black interior */
+  border: 4px solid #fff;          /* white outer outline */
+  image-rendering: pixelated;
+  font-family: 'Press Start 2P', monospace;
 }
 
-/* display window */
+/* DISPLAY WINDOW */
 #calc-display {
   width: 100%;
-  padding: 14px;
-  font-size: 1.4rem;
+  padding: 12px;
+  background: #000;
+  border: 4px solid #fff;          /* white border */
+  color: white;
+  font-size: 14px;
+  font-family: 'Press Start 2P', monospace;
   text-align: right;
-  border-radius: 6px;
-  background: #f7f7f7;
-  border: 3px solid #cfcfcf;
-  color: #222;
-  font-family: inherit;
-  box-shadow:
-    inset 0 0 0 2px #ffffff,
-    inset 0 3px 6px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 
-/* grid layout */
+/* BUTTON GRID */
 .calc-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
-/* button style */
+/* BUTTONS */
 #calculator button {
-  background: #ffffff;
-  border: 3px solid #cfcfcf;
+  background: #000;                /* black buttons */
+  color: white;
+  border: 4px solid #fff;          /* white pixel border */
   padding: 14px;
-  font-size: 1rem;
-  border-radius: 6px;
   cursor: pointer;
-  color: #111;
-  font-family: inherit;
-  transition: transform .08s ease;
-  box-shadow:
-    0 4px #bcbcbc,
-    inset 0 0 0 2px #ffffff;
+  font-size: 12px;
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
 }
 
-/* pressed animation */
+/* PRESS EFFECT */
 #calculator button:active {
-  transform: translateY(3px);
-  box-shadow:
-    0 1px #bcbcbc,
-    inset 0 0 0 2px #ffffff;
+  transform: translateY(2px);
+  border-color: #ccc;
 }
 
-/* equals button highlight */
+/* MAKE THE = BUTTON WHITE WITH BLACK TEXT FOR EMPHASIS */
 #calculator button:nth-child(16) {
-  background: #ffd200;
-  border-color: #ffb700;
-  color: #000;
+  background: white;
+  color: black;
 }
 
 
