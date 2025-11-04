@@ -198,27 +198,32 @@ if (!hookOllie()) {
   /**************************************
    * CALCULATOR SECRET (902197)
    **************************************/
-  const display = el("calc-display");
-  const buttons = document.querySelectorAll("#calculator button");
+const display = el("calc-display");
+const buttons = document.querySelectorAll("#calculator button");
 
-  if (display && buttons.length) {
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const value = btn.textContent;
+if (display && buttons.length) {
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const value = btn.dataset.val;
 
-        if (value === "C") return (display.value = "");
-        if (value === "=") {
-          if (display.value === "902197") {
-            const newTab = window.open("about:blank", "_blank");
-            newTab.document.write(`<iframe src="${location.href}" style="border:none;width:100vw;height:100vh;"></iframe>`);
-            newTab.document.close();
-          } else {
-            try { display.value = eval(display.value); }
-            catch { display.value = "Error"; }
-          }
-          return;
+      if (value === "C") {
+        display.value = "";
+        return;
+      }
+
+      if (value === "=") {
+        if (display.value === "902197") {
+          const newTab = window.open("about:blank", "_blank");
+          newTab.document.write(`<iframe src="${location.href}" style="border:none;width:100vw;height:100vh;"></iframe>`);
+          newTab.document.close();
+        } else {
+          try { display.value = eval(display.value); }
+          catch { display.value = "Error"; }
         }
-        display.value += value;
+        return;
+      }
+
+      display.value += value;
 
         // ✅ Allow keyboard typing in calculator but restrict to valid characters
       display.addEventListener("input", () => {
