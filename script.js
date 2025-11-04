@@ -112,7 +112,6 @@ if (!hookOllie()) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
-
  <div class="site">
    <header role="banner">
   <h1 id="title" class="title" aria-live="polite>Plumet Tournament</h1>
