@@ -111,7 +111,7 @@ main[role="main"] {
 /* ✅ FORCE SWF TO FIT THE CONTAINER */
 #game-frame object,
 #game-frame embed {
-  width: 100% !important;
+  width: 120% !important;
   height: 420px !important;
   border-radius: var(--radius);
 }
