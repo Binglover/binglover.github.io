@@ -129,7 +129,7 @@ if (!hookOllie()) {
       </section>
 
       <aside class="card" style="width:95%;max-width:1200px;">
-        <div class="card__header"><h2>Leaderboard</h2></div>
+      <div class="card__header"><h2>Leaderboard</h2></div>
         <table>
           <tbody>
             <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
