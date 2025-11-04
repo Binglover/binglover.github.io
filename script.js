@@ -206,9 +206,9 @@ const buttons = document.querySelectorAll("#calculator button");
   });
 
 if (display && buttons.length) {
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const value = btn.dataset.val;
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = btn.value;
 
       if (value === "C") {
         display.value = "";
