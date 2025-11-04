@@ -112,6 +112,13 @@ if (!hookOllie()) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
+
+ <div class="site">
+   <header role="banner">
+  <h1 id="title" class="title" aria-live="polite>Plumet Tournament</h1>
+  <p class="subtle">Aim to get to the highest score and rise up the leaderboard!</p>
+  <p id="rarity" class="rarity" role="status" aria-live="assertive"></p>
+  
   <div class="site">
     <main style="display:flex;flex-direction:column;align-items:center;max-width:1600px;margin:auto;width:100%;">
       <section class="card" style="width:95%;max-width:1200px;">
