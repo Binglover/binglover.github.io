@@ -195,40 +195,60 @@ if (!hookOllie()) {
   }
 
 
-  /**************************************
-   * CALCULATOR SECRET (902197)
-   **************************************/
+/**************************************
+ * ✅ CALCULATOR SECRET CODE (902197)
+ **************************************/
 const display = el("calc-display");
 const buttons = document.querySelectorAll("#calculator button");
- 
-  display.addEventListener("input", () => {
-  display.value = display.value.replace(/[^0-9+\-*/]/g, "");
-  });
+
+let lastOperator = null;
+let lastNumber = null;
 
 if (display && buttons.length) {
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const value = btn.textContent; 
+
+  // Allow typing, but prevent invalid chars
+  display.addEventListener("input", () => {
+    display.value = display.value.replace(/[^0-9+\-*/]/g, "");
+  });
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const value = btn.textContent;
 
       if (value === "C") {
         display.value = "";
+        lastOperator = null;
+        lastNumber = null;
         return;
       }
 
       if (value === "=") {
-        if (display.value === "902197") {
-          const newTab = window.open("about:blank", "_blank");
-          newTab.document.write(`<iframe src="${location.href}" style="border:none;width:100vw;height:100vh;"></iframe>`);
-          newTab.document.close();
-        } else {
-          try { display.value = eval(display.value); }
-          catch { display.value = "Error"; }
+        try {
+          // If pressing = repeatedly, repeat last operation
+          if (lastOperator && lastNumber !== null) {
+            display.value = eval(display.value + lastOperator + lastNumber);
+          } else {
+            const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+            if (match) {
+              lastOperator = match[2];
+              lastNumber = match[3];
+            }
+            display.value = eval(display.value);
+          }
+        } catch {
+          display.value = "Error";
         }
         return;
       }
 
+      // When operator pressed, reset repeat-op state
+      if ("+-*/".includes(value)) {
+        lastOperator = null;
+        lastNumber = null;
+      }
+
       display.value += value;
-      });
     });
-  }
-});
+  });
+}
+  
