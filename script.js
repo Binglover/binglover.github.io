@@ -237,7 +237,7 @@ if (display && buttons.length) {
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const value = btn.textContent.trim();   // <-- ✅ FIXED
+      const value = btn.innerText.trim();   // <-- ✅ FIXED
 
       if (value === "C") {
         display.value = "";
