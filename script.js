@@ -213,11 +213,11 @@ if (!hookOllie()) {
       if (!o) return;
       o.style.cursor = "pointer";
       o.addEventListener("click", () => spinNameOnce(o, "Ollie G"), { once:true });
-    });
+      });
   </script>
 </body>
 </html>
-
+`);
       win.document.close();
     });
   }
