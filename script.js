@@ -131,7 +131,6 @@ if (!hookOllie()) {
       <aside class="card" style="width:95%;max-width:1200px;">
         <div class="card__header"><h2>Leaderboard</h2></div>
         <table>
-          <thead><tr><th>#</th><th>Player</th><th>Score</th></tr></thead>
           <tbody>
             <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
             <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
