@@ -20,88 +20,82 @@ window.addEventListener("DOMContentLoaded", () => {
   const isGold = Math.floor(Math.random() * 50) === 0;
   setGoldState(isGold);
 
- /**************************************
- * OLLIE G EFFECT — bulletproof hookup
- **************************************/
-function spinNameOnce(target, finalText) {
-  if (!target || target.dataset.spun === 'true') return;
+  /**************************************
+   * OLLIE G EFFECT
+   **************************************/
+  function spinNameOnce(target, finalText) {
+    if (!target || target.dataset.spun === 'true') return;
 
-  const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
-  const interval = 70;
-  let i = 0;
+    const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
+    const interval = 70;
+    let i = 0;
 
-  target.dataset.spun = 'true';
-  target.classList.add('slotting');
+    target.dataset.spun = 'true';
+    target.classList.add('slotting');
 
-  const timer = setInterval(() => {
-    target.textContent = pool[i++ % pool.length];
-  }, interval);
+    const timer = setInterval(() => {
+      target.textContent = pool[i++ % pool.length];
+    }, interval);
 
-  setTimeout(() => {
-    clearInterval(timer);
-    target.textContent = finalText;
-    target.classList.remove('slotting');
-    target.classList.add('slot-complete');
+    setTimeout(() => {
+      clearInterval(timer);
+      target.textContent = finalText;
+      target.classList.remove('slotting');
+      target.classList.add('slot-complete');
 
-    // (Optional) reveal calculator / password button here if you want
-    const calc = document.getElementById('calculator');
-    if (calc) calc.style.display = 'block';
-    const pwdBtn = document.getElementById('password-btn');
-    if (pwdBtn) pwdBtn.style.display = 'block';
-  }, 1200);
-}
+      const calc = document.getElementById('calculator');
+      if (calc) calc.style.display = 'block';
+      const pwdBtn = document.getElementById('password-btn');
+      if (pwdBtn) pwdBtn.style.display = 'block';
+    }, 1200);
+  }
 
-function onOllieActivate() {
-  const cell = document.getElementById('player-oliver');
-  if (!cell) return;
-  // call once
-  spinNameOnce(cell, 'Ollie G');
-}
+  function onOllieActivate() {
+    const cell = document.getElementById('player-oliver');
+    if (!cell) return;
+    spinNameOnce(cell, 'Ollie G');
+  }
 
-function hookOllie() {
-  const oliver = document.getElementById('player-oliver');
-  if (!oliver) return false;
+  function hookOllie() {
+    const oliver = document.getElementById('player-oliver');
+    if (!oliver) return false;
 
-  // accessibility + clear affordance
-  oliver.setAttribute('role', 'button');
-  oliver.tabIndex = 0;
-  oliver.style.cursor = 'pointer';
+    oliver.setAttribute('role', 'button');
+    oliver.tabIndex = 0;
+    oliver.style.cursor = 'pointer';
 
-  // ensure it only triggers once
-  oliver.addEventListener('click', onOllieActivate, { once: true });
-  oliver.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onOllieActivate();
-    }
-  }, { once: true });
+    oliver.addEventListener('click', onOllieActivate, { once: true });
+    oliver.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onOllieActivate();
+      }
+    }, { once: true });
 
-  return true;
-}
+    return true;
+  }
 
-// Run on DOM ready; if the row is injected later, retry via MutationObserver
-if (!hookOllie()) {
-  const obs = new MutationObserver(() => {
-    if (hookOllie()) obs.disconnect();
-  });
-  obs.observe(document.body, { childList: true, subtree: true });
-}
-
+  if (!hookOllie()) {
+    const obs = new MutationObserver(() => {
+      if (hookOllie()) obs.disconnect();
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
 
   /**************************************
-   * RUN IN ABOUT:BLANK — game + leaderboard
+   * RUN IN ABOUT:BLANK — Plumet + Cookie Clicker + Leaderboard
    **************************************/
   const blankBtn = el("open-blank");
   if (blankBtn) {
     blankBtn.addEventListener("click", () => {
       const win = window.open("about:blank", "_blank");
       if (!win) {
-        alert("Popup blocked — allow popups.");
+        alert("Popup blocked — allow popups for this site.");
         return;
       }
 
-      win.document.open();
-      win.document.write(`
+      // Build HTML in a variable to avoid stray backticks/braces issues
+      const popupHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,13 +138,26 @@ if (!hookOllie()) {
     height: 520px;
     border-radius: 12px;
     border: none;
+    background: #000;
   }
 
-  /* Leaderboard styling */
   aside.card {
     width: 95%;
     max-width: 1200px;
     margin: 35px auto;
+    background: #222;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  aside.card table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  aside.card td, aside.card th {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
   }
 </style>
 </head>
@@ -161,22 +168,15 @@ if (!hookOllie()) {
     <p class="subtle">Left = Plumet · Right = Cookie Clicker</p>
   </header>
 
-  <!-- 🔥 Two games side by side -->
   <div class="dual-wrapper">
-    
-    <!-- Plumet -->
     <div class="game-box">
       <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
     </div>
-
-    <!-- Cookie Clicker -->
     <div class="game-box">
       <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
     </div>
-
   </div>
 
-  <!-- Leaderboard -->
   <aside class="card">
     <div class="card__header"><h2>Leaderboard</h2></div>
     <table>
@@ -194,10 +194,7 @@ if (!hookOllie()) {
     </table>
   </aside>
 
-  <!-- Flash emulator for Plumet -->
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-
-  <!-- Ollie G effect -->
   <script>
     function spinNameOnce(target, finalText) {
       if (!target || target.dataset.spun === 'true') return;
@@ -213,71 +210,86 @@ if (!hookOllie()) {
       if (!o) return;
       o.style.cursor = "pointer";
       o.addEventListener("click", () => spinNameOnce(o, "Ollie G"), { once:true });
-      });
+    });
   </script>
 </body>
 </html>
-`);
+`;
+
+      win.document.open();
+      win.document.write(popupHTML);
       win.document.close();
     });
   }
 
-const display = el("calc-display");
-const buttons = document.querySelectorAll("#calculator button");
+  /**************************************
+   * CALCULATOR (main page only)
+   **************************************/
+  const display = el("calc-display");
+  const buttons = document.querySelectorAll("#calculator button");
 
-let lastOperator = null;
-let lastNumber = null;
+  let lastOperator = null;
+  let lastNumber = null;
 
-if (display && buttons.length) {
-
-  // ✅ Allow typing anything (including invalid chars)
-  display.addEventListener("input", () => {
-    // You asked to KEEP invalid characters, so this stays empty.
-  });
-
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const value = btn.innerText.trim();   // <-- ✅ FIXED
-
-      if (value === "C") {
-        display.value = "";
-        lastOperator = null;
-        lastNumber = null;
-        return;
-      }
-
-      if (value === "=") {
-        try {
-          if (lastOperator && lastNumber !== null) {
-            display.value = eval(display.value + lastOperator + lastNumber);
-          } else {
-            const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-            if (match) {
-              lastOperator = match[2];
-              lastNumber = match[3];
-            }
-            display.value = eval(display.value);
-          }
-        } catch {
-          display.value = "Error";
-        }
-        return;
-      }
-
-      // If user presses operator, reset chain repeat logic
-      if ("+-*/".includes(value)) {
-        lastOperator = null;
-        lastNumber = null;
-      }
-
-      display.value += value;
+  if (display && buttons.length) {
+    // Allow typing anything (per your request)
+    display.addEventListener("input", () => {
+      // keep free typing (no filter)
     });
-  });
 
-  // ✅ Enter key triggers "="
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      buttons.forEach(b => b.textContent.trim() === "=" && b.click());
-    }
-  });
-}
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        // Be robust: try a data-val attr, innerText, then textContent
+        let value = btn.getAttribute('data-val');
+        if (!value || value === 'undefined') value = (btn.innerText ?? '').trim();
+        if (!value || value === 'undefined') value = (btn.textContent ?? '').trim();
+
+        if (!value) return; // in case a button has no label
+
+        if (value === "C") {
+          display.value = "";
+          lastOperator = null;
+          lastNumber = null;
+          return;
+        }
+
+        if (value === "=") {
+          try {
+            if (lastOperator && lastNumber !== null) {
+              display.value = String(eval(display.value + lastOperator + lastNumber));
+            } else {
+              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+              if (match) {
+                lastOperator = match[2];
+                lastNumber = match[3];
+              }
+              display.value = String(eval(display.value));
+            }
+          } catch (e) {
+            display.value = "Error";
+          }
+          return;
+        }
+
+        // Reset repeat-chain if user presses an operator
+        if ("+-*/".includes(value)) {
+          lastOperator = null;
+          lastNumber = null;
+        }
+
+        display.value += value;
+      });
+    });
+
+    // Enter key triggers "="
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const eq = Array.from(buttons).find(b => {
+          const t = (b.getAttribute('data-val') || b.innerText || b.textContent || '').trim();
+          return t === "=";
+        });
+        if (eq) eq.click();
+      }
+    });
+  }
+});
