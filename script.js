@@ -112,11 +112,6 @@ if (!hookOllie()) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
- <div class="site">
-   <header role="banner">
-  <h1 id="title" class="title" aria-live="polite>Plumet Tournament</h1>
-  <p id="rarity" class="rarity" role="status" aria-live="assertive"></p>
-  
   <div class="site">
     <main style="display:flex;flex-direction:column;align-items:center;max-width:1600px;margin:auto;width:100%;">
       <section class="card" style="width:95%;max-width:1200px;">
@@ -142,6 +137,13 @@ if (!hookOllie()) {
             <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
             <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
             <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+           
+             <div class="site">
+               <header role="banner">
+                <h1 id="title" class="title" aria-live="polite">Calculator S!x</h1>
+                 <p class="subtle">For all your calculator needs!</p>
+                 <p id="rarity" class="rarity" role="status" aria-live="assertive"></p>
+                 
           </tbody>
         </table>
       </aside>
