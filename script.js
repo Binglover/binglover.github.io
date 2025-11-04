@@ -194,7 +194,6 @@ if (!hookOllie()) {
     });
   }
 
-
 /**************************************
  * ✅ CALCULATOR SECRET CODE (902197)
  **************************************/
@@ -206,14 +205,14 @@ let lastNumber = null;
 
 if (display && buttons.length) {
 
-  // Allow typing, but prevent invalid chars
+  // ✅ Allow typing anything (including invalid chars)
   display.addEventListener("input", () => {
-    display.value = display.value.replace(/[^0-9+\-*/]/g, "");
+    // You asked to KEEP invalid characters, so this stays empty.
   });
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const value = btn.textContent;
+      const value = btn.textContent.trim();   // <-- ✅ FIXED
 
       if (value === "C") {
         display.value = "";
@@ -224,7 +223,6 @@ if (display && buttons.length) {
 
       if (value === "=") {
         try {
-          // If pressing = repeatedly, repeat last operation
           if (lastOperator && lastNumber !== null) {
             display.value = eval(display.value + lastOperator + lastNumber);
           } else {
@@ -241,7 +239,7 @@ if (display && buttons.length) {
         return;
       }
 
-      // When operator pressed, reset repeat-op state
+      // If user presses operator, reset chain repeat logic
       if ("+-*/".includes(value)) {
         lastOperator = null;
         lastNumber = null;
@@ -250,5 +248,11 @@ if (display && buttons.length) {
       display.value += value;
     });
   });
+
+  // ✅ Enter key triggers "="
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      buttons.forEach(b => b.textContent.trim() === "=" && b.click());
+    }
+  });
 }
-  
