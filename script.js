@@ -208,7 +208,7 @@ const buttons = document.querySelectorAll("#calculator button");
 if (display && buttons.length) {
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
-    const value = btn.value;
+    const value = btn.textContent; 
 
       if (value === "C") {
         display.value = "";
