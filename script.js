@@ -105,98 +105,123 @@ if (!hookOllie()) {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Plumet Tournament</title>
-  <base href="https://binglover.github.io/">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
-</head>
-<body>
-  <div class="site">
-      <header role="banner">
-         <h1 id="title" class="title" aria-live="polite">Plumet Tournament</h1>
-            <p class="subtle">Aim for the highest score and rise up the leaderboard!</p>
-            <p id="rarity" class="rarity" role="status" aria-live="assertive"></p>
-  <div class="site">
-    <main style="display:flex;flex-direction:column;align-items:center;max-width:1600px;margin:auto;width:100%;">
-      <section class="card" style="width:95%;max-width:1200px;">
-        <div class="card__header"><h2 class="card__title">Play</h2></div>
-        <div class="card__body">
-          <div id="game-frame" class="game-frame">
-            <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
-          </div>
-        </div>
-      </section>
+<meta charset="utf-8" />
+<title>Plumet + Cookie Clicker</title>
 
-      <aside class="card" style="width:95%;max-width:1200px;">
-      <div class="card__header"><h2>Leaderboard</h2></div>
-        <table>
-          <tbody>
-            <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-            <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-            <tr><td>3</td><td id="player-oliver" style="cursor:pointer">Oliver Grogg</td><td>1,769</td></tr>
-            <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-            <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-            <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-            <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-            <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-            <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-          </tbody>
-        </table>
-      </aside>
-    </main>
+<!-- Make relative paths (Plumet2.swf, style.css, etc) work -->
+<base href="https://binglover.github.io/">
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+
+<style>
+  body {
+    background: #111;
+    color: white;
+    font-family: Poppins, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dual-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    max-width: 1600px;
+    margin: 40px auto;
+    width: 95%;
+  }
+
+  .game-box {
+    flex: 1;
+    background: #222;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  object, iframe {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    border: none;
+  }
+
+  /* Leaderboard styling */
+  aside.card {
+    width: 95%;
+    max-width: 1200px;
+    margin: 35px auto;
+  }
+</style>
+</head>
+
+<body>
+  <header role="banner" style="text-align:center; margin-top:10px;">
+    <h1 class="title">Plumet Tournament</h1>
+    <p class="subtle">Left = Plumet · Right = Cookie Clicker</p>
+  </header>
+
+  <!-- 🔥 Two games side by side -->
+  <div class="dual-wrapper">
+    
+    <!-- Plumet -->
+    <div class="game-box">
+      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+    </div>
+
+    <!-- Cookie Clicker -->
+    <div class="game-box">
+      <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
+    </div>
+
   </div>
+
+  <!-- Leaderboard -->
+  <aside class="card">
+    <div class="card__header"><h2>Leaderboard</h2></div>
+    <table>
+      <tbody>
+        <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
+        <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
+        <tr><td>3</td><td id="player-oliver" style="cursor:pointer">Oliver Grogg</td><td>1,769</td></tr>
+        <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
+        <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
+        <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
+        <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
+        <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
+        <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
+      </tbody>
+    </table>
+  </aside>
+
+  <!-- Flash emulator for Plumet -->
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-<script>
-  function spinNameOnce(target, finalText) {
-    if (!target || target.dataset.spun === 'true') return;
+  <!-- Ollie G effect -->
+  <script>
+    function spinNameOnce(target, finalText) {
+      if (!target || target.dataset.spun === 'true') return;
+      const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
+      let i = 0;
+      const timer = setInterval(() => target.textContent = pool[i++ % pool.length], 70);
+      setTimeout(() => { clearInterval(timer); target.textContent = finalText; }, 1200);
+      target.dataset.spun = 'true';
+    }
 
-    const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
-    let i = 0;
-    target.dataset.spun = 'true';
-
-    const timer = setInterval(() => {
-      target.textContent = pool[i++ % pool.length];
-    }, 70);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      target.textContent = finalText;
-      target.classList.add('slot-complete');
-    }, 1200);
-  }
-
-  function hookOllie() {
-    const oliver = document.getElementById('player-oliver');
-    if (!oliver) return;
-
-    oliver.style.cursor = 'pointer';
-    oliver.setAttribute('role', 'button');
-    oliver.tabIndex = 0;
-
-    oliver.addEventListener('click', () => spinNameOnce(oliver, 'Ollie G'), { once: true });
-    oliver.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        spinNameOnce(oliver, 'Ollie G');
-      }
-    }, { once: true });
-  }
-
-  document.addEventListener("DOMContentLoaded", hookOllie);
-</script>
-  
+    document.addEventListener("DOMContentLoaded", () => {
+      const o = document.getElementById("player-oliver");
+      if (!o) return;
+      o.style.cursor = "pointer";
+      o.addEventListener("click", () => spinNameOnce(o, "Ollie G"), { once:true });
+    });
+  </script>
 </body>
 </html>
-`);
+
       win.document.close();
     });
   }
 
-/**************************************
- * ✅ CALCULATOR SECRET CODE (902197)
- **************************************/
 const display = el("calc-display");
 const buttons = document.querySelectorAll("#calculator button");
 
