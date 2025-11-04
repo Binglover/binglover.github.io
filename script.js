@@ -115,7 +115,6 @@ if (!hookOllie()) {
  <div class="site">
    <header role="banner">
   <h1 id="title" class="title" aria-live="polite>Plumet Tournament</h1>
-  <p class="subtle">Aim to get to the highest score and rise up the leaderboard!</p>
   <p id="rarity" class="rarity" role="status" aria-live="assertive"></p>
   
   <div class="site">
