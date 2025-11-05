@@ -162,20 +162,20 @@ window.addEventListener("DOMContentLoaded", () => {
     max-width: 1500px;
   }
 
-  object, iframe {
-    width: 100%;
-    height: 520px;
-    max-height: 520px;
-    border: none;
-    border-radius: 12px;
-    background: black;
-    object-fit: contain;
-  }
+object, iframe {
+  width: 100%;
+  height: 520px;
+  max-height: 520px;
+  border: none;
+  background: black;
+  border-radius: 12px;
+  object-fit: contain; /* <-- fixes Plumet scaling */
+}
+
 </style>
 </head>
 
 <body>
-
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
@@ -185,7 +185,7 @@ window.addEventListener("DOMContentLoaded", () => {
 <!-- ✅ MAIN VIEW -->
 <div class="content">
   <div id="tab-plumet" class="tab-view">
-      <object data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+      <object data="Plumet2.swf" type="application/x-shockwave-flash" width="100%" height="100%"></object>
   </div>
 
   <div id="tab-cookie" class="tab-view">
