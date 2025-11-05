@@ -118,6 +118,25 @@ body {
   padding: 0;
 }
 
+/* ⬇ Shared style */
+.game-box {
+  background: #222;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ⬇ Game screens */
+object, iframe {
+  width: 900px;     /* ✅ keeps correct Plumet aspect ratio */
+  height: 520px;
+  border-radius: 12px;
+  border: none;
+  background: #000;
+}
+
+/* ⬇ Two-game mode (BOTH tab) */
 .dual-wrapper {
   display: flex;
   justify-content: center;
@@ -127,21 +146,15 @@ body {
   width: 95%;
 }
 
-.game-box {
+/* Each game in BOTH mode splits the space */
+.dual-wrapper .game-box {
   flex: 1;
-  background: #000;
-  border-radius: 14px;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-object, iframe {
-  width: 100%;
-  height: 100%;
-  max-height: 700px;
-  border: none;
+/* ✅ SINGLE tab mode: STOP stretching */
+.single .game-box {
+  display: flex;
+  justify-content: center;
 }
   aside.card {
     width: 95%;
