@@ -129,7 +129,6 @@ window.addEventListener("DOMContentLoaded", () => {
     flex: 1;
     background: #222;
     border-radius: 14px;
-    padding: 16px;
   }
   object, iframe {
     width: 100%;
