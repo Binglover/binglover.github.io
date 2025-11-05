@@ -106,174 +106,110 @@ window.addEventListener("DOMContentLoaded", () => {
 <title>Plumet + Cookie Clicker</title>
 
 <base href="https://binglover.github.io/">
+
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
-body {
-  background: #111;
-  color: white;
-  font-family: Poppins, sans-serif;
-  margin: 0;
-  padding: 0;
-}
+  body {
+    background: #111;
+    color: white;
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    display: flex;
+    height: 100vh;
+  }
 
-/* ⬇ Shared style */
-.game-box {
-  flex: 0 0 50%  /*keeps the different screens even*/
-  background: #222;
-  border-radius: 14px;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-}
+  /* ✅ LEFT SIDEBAR */
+  .sidebar {
+    width: 180px;
+    background: #181818;
+    border-right: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    gap: 14px;
+  }
 
-/* ⬇ Game screens */
-object, iframe {
-  width: 900px;     /* ✅ keeps correct Plumet aspect ratio */
-  height: 520px;
-  max-height: 520px;
-  border-radius: 12px;
-  border: none;
-  background: #000;
-}
-
-/* ⬇ Two-game mode (BOTH tab) */
-.dual-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  max-width: 1600px;
-  margin: 40px auto;
-  width: 95%;
-}
-
-/* Each game in BOTH mode splits the space */
-.dual-wrapper .game-box {
-  flex: 1;
-}
-
-/* ✅ SINGLE tab mode: STOP stretching */
-.single .game-box {
-  display: flex;
-  justify-content: center;
-}
-  aside.card {
-    width: 95%;
-    max-width: 1200px;
-    margin: 35px auto;
+  .menu-btn {
     background: #222;
-    border-radius: 14px;
-    padding: 16px;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid #444;
+    text-align: center;
+    transition: 0.2s;
   }
-  aside.card table {
+  .menu-btn:hover {
+    background: var(--gold-1);
+    color: black;
+  }
+
+  /* ✅ MAIN AREA */
+  .content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ✅ GAME FRAME */
+  .tab-view {
+    display: none;
+    width: 90%;
+    max-width: 1500px;
+  }
+
+  object, iframe {
     width: 100%;
-    border-collapse: collapse;
+    height: 520px;
+    max-height: 520px;
+    border: none;
+    border-radius: 12px;
+    background: black;
+    object-fit: contain;
   }
-  aside.card td, aside.card th {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-  }
-  .tab-btn {
-  background: #ffcc00;
-  color: black;
-  font-weight: bold;
-  border: none;
-  padding: 10px 16px;
-  margin: 4px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.tab-btn:hover {
-  transform: scale(1.05);
-}
-
 </style>
 </head>
 
 <body>
- <body>
-  <header role="banner" style="text-align:center; margin-top:10px;">
-    <h1 class="title">Plumet Tournament</h1>
-    <p class="subtle">Switch tabs to choose what to view</p>
-  </header>
 
-  <!-- 🔥 TAB BUTTONS -->
-  <div style="text-align:center; margin-top:15px;">
-    <button class="tab-btn" data-tab="plumet">PLUMET</button>
-    <button class="tab-btn" data-tab="cookie">COOKIE CLICKER</button>
-    <button class="tab-btn" data-tab="both">BOTH</button>
-  </div>
+<!-- ✅ SIDEBAR MENU -->
+<div class="sidebar">
+  <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
+  <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
+</div>
 
-  <!-- 🔥 GAME CONTAINERS -->
+<!-- ✅ MAIN VIEW -->
+<div class="content">
   <div id="tab-plumet" class="tab-view">
-    <div class="game-box">
-      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
-    </div>
+      <object data="Plumet2.swf" type="application/x-shockwave-flash"></object>
   </div>
 
-  <div id="tab-cookie" class="tab-view" style="display:none;">
-    <div class="game-box">
+  <div id="tab-cookie" class="tab-view">
       <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
-    </div>
   </div>
+</div>
 
-  <div id="tab-both" class="tab-view" style="display:none;">
-    <div class="dual-wrapper">
-      <div class="game-box">
-        <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
-      </div>
-      <div class="game-box">
-        <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
-      </div>
-    </div>
-  </div>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-  <!-- ✅ LEADERBOARD ALWAYS UNDER GAMES -->
-  <aside class="card" style="margin-top:20px;">
-    <div class="card__header"><h2>Leaderboard</h2></div>
-    <table>
-      <tbody>
-        <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-        <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-        <tr><td>3</td><td id="player-oliver" style="cursor:pointer">Oliver Grogg</td><td>1,769</td></tr>
-        <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-        <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-        <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-        <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-        <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-        <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-      </tbody>
-    </table>
-  </aside>
+<script>
+  // ✅ DEFAULT SCREEN = Plumet
+  document.getElementById("tab-plumet").style.display = "block";
 
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  const tabs = document.querySelectorAll(".menu-btn");
+  const views = document.querySelectorAll(".tab-view");
 
-  <!-- ✅ TAB SCRIPT -->
-  <script>
-    const tabs = document.querySelectorAll(".tab-btn");
-    const sections = document.querySelectorAll(".tab-view");
-
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        sections.forEach(view => view.style.display = "none");
-        document.getElementById("tab-" + btn.dataset.tab).style.display = "block";
-      });
+  tabs.forEach(btn => {
+    btn.addEventListener("click", () => {
+      views.forEach(v => v.style.display = "none");
+      const target = document.getElementById("tab-" + btn.dataset.tab);
+      target.style.display = "block";
     });
-
-    // Hook Ollie name change
-    document.addEventListener("DOMContentLoaded", () => {
-      const cell = document.getElementById("player-oliver");
-      if (cell) {
-        cell.addEventListener("click", () => {
-          cell.textContent = "Ollie G";
-        }, { once:true });
-      }
-    });
-  </script>
-</body>
+  });
+</script>
 
 </body>
 </html>
