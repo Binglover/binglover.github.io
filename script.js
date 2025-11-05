@@ -1,5 +1,8 @@
 'use strict';
 
+// Global reference to the about:blank tab
+let plumetPopup = null;
+
 const el = (id) => document.getElementById(id);
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -24,14 +27,17 @@ window.addEventListener("DOMContentLoaded", () => {
    * OLLIE G EFFECT
    **************************************/
   function spinNameOnce(target, finalText) {
-    if (!target || target.dataset.spun === 'true') return;
+    if (!target || target.dataset.spun === "true") return;
 
-    const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
+    const pool = [
+      "Olivi~r", "Oliver", "Ol1ver", "0liver", "O-L-I-V-E-R",
+      "Revilo", "O.G.", "Oll—", "Oli.."
+    ];
     const interval = 70;
     let i = 0;
 
-    target.dataset.spun = 'true';
-    target.classList.add('slotting');
+    target.dataset.spun = "true";
+    target.classList.add("slotting");
 
     const timer = setInterval(() => {
       target.textContent = pool[i++ % pool.length];
@@ -40,38 +46,36 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       clearInterval(timer);
       target.textContent = finalText;
-      target.classList.remove('slotting');
-      target.classList.add('slot-complete');
+      target.classList.remove("slotting");
+      target.classList.add("slot-complete");
 
-      const calc = document.getElementById('calculator');
-      if (calc) calc.style.display = 'block';
-      const pwdBtn = document.getElementById('password-btn');
-      if (pwdBtn) pwdBtn.style.display = 'block';
+      const calc = el("calculator");
+      if (calc) calc.style.display = "block";
+      const pwdBtn = el("password-btn");
+      if (pwdBtn) pwdBtn.style.display = "block";
     }, 1200);
   }
 
   function onOllieActivate() {
-    const cell = document.getElementById('player-oliver');
+    const cell = el("player-oliver");
     if (!cell) return;
-    spinNameOnce(cell, 'Ollie G');
+    spinNameOnce(cell, "Ollie G");
   }
 
   function hookOllie() {
-    const oliver = document.getElementById('player-oliver');
+    const oliver = el("player-oliver");
     if (!oliver) return false;
-
-    oliver.setAttribute('role', 'button');
+    oliver.setAttribute("role", "button");
     oliver.tabIndex = 0;
-    oliver.style.cursor = 'pointer';
+    oliver.style.cursor = "pointer";
 
-    oliver.addEventListener('click', onOllieActivate, { once: true });
-    oliver.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+    oliver.addEventListener("click", onOllieActivate, { once: true });
+    oliver.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onOllieActivate();
       }
     }, { once: true });
-
     return true;
   }
 
@@ -88,13 +92,12 @@ window.addEventListener("DOMContentLoaded", () => {
   const blankBtn = el("open-blank");
   if (blankBtn) {
     blankBtn.addEventListener("click", () => {
-      const win = window.open("about:blank", "_blank");
-      if (!win) {
+      plumetPopup = window.open("about:blank", "_blank");
+      if (!plumetPopup) {
         alert("Popup blocked — allow popups for this site.");
         return;
       }
 
-      // Build HTML in a variable to avoid stray backticks/braces issues
       const popupHTML = `
 <!DOCTYPE html>
 <html>
@@ -102,14 +105,11 @@ window.addEventListener("DOMContentLoaded", () => {
 <meta charset="utf-8" />
 <title>Plumet + Cookie Clicker</title>
 
-<!-- Make relative paths (Plumet2.swf, style.css, etc) work -->
 <base href="https://binglover.github.io/">
-
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
- <style>
   body {
     background: #111;
     color: white;
@@ -117,7 +117,6 @@ window.addEventListener("DOMContentLoaded", () => {
     margin: 0;
     padding: 0;
   }
-
   .dual-wrapper {
     display: flex;
     justify-content: center;
@@ -126,32 +125,19 @@ window.addEventListener("DOMContentLoaded", () => {
     margin: 40px auto;
     width: 95%;
   }
-
   .game-box {
     flex: 1;
     background: #222;
     border-radius: 14px;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 600px; /* adjust to fit perfect */
+    padding: 16px;
   }
-
-  #game-object {
+  object, iframe {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: #000;
-  }
-
-  iframe {
-    width: 100%;
-    height: 100%;
+    height: 520px;
     border-radius: 12px;
     border: none;
+    background: #000;
   }
-
   aside.card {
     width: 95%;
     max-width: 1200px;
@@ -160,12 +146,10 @@ window.addEventListener("DOMContentLoaded", () => {
     border-radius: 14px;
     padding: 16px;
   }
-
   aside.card table {
     width: 100%;
     border-collapse: collapse;
   }
-
   aside.card td, aside.card th {
     padding: 10px 12px;
     border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -227,14 +211,14 @@ window.addEventListener("DOMContentLoaded", () => {
 </html>
 `;
 
-      win.document.open();
-      win.document.write(popupHTML);
-      win.document.close();
+      plumetPopup.document.open();
+      plumetPopup.document.write(popupHTML);
+      plumetPopup.document.close();
     });
   }
 
   /**************************************
-   * CALCULATOR (main page only)
+   * CALCULATOR
    **************************************/
   const display = el("calc-display");
   const buttons = document.querySelectorAll("#calculator button");
@@ -243,19 +227,12 @@ window.addEventListener("DOMContentLoaded", () => {
   let lastNumber = null;
 
   if (display && buttons.length) {
-    // Allow typing anything (per your request)
-    display.addEventListener("input", () => {
-      // keep free typing (no filter)
-    });
+    display.addEventListener("input", () => {});
 
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        // Be robust: try a data-val attr, innerText, then textContent
-        let value = btn.getAttribute('data-val');
-        if (!value || value === 'undefined') value = (btn.innerText ?? '').trim();
-        if (!value || value === 'undefined') value = (btn.textContent ?? '').trim();
-
-        if (!value) return; // in case a button has no label
+        let value = (btn.innerText || btn.textContent || "").trim();
+        if (!value) return;
 
         if (value === "C") {
           display.value = "";
@@ -264,43 +241,36 @@ window.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-if (value === "=") {
-  const input = display.value.trim().toLowerCase();
+        if (value === "=") {
+          const input = display.value.trim().toLowerCase();
 
- if (input === "aboutblank") {
-  if (plumetPopup && !plumetPopup.closed) {
-    plumetPopup.focus();          // ✅ brings existing tab to front
-  } else {
-    alert("⚠️ The about:blank Plumet tab is not open yet.");
-  }
-  return;
-}
+          // ✅ SECRET aboutblank trigger
+          if (input === "aboutblank") {
+            if (plumetPopup && !plumetPopup.closed) {
+              plumetPopup.focus();
+            } else {
+              alert("⚠️ The Plumet Tournament tab isn't open yet!");
+            }
+            return;
+          }
 
-    win.document.open();
-    win.document.write(popupHTML); // <-- uses the same popupHTML from your script
-    win.document.close();
-    return;
-  }
+          try {
+            if (lastOperator && lastNumber !== null) {
+              display.value = String(eval(display.value + lastOperator + lastNumber));
+            } else {
+              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+              if (match) {
+                lastOperator = match[2];
+                lastNumber = match[3];
+              }
+              display.value = String(eval(display.value));
+            }
+          } catch {
+            display.value = "Error";
+          }
+          return;
+        }
 
-  // ✅ NORMAL CALCULATOR BEHAVIOR (with repeat "=" support)
-  try {
-    if (lastOperator && lastNumber !== null) {
-      display.value = String(eval(display.value + lastOperator + lastNumber));
-    } else {
-      const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-      if (match) {
-        lastOperator = match[2];
-        lastNumber = match[3];
-      }
-      display.value = String(eval(display.value));
-    }
-  } catch {
-    display.value = "Error";
-  }
-  return;
-}
-
-        // Reset repeat-chain if user presses an operator
         if ("+-*/".includes(value)) {
           lastOperator = null;
           lastNumber = null;
@@ -310,13 +280,11 @@ if (value === "=") {
       });
     });
 
-    // Enter key triggers "="
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        const eq = Array.from(buttons).find(b => {
-          const t = (b.getAttribute('data-val') || b.innerText || b.textContent || '').trim();
-          return t === "=";
-        });
+        const eq = Array.from(buttons).find(
+          (b) => (b.innerText || b.textContent || "").trim() === "="
+        );
         if (eq) eq.click();
       }
     });
