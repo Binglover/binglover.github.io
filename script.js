@@ -157,9 +157,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
   /* ✅ GAME FRAME */
   .tab-view {
-    display: none;
+      display: flex;
     width: 90%;
     max-width: 1500px;
+    justify-content: center;
+    align-items: center;
   }
 
 object, iframe {
