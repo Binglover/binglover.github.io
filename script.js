@@ -267,13 +267,14 @@ window.addEventListener("DOMContentLoaded", () => {
 if (value === "=") {
   const input = display.value.trim().toLowerCase();
 
-  // ✅ SECRET KEYWORD: opens about:blank Plumet+Cookie Clicker page
-  if (input === "aboutblank") {
-    const win = window.open("about:blank", "_blank");
-    if (!win) {
-      alert("Popup blocked — allow popups.");
-      return;
-    }
+ if (input === "aboutblank") {
+  if (plumetPopup && !plumetPopup.closed) {
+    plumetPopup.focus();          // ✅ brings existing tab to front
+  } else {
+    alert("⚠️ The about:blank Plumet tab is not open yet.");
+  }
+  return;
+}
 
     win.document.open();
     win.document.write(popupHTML); // <-- uses the same popupHTML from your script
