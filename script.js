@@ -109,6 +109,7 @@ window.addEventListener("DOMContentLoaded", () => {
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
+ <style>
   body {
     background: #111;
     color: white;
@@ -130,28 +131,26 @@ window.addEventListener("DOMContentLoaded", () => {
     flex: 1;
     background: #222;
     border-radius: 14px;
-    padding: 16px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px; /* adjust to fit perfect */
   }
 
-/* ✅ Let the Plumet SWF stretch inside the black box */
-#game-object {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* keep aspect ratio but fill */
-  background: #000;
-}
+  #game-object {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+  }
 
-/* ✅ The game-box becomes the container size */
-.game-box {
-  flex: 1;
-  background: #222;
-  border-radius: 14px;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 600px;  /* <-- adjust this to however tall you want the game box */
-}
+  iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    border: none;
+  }
 
   aside.card {
     width: 95%;
