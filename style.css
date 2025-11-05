@@ -180,6 +180,16 @@ tbody tr:hover {
   border: 2px solid #fff;
   outline: none;
   padding: 8px;
+  font-family: "Press Start 2P", monospace !important;
+  letter-spacing: 2px;
+  color: #fff;
+  background: #000;
+  border: 2px solid #fff;
+  outline: none;
+  caret-color: #fff; /* makes typing cursor visible */
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
 }
 
 .calc-buttons {
