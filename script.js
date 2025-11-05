@@ -240,19 +240,14 @@ window.addEventListener("DOMContentLoaded", () => {
           lastNumber = null;
           return;
         }
-
-        if (value === "=") {
+          if (value === "=") {
           const input = display.value.trim().toLowerCase();
 
-          // ✅ SECRET aboutblank trigger
-          if (input === "aboutblank") {
-            if (plumetPopup && !plumetPopup.closed) {
-              plumetPopup.focus();
-            } else {
-              alert("⚠️ The Plumet Tournament tab isn't open yet!");
-            }
-            return;
-          }
+          // ✅ SECRET COMMAND TO OPEN about:blank popup automatically
+            if (input === "aboutblank") {
+              el("open-blank").click();  // <-- Pretends the user pressed the button
+           return;
+        }
 
           try {
             if (lastOperator && lastNumber !== null) {
