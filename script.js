@@ -133,13 +133,25 @@ window.addEventListener("DOMContentLoaded", () => {
     padding: 16px;
   }
 
-  object, iframe {
-    width: 120%;
-    height: 520px;
-    border-radius: 12px;
-    border: none;
-    background: #000;
-  }
+/* ✅ Let the Plumet SWF stretch inside the black box */
+#game-object {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* keep aspect ratio but fill */
+  background: #000;
+}
+
+/* ✅ The game-box becomes the container size */
+.game-box {
+  flex: 1;
+  background: #222;
+  border-radius: 14px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;  /* <-- adjust this to however tall you want the game box */
+}
 
   aside.card {
     width: 95%;
