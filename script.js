@@ -176,6 +176,10 @@ object, iframe {
   /* forces plumet not to shrink strangely */
   display: block;
   margin: auto;
+  transform: scale(1.25);
+  transform-origin: top center;
+}
+
 }
 
 </style>
