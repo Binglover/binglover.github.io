@@ -251,60 +251,32 @@ object, iframe {
 
   <!-- ✅ TAB SCRIPT -->
   <script>
-    win.document.write(`
-<!DOCTYPE html>
-<html>
-<head> ... </head>
-<body>
-    <!-- all your HTML (header, tabs, game containers, leaderboard, etc.) -->
+    const tabs = document.querySelectorAll(".tab-btn");
+    const sections = document.querySelectorAll(".tab-view");
 
-    <script>
-        // OLLIE G EFFECT SCRIPT (already here)
-    </script>
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        sections.forEach(view => view.style.display = "none");
+        document.getElementById("tab-" + btn.dataset.tab).style.display = "block";
+      });
+    });
 
-    <!-- ✅ PUT TAB SWITCH SCRIPT RIGHT HERE -->
-    <script>
-        win.document.write(`
-<!DOCTYPE html>
-<html>
-<head> ... </head>
-<body>
-    <!-- all your HTML (header, tabs, game containers, leaderboard, etc.) -->
-
-    <script>
-        // OLLIE G EFFECT SCRIPT (already here)
-         // Hook Ollie name change
+    // Hook Ollie name change
     document.addEventListener("DOMContentLoaded", () => {
       const cell = document.getElementById("player-oliver");
       if (cell) {
         cell.addEventListener("click", () => {
           cell.textContent = "Ollie G";
         }, { once:true });
+      }
+    });
+  </script>
+</body>
 
-    <!-- ✅ PUT TAB SWITCH SCRIPT RIGHT HERE -->
-    <script>
-        const tabs = document.querySelectorAll(".tab-btn");
-        const sections = document.querySelectorAll(".tab-view");
-
-        tabs.forEach(btn => {
-          btn.addEventListener("click", () => {
-
-            sections.forEach(view => view.style.display = "none");
-
-            const target = document.getElementById("tab-" + btn.dataset.tab);
-            target.style.display = "block";
-
-            if (btn.dataset.tab === "both") {
-              document.body.classList.remove("single");
-            } else {
-              document.body.classList.add("single");
-            }
-          });
-        });
-    </script>
 </body>
 </html>
-`);
+`;
+
       plumetPopup.document.open();
       plumetPopup.document.write(popupHTML);
       plumetPopup.document.close();
