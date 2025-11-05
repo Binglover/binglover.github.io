@@ -249,17 +249,24 @@ object, iframe {
 
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-  <!-- ✅ TAB SCRIPT -->
-  <script>
-    const tabs = document.querySelectorAll(".tab-btn");
-    const sections = document.querySelectorAll(".tab-view");
+  const tabs = document.querySelectorAll(".tab-btn");
+const sections = document.querySelectorAll(".tab-view");
 
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        sections.forEach(view => view.style.display = "none");
-        document.getElementById("tab-" + btn.dataset.tab).style.display = "block";
-      });
-    });
+tabs.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    sections.forEach(view => view.style.display = "none");
+
+    const target = document.getElementById("tab-" + btn.dataset.tab);
+    target.style.display = "block";
+
+    if (btn.dataset.tab === "both") {
+      document.body.classList.remove("single");
+    } else {
+      document.body.classList.add("single");
+    }
+  });
+});
 
     // Hook Ollie name change
     document.addEventListener("DOMContentLoaded", () => {
@@ -270,6 +277,7 @@ object, iframe {
         }, { once:true });
       }
     });
+
   </script>
 </body>
 
