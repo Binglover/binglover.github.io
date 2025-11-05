@@ -103,7 +103,7 @@ window.addEventListener("DOMContentLoaded", () => {
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Plumet + Cookie Clicker</title>
+<title>Classroom</title>
 
 <base href="https://binglover.github.io/">
 
@@ -157,7 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   /* ✅ GAME FRAME */
   .tab-view {
-      display: flex;
+    display: flex;
     width: 90%;
     max-width: 1500px;
     justify-content: center;
@@ -165,13 +165,17 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
 object, iframe {
-  width: 100%;
-  height: 520px;
-  max-height: 520px;
+  width: 100%; !important;
+  height: 600px; !important;
+  max-height: 1000px; 
   border: none;
   background: black;
   border-radius: 12px;
   object-fit: contain; /* <-- fixes Plumet scaling */
+
+  /* forces plumet not to shrink strangely */
+  display: block;
+  margin: auto;
 }
 
 </style>
