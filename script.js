@@ -120,6 +120,7 @@ body {
 
 /* ⬇ Shared style */
 .game-box {
+  flex: 0 0 50%  /*keeps the different screens even*/
   background: #222;
   border-radius: 14px;
   padding: 16px;
@@ -131,6 +132,7 @@ body {
 object, iframe {
   width: 900px;     /* ✅ keeps correct Plumet aspect ratio */
   height: 520px;
+  max-height: 520px;
   border-radius: 12px;
   border: none;
   background: #000;
