@@ -172,15 +172,14 @@ object, iframe {
   background: black;
   border-radius: 12px;
   object-fit: contain; /* <-- fixes Plumet scaling */
-
-  /* forces plumet not to shrink strangely */
+}
+/* ⭐ FORCE Plumet to match Cookie Clicker size */
+#game-object {
+  width: 100% !important;
+  height: 600px !important;
   display: block;
   margin: auto;
   transform: scale(1.25);
-  transform-origin: top center;
-}
-
-}
 
 </style>
 </head>
