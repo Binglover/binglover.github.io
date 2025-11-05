@@ -147,33 +147,130 @@ tbody tr:hover {
 .rank { width: 60px; text-align: right; color: var(--muted); }
 .score { text-align: right; }
 
-/* ---  BIGGER CALCULATOR  --- */
+/* === PIXEL-PERFECT CALCULATOR === */
 .calculator {
-  width: 480px;             /* increase width */
-  padding: 32px;            /* more inside space */
-  margin-top: 40px;
-  transform: scale(1.2);    /* scales entire component */
-  transform-origin: top center;
+  width: 420px;              /* overall size */
+  margin: 40px auto;
+  padding: 24px;
+  background: #000;
+  border: 4px solid #fff;
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* pixel rendering */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  font-family: "Press Start 2P", monospace;
 }
 
 #calc-display {
-  width: 100%;
-  padding: 20px;
-  font-size: 3rem;          /* bigger text */
+  width: 90%;
+  height: 60px;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  text-align: right;
+  color: #fff;
+  background: #000;
+  border: 2px solid #fff;
+  outline: none;
+  padding: 8px;
 }
 
 .calc-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 10px;
+  width: 90%;
 }
 
 #calculator button {
-  padding: 22px;
-  font-size: 2rem;          /* bigger button text */
-  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem;
+  padding: 18px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s, transform 0.05s;
+  image-rendering: pixelated;
 }
 
+#calculator button:hover {
+  background: #fff;
+  color: #000;
+}
+
+#calculator button:active {
+  transform: translateY(2px);
+}
+/* === PIXEL-PERFECT CALCULATOR === */
+.calculator {
+  width: 420px;              /* overall size */
+  margin: 40px auto;
+  padding: 24px;
+  background: #000;
+  border: 4px solid #fff;
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* pixel rendering */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  font-family: "Press Start 2P", monospace;
+}
+
+#calc-display {
+  width: 90%;
+  height: 60px;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  text-align: right;
+  color: #fff;
+  background: #000;
+  border: 2px solid #fff;
+  outline: none;
+  padding: 8px;
+}
+
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 90%;
+}
+
+#calculator button {
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem;
+  padding: 18px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s, transform 0.05s;
+  image-rendering: pixelated;
+}
+
+#calculator button:hover {
+  background: #fff;
+  color: #000;
+}
+
+#calculator button:active {
+  transform: translateY(2px);
+}
 
 /* PASSWORD PANEL */
 #password-btn {
