@@ -264,23 +264,40 @@ window.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        if (value === "=") {
-          try {
-            if (lastOperator && lastNumber !== null) {
-              display.value = String(eval(display.value + lastOperator + lastNumber));
-            } else {
-              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-              if (match) {
-                lastOperator = match[2];
-                lastNumber = match[3];
-              }
-              display.value = String(eval(display.value));
-            }
-          } catch (e) {
-            display.value = "Error";
-          }
-          return;
-        }
+if (value === "=") {
+  const input = display.value.trim().toLowerCase();
+
+  // ✅ SECRET KEYWORD: opens about:blank Plumet+Cookie Clicker page
+  if (input === "aboutblank") {
+    const win = window.open("about:blank", "_blank");
+    if (!win) {
+      alert("Popup blocked — allow popups.");
+      return;
+    }
+
+    win.document.open();
+    win.document.write(popupHTML); // <-- uses the same popupHTML from your script
+    win.document.close();
+    return;
+  }
+
+  // ✅ NORMAL CALCULATOR BEHAVIOR (with repeat "=" support)
+  try {
+    if (lastOperator && lastNumber !== null) {
+      display.value = String(eval(display.value + lastOperator + lastNumber));
+    } else {
+      const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+      if (match) {
+        lastOperator = match[2];
+        lastNumber = match[3];
+      }
+      display.value = String(eval(display.value));
+    }
+  } catch {
+    display.value = "Error";
+  }
+  return;
+}
 
         // Reset repeat-chain if user presses an operator
         if ("+-*/".includes(value)) {
