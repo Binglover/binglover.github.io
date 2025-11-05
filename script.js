@@ -110,33 +110,39 @@ window.addEventListener("DOMContentLoaded", () => {
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
-  body {
-    background: #111;
-    color: white;
-    font-family: Poppins, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  .dual-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    max-width: 1600px;
-    margin: 40px auto;
-    width: 95%;
-  }
-  .game-box {
-    flex: 1;
-    background: #222;
-    border-radius: 14px;
-  }
-  object, iframe {
-    width: 100%;
-    height: 520px;
-    border-radius: 12px;
-    border: none;
-    background: #000;
-  }
+body {
+  background: #111;
+  color: white;
+  font-family: Poppins, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dual-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  max-width: 1600px;
+  margin: 40px auto;
+  width: 95%;
+}
+
+.game-box {
+  flex: 1;
+  background: #000;
+  border-radius: 14px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+object, iframe {
+  width: 100%;
+  height: 100%;
+  max-height: 700px;
+  border: none;
+}
   aside.card {
     width: 95%;
     max-width: 1200px;
