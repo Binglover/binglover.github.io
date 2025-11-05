@@ -159,6 +159,22 @@ object, iframe {
     padding: 10px 12px;
     border-bottom: 1px solid rgba(255,255,255,0.12);
   }
+  .tab-btn {
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 16px;
+  margin: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.tab-btn:hover {
+  transform: scale(1.05);
+}
+
 </style>
 </head>
 
