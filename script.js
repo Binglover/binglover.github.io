@@ -185,7 +185,7 @@ object, iframe {
 <!-- ✅ MAIN VIEW -->
 <div class="content">
   <div id="tab-plumet" class="tab-view">
-      <object data="Plumet2.swf" type="application/x-shockwave-flash" width="100%" height="100%"></object>
+      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
   </div>
 
   <div id="tab-cookie" class="tab-view">
