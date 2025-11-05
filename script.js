@@ -163,21 +163,45 @@ object, iframe {
 </head>
 
 <body>
+ <body>
   <header role="banner" style="text-align:center; margin-top:10px;">
     <h1 class="title">Plumet Tournament</h1>
-    <p class="subtle">Left = Plumet · Right = Cookie Clicker</p>
+    <p class="subtle">Switch tabs to choose what to view</p>
   </header>
 
-  <div class="dual-wrapper">
+  <!-- 🔥 TAB BUTTONS -->
+  <div style="text-align:center; margin-top:15px;">
+    <button class="tab-btn" data-tab="plumet">PLUMET</button>
+    <button class="tab-btn" data-tab="cookie">COOKIE CLICKER</button>
+    <button class="tab-btn" data-tab="both">BOTH</button>
+  </div>
+
+  <!-- 🔥 GAME CONTAINERS -->
+  <div id="tab-plumet" class="tab-view">
     <div class="game-box">
       <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
     </div>
+  </div>
+
+  <div id="tab-cookie" class="tab-view" style="display:none;">
     <div class="game-box">
       <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
     </div>
   </div>
 
-  <aside class="card">
+  <div id="tab-both" class="tab-view" style="display:none;">
+    <div class="dual-wrapper">
+      <div class="game-box">
+        <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+      </div>
+      <div class="game-box">
+        <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ LEADERBOARD ALWAYS UNDER GAMES -->
+  <aside class="card" style="margin-top:20px;">
     <div class="card__header"><h2>Leaderboard</h2></div>
     <table>
       <tbody>
@@ -195,23 +219,31 @@ object, iframe {
   </aside>
 
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-  <script>
-    function spinNameOnce(target, finalText) {
-      if (!target || target.dataset.spun === 'true') return;
-      const pool = ['Olivi~r','Oliver','Ol1ver','0liver','O-L-I-V-E-R','Revilo','O.G.','Oll—','Oli..'];
-      let i = 0;
-      const timer = setInterval(() => target.textContent = pool[i++ % pool.length], 70);
-      setTimeout(() => { clearInterval(timer); target.textContent = finalText; }, 1200);
-      target.dataset.spun = 'true';
-    }
 
+  <!-- ✅ TAB SCRIPT -->
+  <script>
+    const tabs = document.querySelectorAll(".tab-btn");
+    const sections = document.querySelectorAll(".tab-view");
+
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        sections.forEach(view => view.style.display = "none");
+        document.getElementById("tab-" + btn.dataset.tab).style.display = "block";
+      });
+    });
+
+    // Hook Ollie name change
     document.addEventListener("DOMContentLoaded", () => {
-      const o = document.getElementById("player-oliver");
-      if (!o) return;
-      o.style.cursor = "pointer";
-      o.addEventListener("click", () => spinNameOnce(o, "Ollie G"), { once:true });
+      const cell = document.getElementById("player-oliver");
+      if (cell) {
+        cell.addEventListener("click", () => {
+          cell.textContent = "Ollie G";
+        }, { once:true });
+      }
     });
   </script>
+</body>
+
 </body>
 </html>
 `;
