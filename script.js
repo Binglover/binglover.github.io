@@ -179,8 +179,7 @@ object, iframe {
   height: 600px !important;
   display: block;
   margin: auto;
-  transform: scale(1.25);
-
+}
 </style>
 </head>
 
