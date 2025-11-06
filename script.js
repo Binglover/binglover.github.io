@@ -180,6 +180,50 @@ object, iframe {
   display: block;
   margin: auto;
 }
+/* ⚙️ Settings button */
+#settings-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--gold-1, #ffcc00);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1000;
+}
+
+#settings-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+
+/* ⚙️ Settings Panel */
+#settings-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#settings-panel .panel-inner {
+  background: #222;
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  text-align: center;
+  width: 260px;
+}
+
 </style>
 </head>
 
@@ -218,6 +262,19 @@ object, iframe {
     });
   });
 </script>
+
+<!-- ⚙️ Settings Button -->
+<button id="settings-btn">⚙️</button>
+
+<!-- 🧩 Settings Panel -->
+<div id="settings-panel">
+  <div class="panel-inner">
+    <h3>Settings</h3>
+    <label><input type="checkbox" id="dark-mode"> Dark Mode</label><br>
+    <label><input type="checkbox" id="mute-sound"> Mute Sound</label><br>
+    <button id="close-settings">Close</button>
+  </div>
+</div>
 
 </body>
 </html>
