@@ -292,6 +292,10 @@ window.addEventListener("DOMContentLoaded", () => {
     font-weight: 700;
     cursor: pointer;
   }
+  /* remove main site UI from popup */
+.site {
+  display: none !important;
+}
 </style>
 </head>
 
