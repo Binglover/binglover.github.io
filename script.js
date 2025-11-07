@@ -397,9 +397,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   </script>
-</body>
 
-<body>
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
@@ -418,62 +416,6 @@ window.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-
-<script>
-  // ✅ DEFAULT SCREEN = Plumet
-  document.getElementById("tab-plumet").style.display = "block";
-
-  const tabs = document.querySelectorAll(".menu-btn");
-  const views = document.querySelectorAll(".tab-view");
-
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      views.forEach(v => v.style.display = "none");
-      const target = document.getElementById("tab-" + btn.dataset.tab);
-      target.style.display = "block";
-    });
-  });
-  
-  // ⚙️ Settings open/close
-const settingsBtn = document.getElementById("settings-btn");
-const settingsPanel = document.getElementById("settings-panel");
-const closeSettings = document.getElementById("close-settings");
-const themeToggle = document.getElementById("theme-toggle");
-
-// Restore theme from localStorage
-(function initTheme(){
-  const saved = localStorage.getItem("pt_theme"); // "light" | "dark" | null
-  if (saved === "light") {
-    document.body.classList.add("light");
-    themeToggle.checked = true;
-  } else {
-    document.body.classList.remove("light");
-    themeToggle.checked = false;
-  }
-})();
-
-settingsBtn.addEventListener("click", () => {
-  settingsPanel.style.display = "flex";
-});
-closeSettings.addEventListener("click", () => {
-  settingsPanel.style.display = "none";
-});
-settingsPanel.addEventListener("click", (e) => {
-  if (e.target === settingsPanel) settingsPanel.style.display = "none";
-});
-
-// Toggle theme + persist
-themeToggle.addEventListener("change", () => {
-  if (themeToggle.checked) {
-    document.body.classList.add("light");
-    localStorage.setItem("pt_theme", "light");
-  } else {
-    document.body.classList.remove("light");
-    localStorage.setItem("pt_theme", "dark");
-  }
-});
-
-</script>
 
 <!-- ⚙️ Settings Button -->
 <button id="settings-btn" aria-label="Open settings">⚙️</button>
