@@ -405,10 +405,6 @@ window.addEventListener("DOMContentLoaded", () => {
 </body>
 </html>
 
-
-</style>
-</head>
-
 <body>
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
