@@ -286,90 +286,97 @@ object, iframe {
     });
   }
 
-  /**************************************
-   * CALCULATOR
-   **************************************/
-  const display = el("calc-display");
-  const buttons = document.querySelectorAll("#calculator button");
+/**************************************
+ * CALCULATOR
+ **************************************/
+const display = el("calc-display");
+const buttons = document.querySelectorAll("#calculator button");
 
-  let lastOperator = null;
-  let lastNumber = null;
+let lastOperator = null;
+let lastNumber = null;
 
-  if (display && buttons.length) {
-    display.addEventListener("input", () => {});
+if (display && buttons.length) {
+  // Allow free typing (you wanted to keep invalid chars)
+  display.addEventListener("input", () => {});
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        let value = (btn.innerText || btn.textContent || "").trim();
-        if (!value) return;
-
-        if (value === "C") {
-          display.value = "";
-          lastOperator = null;
-          lastNumber = null;
-          return;
-        }
-         if (value === "=") {
-  const input = display.value.trim().toLowerCase();
-
-  // ✅ SECRET COMMAND: open about:blank
-  if (input === "aboutblank") {
-    el("open-blank").click();
-    return;
-  }
-
-  // ✅ EMAIL TRIGGER — TYPE EMAIL TO OPEN ABOUT:BLANK
+  // ✉️ Emails that should open the about:blank page
   const allowedEmails = [
-    "bradon.sherman@tcu2905.us",   // <-- Replace these
-     "tyson.grant@tcu2905.us" 
-     "ashton.brainerd@tcu2905.us" 
-     "camden.burns@tcu2905.us" 
-     "dylan.carston@tcu2905.us" 
-     "lincoln.hudyma@tcu2905.us" 
-     "ethan.roisland@tcu2905.us" 
-     "owen.delander@tcu2905.us" 
-     "jared.aarre@tcu2905.us" 
-     "owen.wolbeck@tcu2905.us" 
+    "example@email.com",   // <-- replace / add your emails here
+    "another@email.com"
   ];
 
-  if (allowedEmails.includes(input)) {
-    el("open-blank").click();
-    return;
-  }
-
-  try {
-    if (lastOperator && lastNumber !== null) {
-      display.value = String(eval(display.value + lastOperator + lastNumber));
+  // Helper: open the about:blank tab safely
+  function openAboutBlankSafely() {
+    const trigger = el("open-blank");
+    if (trigger && typeof trigger.click === "function") {
+      trigger.click();
     } else {
-      const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-      if (match) {
-        lastOperator = match[2];
-        lastNumber = match[3];
-      }
-      display.value = String(eval(display.value));
+      // Fallback if the button isn't on this page
+      window.open("about:blank", "_blank");
     }
-  } catch {
-    display.value = "Error";
   }
-  return;
-}
 
-        if ("+-*/".includes(value)) {
-          lastOperator = null;
-          lastNumber = null;
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const value = (btn.innerText || btn.textContent || "").trim();
+      if (!value) return;
+
+      if (value === "C") {
+        display.value = "";
+        lastOperator = null;
+        lastNumber = null;
+        return;
+      }
+
+      if (value === "=") {
+        const input = display.value.trim().toLowerCase();
+
+        // 🔐 secret command
+        if (input === "aboutblank") {
+          openAboutBlankSafely();
+          return;
         }
 
-        display.value += value;
-      });
-    });
+        // ✉️ email trigger
+        if (allowedEmails.includes(input)) {
+          openAboutBlankSafely();
+          return;
+        }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const eq = Array.from(buttons).find(
-          (b) => (b.innerText || b.textContent || "").trim() === "="
-        );
-        if (eq) eq.click();
+        try {
+          if (lastOperator && lastNumber !== null) {
+            display.value = String(eval(display.value + lastOperator + lastNumber));
+          } else {
+            const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+            if (match) {
+              lastOperator = match[2];
+              lastNumber = match[3];
+            }
+            display.value = String(eval(display.value));
+          }
+        } catch (e) {
+          display.value = "Error";
+        }
+        return;
       }
+
+      // If user presses an operator, reset repeat-equals memory
+      if ("+-*/".includes(value)) {
+        lastOperator = null;
+        lastNumber = null;
+      }
+
+      display.value += value;
     });
-  }
-});
+  });
+
+  // Enter key triggers "="
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const eq = Array.from(buttons).find(
+        (b) => (b.innerText || b.textContent || "").trim() === "="
+      );
+      if (eq) eq.click();
+    }
+  });
+}
