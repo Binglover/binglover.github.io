@@ -286,97 +286,71 @@ object, iframe {
     });
   }
 
-/**************************************
- * CALCULATOR
- **************************************/
-const display = el("calc-display");
-const buttons = document.querySelectorAll("#calculator button");
+  /**************************************
+   * CALCULATOR
+   **************************************/
+  const display = el("calc-display");
+  const buttons = document.querySelectorAll("#calculator button");
 
-let lastOperator = null;
-let lastNumber = null;
+  let lastOperator = null;
+  let lastNumber = null;
 
-if (display && buttons.length) {
-  // Allow free typing (you wanted to keep invalid chars)
-  display.addEventListener("input", () => {});
+  if (display && buttons.length) {
+    display.addEventListener("input", () => {});
 
-  // ✉️ Emails that should open the about:blank page
-  const allowedEmails = [
-    "example@email.com",   // <-- replace / add your emails here
-    "another@email.com"
-  ];
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        let value = (btn.innerText || btn.textContent || "").trim();
+        if (!value) return;
 
-  // Helper: open the about:blank tab safely
-  function openAboutBlankSafely() {
-    const trigger = el("open-blank");
-    if (trigger && typeof trigger.click === "function") {
-      trigger.click();
-    } else {
-      // Fallback if the button isn't on this page
-      window.open("about:blank", "_blank");
-    }
-  }
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const value = (btn.innerText || btn.textContent || "").trim();
-      if (!value) return;
-
-      if (value === "C") {
-        display.value = "";
-        lastOperator = null;
-        lastNumber = null;
-        return;
-      }
-
-      if (value === "=") {
-        const input = display.value.trim().toLowerCase();
-
-        // 🔐 secret command
-        if (input === "aboutblank") {
-          openAboutBlankSafely();
+        if (value === "C") {
+          display.value = "";
+          lastOperator = null;
+          lastNumber = null;
           return;
         }
+          if (value === "=") {
+          const input = display.value.trim().toLowerCase();
 
-        // ✉️ email trigger
-        if (allowedEmails.includes(input)) {
-          openAboutBlankSafely();
-          return;
+          // ✅ SECRET COMMAND TO OPEN about:blank popup automatically
+            if (input === "aboutblank") {
+              el("open-blank").click();  // <-- Pretends the user pressed the button
+           return;
         }
 
-        try {
-          if (lastOperator && lastNumber !== null) {
-            display.value = String(eval(display.value + lastOperator + lastNumber));
-          } else {
-            const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-            if (match) {
-              lastOperator = match[2];
-              lastNumber = match[3];
+          try {
+            if (lastOperator && lastNumber !== null) {
+              display.value = String(eval(display.value + lastOperator + lastNumber));
+            } else {
+              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+              if (match) {
+                lastOperator = match[2];
+                lastNumber = match[3];
+              }
+              display.value = String(eval(display.value));
             }
-            display.value = String(eval(display.value));
+          } catch {
+            display.value = "Error";
           }
-        } catch (e) {
-          display.value = "Error";
+          return;
         }
-        return;
-      }
 
-      // If user presses an operator, reset repeat-equals memory
-      if ("+-*/".includes(value)) {
-        lastOperator = null;
-        lastNumber = null;
-      }
+        if ("+-*/".includes(value)) {
+          lastOperator = null;
+          lastNumber = null;
+        }
 
-      display.value += value;
+        display.value += value;
+      });
     });
-  });
 
-  // Enter key triggers "="
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const eq = Array.from(buttons).find(
-        (b) => (b.innerText || b.textContent || "").trim() === "="
-      );
-      if (eq) eq.click();
-    }
-  });
-}
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const eq = Array.from(buttons).find(
+          (b) => (b.innerText || b.textContent || "").trim() === "="
+        );
+        if (eq) eq.click();
+      }
+    });
+  }
+});
