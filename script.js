@@ -346,23 +346,6 @@ window.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
 
-  <aside class="card">
-    <div class="card__header"><h2>Leaderboard</h2></div>
-    <table>
-      <tbody>
-        <tr><td>1</td><td>Jared Aarre</td><td>1,904</td></tr>
-        <tr><td>2</td><td>Luke Loiselle</td><td>1,901</td></tr>
-        <tr><td>3</td><td id="player-oliver" style="cursor:pointer">Oliver Grogg</td><td>1,769</td></tr>
-        <tr><td>4</td><td>Ethan Roisland</td><td>1,717</td></tr>
-        <tr><td>5</td><td>Nick Gillard</td><td>1,707</td></tr>
-        <tr><td>6</td><td>Jaiden Mader</td><td>1,256</td></tr>
-        <tr><td>7</td><td>Uilses Rumbo Bano</td><td>1,248</td></tr>
-        <tr><td>8</td><td>Maxwell Marson</td><td>1,231</td></tr>
-        <tr><td>9</td><td>Adrian Trujillo</td><td>983</td></tr>
-      </tbody>
-    </table>
-  </aside>
-
   <!-- ⚙️ Settings button & panel -->
   <button id="settings-btn" aria-label="Open settings">⚙️</button>
   <div id="settings-panel">
