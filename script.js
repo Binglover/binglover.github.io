@@ -202,38 +202,6 @@ window.addEventListener("DOMContentLoaded", () => {
     display: block;
     margin: auto;
   }
-
-  /* Leaderboard card uses theme vars */
-  aside.card {
-    width: 95%;
-    max-width: 1200px;
-    margin: 35px auto;
-    background: var(--panel);
-    border-radius: 14px;
-    padding: 16px;
-    border: 1px solid var(--border);
-  }
-  aside.card table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  aside.card td, aside.card th {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    color: var(--fg);
-  }
-
-  header[role="banner"] {
-    position: fixed;
-    left: 180px;
-    right: 0;
-    top: 0;
-    padding: 10px 16px;
-    color: var(--fg);
-    background: linear-gradient(180deg, rgba(0,0,0,0.3), transparent);
-  }
-  header .title { margin: 0; }
-
   /* =======================
      ⚙️ Settings UI
      ======================= */
