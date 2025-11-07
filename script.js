@@ -108,7 +108,9 @@ window.addEventListener("DOMContentLoaded", () => {
 <!-- Keep your relative paths working -->
 <base href="https://binglover.github.io/">
 
-<link rel="stylesheet" href="style.css">
+<!-- DO NOT load full site stylesheet (prevents duplicate menus) -->
+<!-- <link rel="stylesheet" href="style.css"> -->
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
