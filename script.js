@@ -223,6 +223,126 @@ object, iframe {
   text-align: center;
   width: 260px;
 }
+/* =======================
+   THEME VARIABLES
+   ======================= */
+:root {
+  --bg: #111;
+  --fg: #ffffff;
+  --panel: #222;
+  --border: #333;
+  --accent: #ffcc00;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.sidebar { background: var(--panel); border-right: 2px solid var(--border); }
+.game-box { background: var(--panel); }
+aside.card { background: var(--panel); border: 1px solid var(--border); }
+
+/* Light theme overrides */
+body.light {
+  --bg: #f6f7fb;
+  --fg: #111111;
+  --panel: #ffffff;
+  --border: rgba(0,0,0,0.12);
+  --accent: #ffb300;
+}
+
+/* =======================
+   SETTINGS BUTTON & PANEL
+   ======================= */
+#settings-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.35rem;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  transition: transform .2s, box-shadow .2s;
+  z-index: 1000;
+}
+#settings-btn:hover { transform: scale(1.08); box-shadow: 0 14px 34px rgba(0,0,0,0.45); }
+
+#settings-panel {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center; justify-content: center;
+  z-index: 999;
+}
+#settings-panel .panel-inner {
+  background: var(--panel);
+  color: var(--fg);
+  padding: 22px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+}
+#settings-panel h3 { margin: 0 0 14px 0; }
+
+/* Toggle switch */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  cursor: pointer;
+  margin: 8px 0 16px;
+}
+.switch .switch-label { font-weight: 600; }
+
+.switch input {
+  appearance: none;
+  width: 0; height: 0;
+  position: absolute; opacity: 0;
+}
+.switch .slider {
+  position: relative;
+  width: 48px; height: 28px;
+  background: #666;
+  border-radius: 999px;
+  transition: background .2s ease;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+}
+.switch .slider::after {
+  content: "";
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.switch input:checked + .slider {
+  background: var(--accent);
+}
+.switch input:checked + .slider::after {
+  transform: translateX(20px);
+}
+
+.close-btn {
+  margin-top: 8px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
 
 </style>
 </head>
@@ -261,20 +381,66 @@ object, iframe {
       target.style.display = "block";
     });
   });
+  
+  // ⚙️ Settings open/close
+const settingsBtn = document.getElementById("settings-btn");
+const settingsPanel = document.getElementById("settings-panel");
+const closeSettings = document.getElementById("close-settings");
+const themeToggle = document.getElementById("theme-toggle");
+
+// Restore theme from localStorage
+(function initTheme(){
+  const saved = localStorage.getItem("pt_theme"); // "light" | "dark" | null
+  if (saved === "light") {
+    document.body.classList.add("light");
+    themeToggle.checked = true;
+  } else {
+    document.body.classList.remove("light");
+    themeToggle.checked = false;
+  }
+})();
+
+settingsBtn.addEventListener("click", () => {
+  settingsPanel.style.display = "flex";
+});
+closeSettings.addEventListener("click", () => {
+  settingsPanel.style.display = "none";
+});
+settingsPanel.addEventListener("click", (e) => {
+  if (e.target === settingsPanel) settingsPanel.style.display = "none";
+});
+
+// Toggle theme + persist
+themeToggle.addEventListener("change", () => {
+  if (themeToggle.checked) {
+    document.body.classList.add("light");
+    localStorage.setItem("pt_theme", "light");
+  } else {
+    document.body.classList.remove("light");
+    localStorage.setItem("pt_theme", "dark");
+  }
+});
+
 </script>
 
 <!-- ⚙️ Settings Button -->
-<button id="settings-btn">⚙️</button>
+<button id="settings-btn" aria-label="Open settings">⚙️</button>
 
-<!-- 🧩 Settings Panel -->
+<!-- ⚙️ Settings Panel -->
 <div id="settings-panel">
   <div class="panel-inner">
     <h3>Settings</h3>
-    <label><input type="checkbox" id="dark-mode"> Dark Mode</label><br>
-    <label><input type="checkbox" id="mute-sound"> Mute Sound</label><br>
-    <button id="close-settings">Close</button>
+
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider"></span>
+      <span class="switch-label">Light mode</span>
+    </label>
+
+    <button id="close-settings" class="close-btn">Close</button>
   </div>
 </div>
+
 
 </body>
 </html>
