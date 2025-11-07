@@ -309,31 +309,50 @@ object, iframe {
           lastNumber = null;
           return;
         }
-          if (value === "=") {
-          const input = display.value.trim().toLowerCase();
+         if (value === "=") {
+  const input = display.value.trim().toLowerCase();
 
-          // ✅ SECRET COMMAND TO OPEN about:blank popup automatically
-            if (input === "aboutblank") {
-              el("open-blank").click();  // <-- Pretends the user pressed the button
-           return;
-        }
+  // ✅ SECRET COMMAND: open about:blank
+  if (input === "aboutblank") {
+    el("open-blank").click();
+    return;
+  }
 
-          try {
-            if (lastOperator && lastNumber !== null) {
-              display.value = String(eval(display.value + lastOperator + lastNumber));
-            } else {
-              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
-              if (match) {
-                lastOperator = match[2];
-                lastNumber = match[3];
-              }
-              display.value = String(eval(display.value));
-            }
-          } catch {
-            display.value = "Error";
-          }
-          return;
-        }
+  // ✅ EMAIL TRIGGER — TYPE EMAIL TO OPEN ABOUT:BLANK
+  const allowedEmails = [
+    "bradon.sherman@tcu2905.us",   // <-- Replace these
+     "tyson.grant@tcu2905.us" 
+     "ashton.brainerd@tcu2905.us" 
+     "camden.burns@tcu2905.us" 
+     "dylan.carston@tcu2905.us" 
+     "lincoln.hudyma@tcu2905.us" 
+     "ethan.roisland@tcu2905.us" 
+     "owen.delander@tcu2905.us" 
+     "jared.aarre@tcu2905.us" 
+     "owen.wolbeck@tcu2905.us" 
+  ];
+
+  if (allowedEmails.includes(input)) {
+    el("open-blank").click();
+    return;
+  }
+
+  try {
+    if (lastOperator && lastNumber !== null) {
+      display.value = String(eval(display.value + lastOperator + lastNumber));
+    } else {
+      const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+      if (match) {
+        lastOperator = match[2];
+        lastNumber = match[3];
+      }
+      display.value = String(eval(display.value));
+    }
+  } catch {
+    display.value = "Error";
+  }
+  return;
+}
 
         if ("+-*/".includes(value)) {
           lastOperator = null;
