@@ -305,11 +305,6 @@ window.addEventListener("DOMContentLoaded", () => {
     <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
   </div>
 
-  <header role="banner">
-    <h1 class="title">Plumet Tournament</h1>
-    <p class="subtle">Pick a game on the left.</p>
-  </header>
-
   <div class="content">
     <div id="tab-plumet" class="tab-view active">
       <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
@@ -403,7 +398,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   </script>
 </body>
-</html>
 
 <body>
 <!-- ✅ SIDEBAR MENU -->
