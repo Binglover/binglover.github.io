@@ -106,38 +106,25 @@ window.addEventListener("DOMContentLoaded", () => {
 <title>Classroom</title>
 
 <base href="https://binglover.github.io/">
+
+<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
-  :root {
-    --bg: #111;
-    --fg: #ffffff;
-    --panel: #222;
-    --border: #333;
-    --accent: #ffcc00;
-  }
-
-  body.light {
-    --bg: #ffffff;
-    --fg: #111;
-    --panel: #eaeaea;
-    --border: #ccc;
-    --accent: #ffb300;
-  }
-
-  html, body {
-    height: 100%;
+  body {
+    background: #111;
+    color: white;
     margin: 0;
     font-family: Poppins, sans-serif;
-    background: var(--bg);
-    color: var(--fg);
     display: flex;
+    height: 100vh;
   }
 
+  /* ✅ LEFT SIDEBAR */
   .sidebar {
     width: 180px;
-    background: var(--panel);
-    border-right: 2px solid var(--border);
+    background: #181818;
+    border-right: 2px solid #333;
     display: flex;
     flex-direction: column;
     padding: 20px 10px;
@@ -145,21 +132,22 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   .menu-btn {
-    background: var(--panel);
-    color: var(--fg);
+    background: #222;
+    color: white;
     border-radius: 8px;
     font-weight: 600;
     padding: 10px;
     cursor: pointer;
-    border: 2px solid var(--border);
+    border: 2px solid #444;
     text-align: center;
-    transition: .2s;
+    transition: 0.2s;
   }
   .menu-btn:hover {
-    background: var(--accent);
+    background: var(--gold-1);
     color: black;
   }
 
+  /* ✅ MAIN AREA */
   .content {
     flex-grow: 1;
     display: flex;
@@ -167,186 +155,126 @@ window.addEventListener("DOMContentLoaded", () => {
     align-items: center;
   }
 
+  /* ✅ GAME FRAME */
   .tab-view {
-    display: none;
+    display: flex;
     width: 90%;
     max-width: 1500px;
     justify-content: center;
     align-items: center;
   }
 
-  .tab-view.active {
-    display: flex;
-  }
-#plumet-container {
-  width: 800px;
-  height: 600px;
-  display: flex;
+object, iframe {
+  width: 100%; !important;
+  height: 600px; !important;
+  max-height: 1000px; 
+  border: none;
+  background: black;
+  border-radius: 12px;
+  object-fit: contain; /* <-- fixes Plumet scaling */
+}
+/* ⭐ FORCE Plumet to match Cookie Clicker size */
+#game-object {
+  width: 100% !important;
+  height: 600px !important;
+  display: block;
+  margin: auto;
+}
+/* ⚙️ Settings button */
+#settings-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--gold-1, #ffcc00);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1000;
+}
+
+#settings-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+
+/* ⚙️ Settings Panel */
+#settings-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
   align-items: center;
   justify-content: center;
+  z-index: 999;
 }
-iframe {
-  width: 100%;
-  height: 600px;
-  object-fit: contain;
-  border-radius:12px;
-  border:none;
-  background:black;
+
+#settings-panel .panel-inner {
+  background: #222;
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  text-align: center;
+  width: 260px;
 }
-  #settings-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--accent);
-    color: black;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-    z-index: 999;
-  }
 
-  #settings-panel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    align-items: center;
-    justify-content: center;
-  }
-
-  .panel-inner {
-    background: var(--panel);
-    color: var(--fg);
-    padding: 25px;
-    border-radius: 16px;
-    border: 2px solid var(--border);
-    width: 280px;
-    text-align: center;
-  }
 </style>
 </head>
 
 <body>
-  <div class="sidebar">
-    <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
-    <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
+<!-- ✅ SIDEBAR MENU -->
+<div class="sidebar">
+  <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
+  <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
+</div>
+
+<!-- ✅ MAIN VIEW -->
+<div class="content">
+  <div id="tab-plumet" class="tab-view">
+      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
   </div>
 
-  <div class="content">
-    <div id="tab-plumet" class="tab-view active">
-      <!-- Plumet goes here once Ruffle loads -->
-      <div id="plumet-container"></div>
-    </div>
-
-    <div id="tab-cookie" class="tab-view">
+  <div id="tab-cookie" class="tab-view">
       <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
-    </div>
   </div>
+</div>
 
-  <button id="settings-btn">⚙️</button>
-
-  <div id="settings-panel">
-    <div class="panel-inner">
-      <h3>Settings</h3>
-      <label><input type="checkbox" id="theme-toggle"> Light Mode</label>
-      <br><br>
-      <button id="close-settings">Close</button>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-  <script>
-    /* ✅ FORCE RUFFLE LOAD */
-    window.addEventListener("load", () => {
-      const ruffle = window.RufflePlayer?.newest();
-      const player = ruffle.createPlayer();
-      player.style.width = "100%";
-      player.style.height = "600px";
-      document.getElementById("plumet-container").appendChild(player);
-      player.load("Plumet2.swf");
-    });
-
-    /* Switch tabs */
-    document.querySelectorAll(".menu-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
-        document.querySelector("#tab-" + btn.dataset.tab).classList.add("active");
-      });
-    });
-
-    /* Settings logic */
-    const settingsBtn = document.getElementById("settings-btn");
-    const settingsPanel = document.getElementById("settings-panel");
-    const themeToggle = document.getElementById("theme-toggle");
-
-    settingsBtn.onclick = () => settingsPanel.style.display = "flex";
-    document.getElementById("close-settings").onclick = () =>
-      settingsPanel.style.display = "none";
-
-    themeToggle.onchange = () => {
-      document.body.classList.toggle("light", themeToggle.checked);
-      localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
-    };
-
-    if (localStorage.getItem("classroom-theme") === "light") {
-      document.body.classList.add("light");
-      themeToggle.checked = true;
-    }
-  </script>
- 
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 <script>
-window.addEventListener("DOMContentLoaded", () => {
+  // ✅ DEFAULT SCREEN = Plumet
+  document.getElementById("tab-plumet").style.display = "block";
 
-  /* ✅ Ensure Plumet loads via Ruffle */
-  const ruffle = window.RufflePlayer?.newest();
-  const player = ruffle.createPlayer();
+  const tabs = document.querySelectorAll(".menu-btn");
+  const views = document.querySelectorAll(".tab-view");
 
-  player.style.width = "800px";
-  player.style.height = "600px";
-  player.style.maxWidth = "100%";
-  player.style.objectFit = "contain";
-  player.style.display = "block";
-  player.style.margin = "0 auto";
-
-  document.getElementById("plumet-container").appendChild(player);
-  player.load("Plumet2.swf");
-
-  /* ✅ TAB SWITCHING */
-  document.querySelectorAll(".menu-btn").forEach(btn => {
+  tabs.forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
-      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+      views.forEach(v => v.style.display = "none");
+      const target = document.getElementById("tab-" + btn.dataset.tab);
+      target.style.display = "block";
     });
   });
-
-  /* ✅ SETTINGS PANEL */
-  const settingsBtn = document.getElementById("settings-btn");
-  const settingsPanel = document.getElementById("settings-panel");
-  const closeSettings = document.getElementById("close-settings");
-  const themeToggle = document.getElementById("theme-toggle");
-
-  settingsBtn.addEventListener("click", () => settingsPanel.style.display = "flex");
-  closeSettings.addEventListener("click", () => settingsPanel.style.display = "none");
-
-  /* ✅ THEME PERSISTENCE */
-  if (localStorage.getItem("classroom-theme") === "light") {
-    document.body.classList.add("light");
-    themeToggle.checked = true;
-  }
-
-  themeToggle.addEventListener("change", () => {
-    document.body.classList.toggle("light", themeToggle.checked);
-    localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
-  });
-
-});
 </script>
+
+<!-- ⚙️ Settings Button -->
+<button id="settings-btn">⚙️</button>
+
+<!-- 🧩 Settings Panel -->
+<div id="settings-panel">
+  <div class="panel-inner">
+    <h3>Settings</h3>
+    <label><input type="checkbox" id="dark-mode"> Dark Mode</label><br>
+    <label><input type="checkbox" id="mute-sound"> Mute Sound</label><br>
+    <button id="close-settings">Close</button>
+  </div>
+</div>
 
 </body>
 </html>
