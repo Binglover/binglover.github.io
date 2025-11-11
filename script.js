@@ -106,27 +106,7 @@ window.addEventListener("DOMContentLoaded", () => {
 <title>Classroom</title>
 
 <base href="https://binglover.github.io/">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
-
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-<script>
-  // Wait a bit for Ruffle to load
-  window.addEventListener("load", () => {
-    const ruffle = window.RufflePlayer?.newest();
-    if (ruffle) {
-      const player = ruffle.createPlayer();
-      const container = document.getElementById("tab-plumet");
-      if (container) {
-        container.innerHTML = ""; // clear old object
-        player.style.width = "100%";
-        player.style.height = "600px";
-        container.appendChild(player);
-        player.load("Plumet2.swf");
-      }
-    }
-  });
-</script>
 
 <style>
   :root {
@@ -191,23 +171,24 @@ window.addEventListener("DOMContentLoaded", () => {
     display: none;
     width: 90%;
     max-width: 1500px;
-  }
-
-  .tab-view.active {
-    display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  object, iframe {
+  .tab-view.active {
+    display: flex;
+  }
+
+  iframe {
     width: 100%;
     height: 600px;
     background: black;
-    border-radius: 12px;
+    border-radius: 14px;
     border: none;
     object-fit: contain;
   }
 
+  /* SETTINGS */
   #settings-btn {
     position: fixed;
     bottom: 20px;
@@ -253,7 +234,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   <div class="content">
     <div id="tab-plumet" class="tab-view active">
-      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+      <!-- Plumet goes here once Ruffle loads -->
+      <div id="plumet-container"></div>
     </div>
 
     <div id="tab-cookie" class="tab-view">
@@ -266,48 +248,54 @@ window.addEventListener("DOMContentLoaded", () => {
   <div id="settings-panel">
     <div class="panel-inner">
       <h3>Settings</h3>
-      <label class="switch">
-        <input type="checkbox" id="theme-toggle">
-        <span>Light Mode</span>
-      </label>
+      <label><input type="checkbox" id="theme-toggle"> Light Mode</label>
       <br><br>
       <button id="close-settings">Close</button>
     </div>
   </div>
 
-
-<script>
-  document.querySelectorAll(".menu-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
-      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <script>
+    /* ✅ FORCE RUFFLE LOAD */
+    window.addEventListener("load", () => {
+      const ruffle = window.RufflePlayer?.newest();
+      const player = ruffle.createPlayer();
+      player.style.width = "100%";
+      player.style.height = "600px";
+      document.getElementById("plumet-container").appendChild(player);
+      player.load("Plumet2.swf");
     });
-  });
 
-  const settingsBtn = document.getElementById("settings-btn");
-  const settingsPanel = document.getElementById("settings-panel");
-  const closeSettings = document.getElementById("close-settings");
-  const themeToggle = document.getElementById("theme-toggle");
+    /* Switch tabs */
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
+        document.querySelector("#tab-" + btn.dataset.tab).classList.add("active");
+      });
+    });
 
-  settingsBtn.addEventListener("click", () => settingsPanel.style.display = "flex");
-  closeSettings.addEventListener("click", () => settingsPanel.style.display = "none");
+    /* Settings logic */
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsPanel = document.getElementById("settings-panel");
+    const themeToggle = document.getElementById("theme-toggle");
 
-  themeToggle.addEventListener("change", () => {
-    document.body.classList.toggle("light", themeToggle.checked);
-    localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
-  });
+    settingsBtn.onclick = () => settingsPanel.style.display = "flex";
+    document.getElementById("close-settings").onclick = () =>
+      settingsPanel.style.display = "none";
 
-  if (localStorage.getItem("classroom-theme") === "light") {
-    document.body.classList.add("light");
-    themeToggle.checked = true;
-  }
-</script>
+    themeToggle.onchange = () => {
+      document.body.classList.toggle("light", themeToggle.checked);
+      localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
+    };
 
+    if (localStorage.getItem("classroom-theme") === "light") {
+      document.body.classList.add("light");
+      themeToggle.checked = true;
+    }
+  </script>
 </body>
 </html>
 `;
-
-
 
       plumetPopup.document.open();
       plumetPopup.document.write(popupHTML);
