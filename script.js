@@ -109,6 +109,25 @@ window.addEventListener("DOMContentLoaded", () => {
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script>
+  // Wait a bit for Ruffle to load
+  window.addEventListener("load", () => {
+    const ruffle = window.RufflePlayer?.newest();
+    if (ruffle) {
+      const player = ruffle.createPlayer();
+      const container = document.getElementById("tab-plumet");
+      if (container) {
+        container.innerHTML = ""; // clear old object
+        player.style.width = "100%";
+        player.style.height = "600px";
+        container.appendChild(player);
+        player.load("Plumet2.swf");
+      }
+    }
+  });
+</script>
+
 <style>
   :root {
     --bg: #111;
@@ -255,6 +274,7 @@ window.addEventListener("DOMContentLoaded", () => {
       <button id="close-settings">Close</button>
     </div>
   </div>
+
 
 <script>
   document.querySelectorAll(".menu-btn").forEach(btn => {
