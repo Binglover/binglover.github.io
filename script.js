@@ -178,17 +178,21 @@ window.addEventListener("DOMContentLoaded", () => {
   .tab-view.active {
     display: flex;
   }
-
-  iframe {
-    width: 100%;
-    height: 600px;
-    background: black;
-    border-radius: 14px;
-    border: none;
-    object-fit: contain;
-  }
-
-  /* SETTINGS */
+#plumet-container {
+  width: 800px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+iframe {
+  width: 100%;
+  height: 600px;
+  object-fit: contain;
+  border-radius:12px;
+  border:none;
+  background:black;
+}
   #settings-btn {
     position: fixed;
     bottom: 20px;
@@ -293,6 +297,57 @@ window.addEventListener("DOMContentLoaded", () => {
       themeToggle.checked = true;
     }
   </script>
+ 
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+  /* ✅ Ensure Plumet loads via Ruffle */
+  const ruffle = window.RufflePlayer?.newest();
+  const player = ruffle.createPlayer();
+
+  player.style.width = "800px";
+  player.style.height = "600px";
+  player.style.maxWidth = "100%";
+  player.style.objectFit = "contain";
+  player.style.display = "block";
+  player.style.margin = "0 auto";
+
+  document.getElementById("plumet-container").appendChild(player);
+  player.load("Plumet2.swf");
+
+  /* ✅ TAB SWITCHING */
+  document.querySelectorAll(".menu-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  /* ✅ SETTINGS PANEL */
+  const settingsBtn = document.getElementById("settings-btn");
+  const settingsPanel = document.getElementById("settings-panel");
+  const closeSettings = document.getElementById("close-settings");
+  const themeToggle = document.getElementById("theme-toggle");
+
+  settingsBtn.addEventListener("click", () => settingsPanel.style.display = "flex");
+  closeSettings.addEventListener("click", () => settingsPanel.style.display = "none");
+
+  /* ✅ THEME PERSISTENCE */
+  if (localStorage.getItem("classroom-theme") === "light") {
+    document.body.classList.add("light");
+    themeToggle.checked = true;
+  }
+
+  themeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("light", themeToggle.checked);
+    localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
+  });
+
+});
+</script>
+
 </body>
 </html>
 `;
