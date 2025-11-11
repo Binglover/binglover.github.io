@@ -99,6 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       const popupHTML = `
+const popupHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,24 +108,38 @@ window.addEventListener("DOMContentLoaded", () => {
 
 <base href="https://binglover.github.io/">
 
-<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
-  body {
-    background: #111;
-    color: white;
-    margin: 0;
-    font-family: Poppins, sans-serif;
-    display: flex;
-    height: 100vh;
+  :root {
+    --bg: #111;
+    --fg: #ffffff;
+    --panel: #222;
+    --border: #333;
+    --accent: #ffcc00;
   }
 
-  /* ✅ LEFT SIDEBAR */
+  body.light {
+    --bg: #ffffff;
+    --fg: #111;
+    --panel: #eaeaea;
+    --border: #ccc;
+    --accent: #ffb300;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    display: flex;
+  }
+
   .sidebar {
     width: 180px;
-    background: #181818;
-    border-right: 2px solid #333;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
     display: flex;
     flex-direction: column;
     padding: 20px 10px;
@@ -132,22 +147,21 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   .menu-btn {
-    background: #222;
-    color: white;
+    background: var(--panel);
+    color: var(--fg);
     border-radius: 8px;
     font-weight: 600;
     padding: 10px;
     cursor: pointer;
-    border: 2px solid #444;
+    border: 2px solid var(--border);
     text-align: center;
-    transition: 0.2s;
+    transition: .2s;
   }
   .menu-btn:hover {
-    background: var(--gold-1);
+    background: var(--accent);
     color: black;
   }
 
-  /* ✅ MAIN AREA */
   .content {
     flex-grow: 1;
     display: flex;
@@ -155,130 +169,159 @@ window.addEventListener("DOMContentLoaded", () => {
     align-items: center;
   }
 
-  /* ✅ GAME FRAME */
   .tab-view {
-    display: flex;
+    display: none;
     width: 90%;
     max-width: 1500px;
+  }
+
+  .tab-view.active {
+    display: flex;
     justify-content: center;
     align-items: center;
   }
 
-object, iframe {
-  width: 100%; !important;
-  height: 600px; !important;
-  max-height: 1000px; 
-  border: none;
-  background: black;
-  border-radius: 12px;
-  object-fit: contain; /* <-- fixes Plumet scaling */
-}
-/* ⭐ FORCE Plumet to match Cookie Clicker size */
-#game-object {
-  width: 100% !important;
-  height: 600px !important;
-  display: block;
-  margin: auto;
-}
-/* ⚙️ Settings button */
-#settings-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--gold-1, #ffcc00);
-  color: #000;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 1000;
-}
+  object, iframe {
+    width: 100%;
+    height: 600px;
+    background: black;
+    border-radius: 12px;
+    border: none;
+    object-fit: contain;
+  }
 
-#settings-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255,255,255,0.2);
-}
+  /* ------------------ SETTINGS ------------------ */
+  #settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: black;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    z-index: 999;
+  }
 
-/* ⚙️ Settings Panel */
-#settings-panel {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
+  #settings-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+  }
 
-#settings-panel .panel-inner {
-  background: #222;
-  color: white;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  text-align: center;
-  width: 260px;
-}
+  .panel-inner {
+    background: var(--panel);
+    color: var(--fg);
+    padding: 25px;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    width: 280px;
+    text-align: center;
+  }
+
+  .switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
 
 </style>
 </head>
 
 <body>
-<!-- ✅ SIDEBAR MENU -->
-<div class="sidebar">
-  <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
-  <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
-</div>
+  <div class="sidebar">
+    <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
+    <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
+  </div>
 
-<!-- ✅ MAIN VIEW -->
-<div class="content">
-  <div id="tab-plumet" class="tab-view">
+  <div class="content">
+    <div id="tab-plumet" class="tab-view active">
       <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
-  </div>
+    </div>
 
-  <div id="tab-cookie" class="tab-view">
+    <div id="tab-cookie" class="tab-view">
       <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
+    </div>
   </div>
-</div>
 
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <!-- ⚙️ Settings Button -->
+  <button id="settings-btn">⚙️</button>
 
-<script>
-  // ✅ DEFAULT SCREEN = Plumet
-  document.getElementById("tab-plumet").style.display = "block";
+  <!-- ⚙️ Settings Panel -->
+  <div id="settings-panel">
+    <div class="panel-inner">
+      <h3>Settings</h3>
 
-  const tabs = document.querySelectorAll(".menu-btn");
-  const views = document.querySelectorAll(".tab-view");
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span>Light Mode</span>
+      </label>
 
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      views.forEach(v => v.style.display = "none");
-      const target = document.getElementById("tab-" + btn.dataset.tab);
-      target.style.display = "block";
+      <br><br>
+      <button id="close-settings">Close</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+  <script>
+    /* Switching game tabs */
+    const tabs = document.querySelectorAll(".menu-btn");
+    const views = document.querySelectorAll(".tab-view");
+
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        views.forEach(v => v.classList.remove("active"));
+        const target = document.getElementById("tab-" + btn.dataset.tab);
+        target.classList.add("active");
+      });
     });
-  });
-</script>
 
-<!-- ⚙️ Settings Button -->
-<button id="settings-btn">⚙️</button>
+    /* SETTINGS */
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsPanel = document.getElementById("settings-panel");
+    const closeSettings = document.getElementById("close-settings");
+    const themeToggle = document.getElementById("theme-toggle");
 
-<!-- 🧩 Settings Panel -->
-<div id="settings-panel">
-  <div class="panel-inner">
-    <h3>Settings</h3>
-    <label><input type="checkbox" id="dark-mode"> Dark Mode</label><br>
-    <label><input type="checkbox" id="mute-sound"> Mute Sound</label><br>
-    <button id="close-settings">Close</button>
-  </div>
-</div>
+    settingsBtn.addEventListener("click", () => {
+      settingsPanel.style.display = "flex";
+    });
+
+    closeSettings.addEventListener("click", () => {
+      settingsPanel.style.display = "none";
+    });
+
+    // dark / light toggle stored in localStorage
+    themeToggle.addEventListener("change", () => {
+      if (themeToggle.checked) {
+        document.body.classList.add("light");
+        localStorage.setItem("classroom-theme", "light");
+      } else {
+        document.body.classList.remove("light");
+        localStorage.setItem("classroom-theme", "dark");
+      }
+    });
+
+    // ✅ restore saved theme
+    if (localStorage.getItem("classroom-theme") === "light") {
+      document.body.classList.add("light");
+      themeToggle.checked = true;
+    }
+  </script>
 
 </body>
 </html>
-`;
+
 
       plumetPopup.document.open();
       plumetPopup.document.write(popupHTML);
