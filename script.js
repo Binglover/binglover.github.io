@@ -99,7 +99,6 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       const popupHTML = `
-const popupHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -190,7 +189,6 @@ const popupHTML = `
     object-fit: contain;
   }
 
-  /* ------------------ SETTINGS ------------------ */
   #settings-btn {
     position: fixed;
     bottom: 20px;
@@ -225,16 +223,6 @@ const popupHTML = `
     width: 280px;
     text-align: center;
   }
-
-  .switch {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    cursor: pointer;
-  }
-
 </style>
 </head>
 
@@ -254,73 +242,51 @@ const popupHTML = `
     </div>
   </div>
 
-  <!-- ⚙️ Settings Button -->
   <button id="settings-btn">⚙️</button>
 
-  <!-- ⚙️ Settings Panel -->
   <div id="settings-panel">
     <div class="panel-inner">
       <h3>Settings</h3>
-
       <label class="switch">
         <input type="checkbox" id="theme-toggle">
         <span>Light Mode</span>
       </label>
-
       <br><br>
       <button id="close-settings">Close</button>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-
-  <script>
-    /* Switching game tabs */
-    const tabs = document.querySelectorAll(".menu-btn");
-    const views = document.querySelectorAll(".tab-view");
-
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        views.forEach(v => v.classList.remove("active"));
-        const target = document.getElementById("tab-" + btn.dataset.tab);
-        target.classList.add("active");
-      });
+<script>
+  document.querySelectorAll(".menu-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-view").forEach(v => v.classList.remove("active"));
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
     });
+  });
 
-    /* SETTINGS */
-    const settingsBtn = document.getElementById("settings-btn");
-    const settingsPanel = document.getElementById("settings-panel");
-    const closeSettings = document.getElementById("close-settings");
-    const themeToggle = document.getElementById("theme-toggle");
+  const settingsBtn = document.getElementById("settings-btn");
+  const settingsPanel = document.getElementById("settings-panel");
+  const closeSettings = document.getElementById("close-settings");
+  const themeToggle = document.getElementById("theme-toggle");
 
-    settingsBtn.addEventListener("click", () => {
-      settingsPanel.style.display = "flex";
-    });
+  settingsBtn.addEventListener("click", () => settingsPanel.style.display = "flex");
+  closeSettings.addEventListener("click", () => settingsPanel.style.display = "none");
 
-    closeSettings.addEventListener("click", () => {
-      settingsPanel.style.display = "none";
-    });
+  themeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("light", themeToggle.checked);
+    localStorage.setItem("classroom-theme", themeToggle.checked ? "light" : "dark");
+  });
 
-    // dark / light toggle stored in localStorage
-    themeToggle.addEventListener("change", () => {
-      if (themeToggle.checked) {
-        document.body.classList.add("light");
-        localStorage.setItem("classroom-theme", "light");
-      } else {
-        document.body.classList.remove("light");
-        localStorage.setItem("classroom-theme", "dark");
-      }
-    });
-
-    // ✅ restore saved theme
-    if (localStorage.getItem("classroom-theme") === "light") {
-      document.body.classList.add("light");
-      themeToggle.checked = true;
-    }
-  </script>
+  if (localStorage.getItem("classroom-theme") === "light") {
+    document.body.classList.add("light");
+    themeToggle.checked = true;
+  }
+</script>
 
 </body>
 </html>
+`;
+
 
 
       plumetPopup.document.open();
