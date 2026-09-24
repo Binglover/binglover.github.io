@@ -247,8 +247,9 @@ iframe {
 <body>
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
-  <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
+  <div class="menu-btn" data-tab="plumet"<Plumet</div>
    <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
+   div class="menu-btn" data-tab="cookie"></div>
 </div>
 
 <!-- ✅ MAIN VIEW -->
