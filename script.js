@@ -148,31 +148,48 @@ function openGameInBlank() {
   }
 
   /* ✅ MAIN AREA */
-  .content {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.content {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
   /* ✅ GAME FRAME */
-  .tab-view {
-    display: flex;
-    width: 90%;
-    max-width: 1500px;
-    justify-content: center;
-    align-items: center;
-  }
+.tab-view {
+  width: 100%;
+  max-width: 1500px;
+  justify-content: center;
+  align-items: center;
+}
 
-object, iframe {
-  width: 100%; !important;
-  height: 600px; !important;
-  max-height: 1000px; 
+object,
+iframe {
+  width: 100% !important;
+  height: 600px !important;
+  max-height: 1000px;
   border: none;
   background: black;
   border-radius: 12px;
-  object-fit: contain; /* <-- fixes Plumet scaling */
 }
+
+.tab-view {
+  width: 90%;
+  max-width: 1500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-view iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 12px;
+  background: #000;
+}
+
 /* ⭐ FORCE Plumet to match Cookie Clicker size */
 #game-object {
   width: 100% !important;
@@ -231,18 +248,48 @@ object, iframe {
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
-  <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
 </div>
 
 <!-- ✅ MAIN VIEW -->
 <div class="content">
+
+  <!-- PLUMET -->
   <div id="tab-plumet" class="tab-view">
-      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+    <object
+      id="game-object"
+      data="Plumet2.swf"
+      type="application/x-shockwave-flash">
+    </object>
   </div>
 
-  <div id="tab-cookie" class="tab-view">
-      <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
+  <!-- SLOPE -->
+  <div id="tab-slope" class="tab-view">
+    <iframe
+      src="games/slope.html">
+    </iframe>
   </div>
+
+  <!-- RUN 3 -->
+  <div id="tab-run3" class="tab-view">
+    <iframe
+      src="games/run3.html">
+    </iframe>
+  </div>
+
+  <!-- FLAPPY BIRD -->
+  <div id="tab-flappybird" class="tab-view">
+    <iframe
+      src="games/flappybird.html">
+    </iframe>
+  </div>
+
+  <!-- TETRIS -->
+  <div id="tab-tetris" class="tab-view">
+    <iframe
+      src="games/tetris.html">
+    </iframe>
+  </div>
+
 </div>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
