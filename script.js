@@ -249,7 +249,7 @@ iframe {
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet"<Plumet</div>
    <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
-   div class="menu-btn" data-tab="cookie"></div>
+   div class="menu-btn" data-tab="baldi">Baldi's Basics</div>
 </div>
 
 <!-- ✅ MAIN VIEW -->
@@ -271,10 +271,10 @@ iframe {
     </iframe>
   </div>
 
-  <!-- RUN 3 -->
-  <div id="tab-run3" class="tab-view">
+  <!-- BALDI REMASTERED -->
+  <div id="tab-baldi" class="tab-view">
     <iframe
-      src="games/run3.html">
+      src="games/clbaldisbasicsremaster.html">
     </iframe>
   </div>
 
