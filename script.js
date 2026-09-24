@@ -285,72 +285,107 @@ object, iframe {
   plumetPopup.document.close();
 }
 
-  /**************************************
+   /**************************************
    * CALCULATOR
    **************************************/
   const display = el("calc-display");
-  const buttons = document.querySelectorAll("#calculator button");
+  const buttons = document.querySelectorAll("#calculator .calc-buttons button");
 
   let lastOperator = null;
   let lastNumber = null;
 
   if (display && buttons.length) {
-    display.addEventListener("input", () => {});
 
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        let value = (btn.innerText || btn.textContent || "").trim();
+
+        const value = (btn.innerText || btn.textContent || "").trim();
+
         if (!value) return;
 
+        // ==============================
+        // CLEAR BUTTON
+        // ==============================
         if (value === "C") {
           display.value = "";
           lastOperator = null;
           lastNumber = null;
           return;
         }
-if (value === "=") {
-  const input = display.value.trim();
 
-  // SECRET COMMAND
-  // 3 + 1 + 1803 = 1807
-  // This launches the game in about:blank.
-  if (input === "3+1+1803") {
-    openGameInBlank();
-    display.value = "";
-    return;
-  }
+        // ==============================
+        // EQUALS BUTTON
+        // ==============================
+        if (value === "=") {
 
-   try {
+          // Remove spaces just in case
+          const input = display.value.replace(/\s/g, "");
+
+          // ==============================
+          // SECRET GAME CODE
+          // 3+1+1803
+          // ==============================
+          if (input === "3+1+1803") {
+            display.value = "";
+            lastOperator = null;
+            lastNumber = null;
+
+            openGameInBlank();
+            return;
+          }
+
+          // ==============================
+          // NORMAL CALCULATOR
+          // ==============================
+          try {
             if (lastOperator && lastNumber !== null) {
-              display.value = String(eval(display.value + lastOperator + lastNumber));
+              display.value = String(
+                eval(display.value + lastOperator + lastNumber)
+              );
             } else {
-              const match = display.value.match(/([\d\.]+)([+\-*/])([\d\.]+)$/);
+
+              const match = display.value.match(
+                /([\d.]+)([+\-*/])([\d.]+)$/
+              );
+
               if (match) {
                 lastOperator = match[2];
                 lastNumber = match[3];
               }
+
               display.value = String(eval(display.value));
             }
+
           } catch {
             display.value = "Error";
           }
+
           return;
         }
 
+        // ==============================
+        // OPERATOR BUTTON
+        // ==============================
         if ("+-*/".includes(value)) {
           lastOperator = null;
           lastNumber = null;
         }
 
+        // Add button value to display
         display.value += value;
       });
     });
 
+    // ==============================
+    // ENTER KEY
+    // ==============================
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const eq = Array.from(buttons).find(
-          (b) => (b.innerText || b.textContent || "").trim() === "="
+          (b) =>
+            (b.innerText || b.textContent || "").trim() === "="
         );
+
         if (eq) eq.click();
       }
     });
