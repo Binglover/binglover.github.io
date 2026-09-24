@@ -248,6 +248,7 @@ iframe {
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
+   <div class="menu-btn" data-tab="cookie clicker">Cookie Clicker</div>
 </div>
 
 <!-- ✅ MAIN VIEW -->
@@ -263,7 +264,7 @@ iframe {
   </div>
 
   <!-- COOKIE CLICKER -->
-  <div id="tab-slope" class="tab-view">
+  <div id="tab-cookie clicker" class="tab-view">
     <iframe
       src="games/clcookieclicker.html">
     </iframe>
