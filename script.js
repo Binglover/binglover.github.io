@@ -230,20 +230,30 @@ object, iframe {
 <body>
 <!-- ✅ SIDEBAR MENU -->
 <div class="sidebar">
-  <div class="menu-btn" data-tab="plumet">🎮 Plumet</div>
-  <div class="menu-btn" data-tab="cookie">🍪 Cookie Clicker</div>
-</div>
 
-<!-- ✅ MAIN VIEW -->
-<div class="content">
-  <div id="tab-plumet" class="tab-view">
-      <object id="game-object" data="Plumet2.swf" type="application/x-shockwave-flash"></object>
+  <div class="menu-btn" data-tab="plumet">
+    🎮 Plumet
   </div>
 
-  <div id="tab-cookie" class="tab-view">
-      <iframe src="https://binglover.github.io/cookieclicker/index.html"></iframe>
+  <div class="menu-btn" data-tab="cookie">
+    🍪 Cookie Clicker
   </div>
-</div>
+
+  <div class="menu-btn" data-tab="slope">
+    🏂 Slope
+  </div>
+
+  <div class="menu-btn" data-tab="run3">
+    🚀 Run 3
+  </div>
+
+  <div class="menu-btn" data-tab="flappybird">
+    🐦 Flappy Bird
+  </div>
+
+  <div class="menu-btn" data-tab="tetris">
+    🧱 Tetris
+  </div>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
