@@ -270,10 +270,10 @@ iframe {
     </iframe>
   </div>
 
-  <!-- BALDI REMASTERED -->
-  <div id="tab-baldi" class="tab-view">
+  <!-- RUN 3 -->
+  <div id="tab-run3" class="tab-view">
     <iframe
-      src="games/clbaldisbasicsremaster.html">
+      src="games/run3.html">
     </iframe>
   </div>
 
