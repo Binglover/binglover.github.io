@@ -262,10 +262,10 @@ iframe {
     </object>
   </div>
 
-  <!-- SLOPE -->
+  <!-- COOKIE CLICKER -->
   <div id="tab-slope" class="tab-view">
     <iframe
-      src="games/slope.html">
+      src="games/clcookieclicker.html">
     </iframe>
   </div>
 
