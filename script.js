@@ -86,19 +86,19 @@ window.addEventListener("DOMContentLoaded", () => {
     obs.observe(document.body, { childList: true, subtree: true });
   }
 
-  /**************************************
-   * RUN IN ABOUT:BLANK — Plumet + Cookie Clicker + Leaderboard
-   **************************************/
-  const blankBtn = el("open-blank");
-  if (blankBtn) {
-    blankBtn.addEventListener("click", () => {
-      plumetPopup = window.open("about:blank", "_blank");
-      if (!plumetPopup) {
-        alert("Popup blocked — allow popups for this site.");
-        return;
-      }
+  /*******************************************************
+ * SECRET GAME LAUNCHER
+ * Code: 3+1+1803
+ *******************************************************/
+function openGameInBlank() {
+  plumetPopup = window.open("about:blank", "_blank");
 
-      const popupHTML = `
+  if (!plumetPopup) {
+    alert("Popup blocked — allow popups for this site.");
+    return;
+  }
+
+  const popupHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -280,11 +280,10 @@ object, iframe {
 </html>
 `;
 
-      plumetPopup.document.open();
-      plumetPopup.document.write(popupHTML);
-      plumetPopup.document.close();
-    });
-  }
+  plumetPopup.document.open();
+  plumetPopup.document.write(popupHTML);
+  plumetPopup.document.close();
+}
 
   /**************************************
    * CALCULATOR
@@ -309,16 +308,19 @@ object, iframe {
           lastNumber = null;
           return;
         }
-          if (value === "=") {
-          const input = display.value.trim().toLowerCase();
+if (value === "=") {
+  const input = display.value.trim();
 
-          // ✅ SECRET COMMAND TO OPEN about:blank popup automatically
-            if (input === "aboutblank") {
-              el("open-blank").click();  // <-- Pretends the user pressed the button
-           return;
-        }
+  // SECRET COMMAND
+  // 3 + 1 + 1803 = 1807
+  // This launches the game in about:blank.
+  if (input === "3+1+1803") {
+    openGameInBlank();
+    display.value = "";
+    return;
+  }
 
-          try {
+   try {
             if (lastOperator && lastNumber !== null) {
               display.value = String(eval(display.value + lastOperator + lastNumber));
             } else {
