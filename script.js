@@ -149,70 +149,292 @@ function openGamePage(popup) {
     padding: 20px;
   }
 
-  .tab-view {
-    width: 90%;
-    max-width: 1500px;
-    justify-content: center;
-    align-items: center;
-  }
+.tab-view {
+  width: 90%;
+  max-width: 1500px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
 
-  object,
-  iframe {
-    width: 100% !important;
-    height: 600px !important;
-    max-height: 1000px;
-    border: none;
-    background: black;
-    border-radius: 12px;
-  }
+object,
+iframe {
+  width: 100%;
+  height: 600px;
+  max-height: none;
+  border: none;
+  background: black;
+  border-radius: 12px;
+}
 
-  #game-object {
-    width: 100% !important;
-    height: 600px !important;
-    display: block;
-    margin: auto;
-  }
+#game-object {
+  width: 100%;
+  height: 600px;
+
+  /* =========================================
+     SETTINGS BUTTON
+     ========================================= */
 
   #settings-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: var(--gold-1, #ffcc00);
-    color: #000;
-    border: none;
+
+    width: 58px;
+    height: 58px;
+
+    background: #222;
+    color: white;
+
+    border: 2px solid #555;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
+
+    font-size: 25px;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    z-index: 1000;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,.5);
+
+    transition:
+      transform .2s ease,
+      background .2s ease,
+      border-color .2s ease;
+
+    z-index: 1001;
   }
 
   #settings-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+    transform: rotate(30deg) scale(1.08);
+    background: #333;
+    border-color: var(--gold-1, #ffcc00);
   }
+
+
+  /* =========================================
+     SETTINGS OVERLAY
+     ========================================= */
 
   #settings-panel {
     display: none;
+
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(5px);
+
     align-items: center;
     justify-content: center;
-    z-index: 999;
+
+    z-index: 1000;
   }
 
+  #settings-panel.open {
+    display: flex;
+  }
+
+
+  /* =========================================
+     SETTINGS WINDOW
+     ========================================= */
+
   #settings-panel .panel-inner {
-    background: #222;
+    width: min(420px, calc(100vw - 30px));
+
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
+
+    background: #181818;
     color: white;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
-    text-align: center;
-    width: 260px;
+
+    border: 1px solid #444;
+    border-radius: 18px;
+
+    padding: 26px;
+
+    box-shadow:
+      0 20px 60px rgba(0,0,0,.7),
+      0 0 0 1px rgba(255,255,255,.04);
+
+    text-align: left;
+
+    animation: settingsOpen .2s ease;
+  }
+
+  @keyframes settingsOpen {
+    from {
+      opacity: 0;
+      transform: scale(.92) translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+
+  /* =========================================
+     SETTINGS HEADER
+     ========================================= */
+
+  .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 22px;
+  }
+
+  .settings-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  #close-settings {
+    background: transparent;
+    color: #aaa;
+
+    border: none;
+
+    font-size: 24px;
+    cursor: pointer;
+
+    line-height: 1;
+  }
+
+  #close-settings:hover {
+    color: white;
+  }
+
+
+  /* =========================================
+     SETTINGS SECTIONS
+     ========================================= */
+
+  .settings-section {
+    background: #222;
+
+    border: 1px solid #333;
+    border-radius: 12px;
+
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+
+  .settings-section h3 {
+    margin: 0 0 12px;
+    font-size: .95rem;
+  }
+
+  .setting-description {
+    color: #999;
+    font-size: .8rem;
+    margin: -5px 0 15px;
+  }
+
+
+  /* =========================================
+     SIZE CONTROLS
+     ========================================= */
+
+  .setting-row {
+    margin-bottom: 18px;
+  }
+
+  .setting-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .setting-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    font-size: .85rem;
+  }
+
+  .setting-value {
+    color: var(--gold-1, #ffcc00);
+    font-weight: 600;
+  }
+
+  .setting-row input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+  }
+
+
+  /* =========================================
+     UPLOAD AREA
+     ========================================= */
+
+  #html-upload {
+    width: 100%;
+    padding: 10px;
+
+    background: #111;
+    color: white;
+
+    border: 1px dashed #555;
+    border-radius: 8px;
+
+    cursor: pointer;
+  }
+
+  #html-upload:hover {
+    border-color: var(--gold-1, #ffcc00);
+  }
+
+  .upload-help {
+    color: #888;
+    font-size: .75rem;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+
+
+  /* =========================================
+     RESET BUTTON
+     ========================================= */
+
+  #reset-settings {
+    width: 100%;
+
+    padding: 10px;
+
+    background: #333;
+    color: white;
+
+    border: 1px solid #555;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+  }
+
+  #reset-settings:hover {
+    background: #444;
+  }
+
+
+  /* =========================================
+     UPLOADED GAME TABS
+     ========================================= */
+
+  .uploaded-game {
+    position: relative;
+  }
+
+  .uploaded-game::before {
+    content: "USER GAME";
+
+    display: block;
+
+    font-size: .6rem;
+    color: #888;
+
+    margin-bottom: 8px;
   }
 </style>
 </head>
@@ -253,48 +475,557 @@ function openGamePage(popup) {
 </div>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-
 <script>
+
+  /* =========================================
+     TAB SYSTEM
+     ========================================= */
+
   const tabs = document.querySelectorAll(".menu-btn");
   const views = document.querySelectorAll(".tab-view");
 
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      views.forEach(v => v.style.display = "none");
+  function showTab(tabName) {
 
-      const target = document.getElementById(
-        "tab-" + btn.dataset.tab
+    views.forEach(view => {
+      view.style.display = "none";
+    });
+
+    const target = document.getElementById(
+      "tab-" + tabName
+    );
+
+    if (target) {
+      target.style.display = "block";
+    }
+  }
+
+
+  tabs.forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+      showTab(btn.dataset.tab);
+
+    });
+
+  });
+
+
+  /* =========================================
+     SETTINGS PANEL
+     ========================================= */
+
+  const settingsButton =
+    document.getElementById("settings-btn");
+
+  const settingsPanel =
+    document.getElementById("settings-panel");
+
+  const closeSettings =
+    document.getElementById("close-settings");
+
+
+  settingsButton.addEventListener("click", () => {
+
+    settingsPanel.classList.add("open");
+
+  });
+
+
+  closeSettings.addEventListener("click", () => {
+
+    settingsPanel.classList.remove("open");
+
+  });
+
+
+  /* Click outside the settings box to close it */
+
+  settingsPanel.addEventListener("click", (event) => {
+
+    if (event.target === settingsPanel) {
+
+      settingsPanel.classList.remove("open");
+
+    }
+
+  });
+
+
+  /* Press Escape to close */
+
+  document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+
+      settingsPanel.classList.remove("open");
+
+    }
+
+  });
+
+
+  /* =========================================
+     GAME SIZE SETTINGS
+     ========================================= */
+
+  const widthSlider =
+    document.getElementById("game-width");
+
+  const heightSlider =
+    document.getElementById("game-height");
+
+  const widthValue =
+    document.getElementById("width-value");
+
+  const heightValue =
+    document.getElementById("height-value");
+
+  const resetButton =
+    document.getElementById("reset-settings");
+
+
+  function applyGameSize() {
+
+    const width =
+      widthSlider.value;
+
+    const height =
+      heightSlider.value;
+
+
+    /* Update displayed numbers */
+
+    widthValue.textContent =
+      width + "%";
+
+    heightValue.textContent =
+      height + "px";
+
+
+    /* Resize every game container */
+
+    document.querySelectorAll(".tab-view").forEach(view => {
+
+      view.style.width = width + "%";
+
+    });
+
+
+    /* Resize every iframe */
+
+    document.querySelectorAll(".tab-view iframe").forEach(frame => {
+
+      frame.style.height = height + "px";
+
+    });
+
+
+    /* Resize the Plumet Flash/Ruffle container */
+
+    const gameObject =
+      document.getElementById("game-object");
+
+    if (gameObject) {
+
+      gameObject.style.height =
+        height + "px";
+
+    }
+
+
+    /* Save settings */
+
+    localStorage.setItem(
+      "classroomGameWidth",
+      width
+    );
+
+    localStorage.setItem(
+      "classroomGameHeight",
+      height
+    );
+
+  }
+
+
+  /* Change size live while dragging */
+
+  widthSlider.addEventListener(
+    "input",
+    applyGameSize
+  );
+
+  heightSlider.addEventListener(
+    "input",
+    applyGameSize
+  );
+
+
+  /* =========================================
+     LOAD SAVED SIZE
+     ========================================= */
+
+  const savedWidth =
+    localStorage.getItem(
+      "classroomGameWidth"
+    );
+
+  const savedHeight =
+    localStorage.getItem(
+      "classroomGameHeight"
+    );
+
+
+  if (savedWidth) {
+
+    widthSlider.value =
+      savedWidth;
+
+  }
+
+
+  if (savedHeight) {
+
+    heightSlider.value =
+      savedHeight;
+
+  }
+
+
+  applyGameSize();
+
+
+  /* =========================================
+     RESET SIZE
+     ========================================= */
+
+  resetButton.addEventListener("click", () => {
+
+    widthSlider.value = 90;
+
+    heightSlider.value = 600;
+
+    applyGameSize();
+
+  });
+
+
+  /* =========================================
+     HTML GAME UPLOADER
+     ========================================= */
+
+  const htmlUpload =
+    document.getElementById("html-upload");
+
+
+  htmlUpload.addEventListener("change", (event) => {
+
+    const file =
+      event.target.files[0];
+
+
+    if (!file) {
+      return;
+    }
+
+
+    /* Only allow HTML files */
+
+    const fileName =
+      file.name.toLowerCase();
+
+    if (
+      !fileName.endsWith(".html") &&
+      !fileName.endsWith(".htm")
+    ) {
+
+      alert("Please select an HTML file.");
+
+      htmlUpload.value = "";
+
+      return;
+
+    }
+
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload = () => {
+
+      const html =
+        reader.result;
+
+
+      /* Create a unique ID */
+
+      const gameId =
+        "uploaded-" +
+        Date.now();
+
+
+      /* Create sidebar button */
+
+      const button =
+        document.createElement("div");
+
+      button.className =
+        "menu-btn uploaded-game-button";
+
+      button.dataset.tab =
+        gameId;
+
+      button.textContent =
+        "📄 " + file.name;
+
+
+      /* Add button to sidebar */
+
+      document.querySelector(".sidebar")
+        .appendChild(button);
+
+
+      /* Create game container */
+
+      const gameView =
+        document.createElement("div");
+
+      gameView.id =
+        "tab-" + gameId;
+
+      gameView.className =
+        "tab-view uploaded-game";
+
+
+      gameView.style.display =
+        "none";
+
+
+      gameView.style.width =
+        widthSlider.value + "%";
+
+
+      /* Create iframe */
+
+      const iframe =
+        document.createElement("iframe");
+
+
+      iframe.style.width =
+        "100%";
+
+      iframe.style.height =
+        heightSlider.value + "px";
+
+      iframe.style.border =
+        "none";
+
+      iframe.style.background =
+        "#000";
+
+      iframe.style.borderRadius =
+        "12px";
+
+
+      /*
+       * Put the uploaded HTML directly
+       * into the iframe.
+       */
+
+      iframe.srcdoc =
+        html;
+
+
+      gameView.appendChild(
+        iframe
       );
 
-      if (target) {
-        target.style.display = "block";
-      }
-    });
-  });
-</script>
 
+      document.querySelector(".content")
+        .appendChild(gameView);
+
+
+      /* Make the new button work */
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          showTab(gameId);
+
+        }
+      );
+
+
+      /* Open the newly uploaded game */
+
+      showTab(gameId);
+
+
+      /* Close settings */
+
+      settingsPanel.classList.remove(
+        "open"
+      );
+
+
+      /* Tell the user it worked */
+
+      console.log(
+        "Loaded user game:",
+        file.name
+      );
+
+    };
+
+
+    reader.onerror = () => {
+
+      alert(
+        "Could not read that HTML file."
+      );
+
+    };
+
+
+    reader.readAsText(file);
+
+  });
+
+</script>
 <button id="settings-btn">⚙️</button>
 
+<!-- =========================================
+     SETTINGS BUTTON
+     ========================================= -->
+
+<button id="settings-btn" aria-label="Open settings">
+  ⚙️
+</button>
+
+
+<!-- =========================================
+     SETTINGS PANEL
+     ========================================= -->
+
 <div id="settings-panel">
+
   <div class="panel-inner">
-    <h3>Settings</h3>
 
-    <label>
-      <input type="checkbox" id="dark-mode">
-      Dark Mode
-    </label>
+    <div class="settings-header">
 
-    <br>
+      <h2>⚙️ Classroom Settings</h2>
 
-    <label>
-      <input type="checkbox" id="mute-sound">
-      Mute Sound
-    </label>
+      <button id="close-settings" aria-label="Close settings">
+        ×
+      </button>
 
-    <br>
+    </div>
 
-    <button id="close-settings">Close</button>
+
+    <!-- GAME SIZE -->
+
+    <div class="settings-section">
+
+      <h3>🎮 Game Size</h3>
+
+      <p class="setting-description">
+        Adjust the game container for larger or smaller screens.
+      </p>
+
+
+      <div class="setting-row">
+
+        <div class="setting-label">
+          <span>Width</span>
+
+          <span
+            id="width-value"
+            class="setting-value">
+            90%
+          </span>
+        </div>
+
+        <input
+          type="range"
+          id="game-width"
+          min="50"
+          max="100"
+          value="90"
+          step="1"
+        />
+
+      </div>
+
+
+      <div class="setting-row">
+
+        <div class="setting-label">
+          <span>Height</span>
+
+          <span
+            id="height-value"
+            class="setting-value">
+            600px
+          </span>
+        </div>
+
+        <input
+          type="range"
+          id="game-height"
+          min="300"
+          max="1200"
+          value="600"
+          step="10"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- UPLOAD GAME -->
+
+    <div class="settings-section">
+
+      <h3>📁 Add Your Own Game</h3>
+
+      <p class="setting-description">
+        Upload an HTML game and it will appear as a new tab.
+      </p>
+
+      <input
+        type="file"
+        id="html-upload"
+        accept=".html,.htm,text/html"
+      />
+
+      <p class="upload-help">
+        Your HTML file should be self-contained or use online
+        resources. Local images, JavaScript files, and other
+        files next to the HTML file may not work because of
+        browser security restrictions.
+      </p>
+
+    </div>
+
+
+    <!-- RESET -->
+
+    <div class="settings-section">
+
+      <h3>🔄 Reset</h3>
+
+      <button id="reset-settings">
+        Reset Game Size
+      </button>
+
+    </div>
+
   </div>
+
 </div>
 
 </body>
