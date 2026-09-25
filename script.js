@@ -218,9 +218,13 @@ body {
 
 .tab-view {
   flex: 0 0 auto;
+
   width: 90%;
   max-width: none;
+
   margin: 0 auto;
+
+  display: none;
 }
 
 /*
@@ -228,6 +232,10 @@ body {
  * This prevents multiple user games from
  * remaining visible at the same time.
  */
+
+.tab-view.active {
+  display: block;
+}
 
 /* =====================================================
    GAME EMBEDS
@@ -903,68 +911,108 @@ body {
   /* =====================================================
      SHOW TAB
      ===================================================== */
-function showTab(tabName) {
 
-  // Hide EVERY game, including uploaded games
-  const allViews = document.querySelectorAll(".tab-view");
+  function showTab(tabName) {
 
-  allViews.forEach(function (view) {
-    view.style.display = "none";
-    view.classList.remove("active");
-  });
+    activeTab = tabName;
 
 
-  // Remove active state from every sidebar button
-  const allButtons = document.querySelectorAll(".menu-btn");
+    /*
+     * Hide EVERY game first.
+     */
 
-  allButtons.forEach(function (button) {
-    button.classList.remove("active");
-  });
+    document
+      .querySelectorAll(".tab-view")
+      .forEach(function (view) {
+
+        view.classList.remove("active");
+
+        view.style.display = "none";
+
+      });
 
 
-  // Find the game we actually want to show
-  const target = document.getElementById("tab-" + tabName);
+    /*
+     * Remove active appearance
+     * from every sidebar button.
+     */
 
-  if (!target) {
-    console.warn("Game tab not found:", tabName);
-    return;
+    document
+      .querySelectorAll(".menu-btn")
+      .forEach(function (button) {
+
+        button.classList.remove("active");
+
+      });
+
+
+    /*
+     * Find the requested game.
+     */
+
+    const target =
+      document.getElementById(
+        "tab-" + tabName
+      );
+
+
+    /*
+     * If the game exists,
+     * show ONLY that game.
+     */
+
+    if (target) {
+
+      target.classList.add("active");
+
+      target.style.display = "block";
+
+    }
+
+
+    /*
+     * Highlight its sidebar button.
+     */
+
+    const button =
+      document.querySelector(
+        '.menu-btn[data-tab="' +
+        CSS.escape(tabName) +
+        '"]'
+      );
+
+
+    if (button) {
+
+      button.classList.add("active");
+
+    }
+
   }
-
-
-  // Show ONLY this game
-  target.style.display = "block";
-  target.classList.add("active");
-
-
-  // Highlight the matching sidebar button
-  const button = document.querySelector(
-    '.menu-btn[data-tab="' + CSS.escape(tabName) + '"]'
-  );
-
-  if (button) {
-    button.classList.add("active");
-  }
-
-}
 
 
   /* =====================================================
      SIDEBAR BUTTONS
      ===================================================== */
 
-function connectTabButton(button) {
+  function connectTabButton(button) {
 
-  if (!button) return;
+    if (!button) return;
 
-  button.addEventListener("click", function () {
 
-    const tabName = button.dataset.tab;
+    button.addEventListener(
+      "click",
+      function () {
 
-    showTab(tabName);
+        showTab(
+          button.dataset.tab
+        );
 
-  });
+      }
+    );
 
-}
+  }
+
 
   /*
    * Connect all existing buttons.
