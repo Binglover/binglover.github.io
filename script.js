@@ -114,21 +114,14 @@ function openGamePage(popup) {
   rel="stylesheet"
 >
 
-<style>
-
-/* =====================================================
-   CLASSROOM PAGE
-   ===================================================== */
-
 :root {
   --gold-1: #ffcc00;
   --gold-2: #ffd700;
 }
 
-
-/* =====================================================
-   BODY
-   ===================================================== */
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -138,65 +131,46 @@ body {
 }
 
 body {
-
   background: #111;
-
   color: white;
-
   font-family: Poppins, sans-serif;
-
   display: flex;
-
   overflow: hidden;
 }
-
 
 /* =====================================================
    SIDEBAR
    ===================================================== */
 
 .sidebar {
-
   width: 180px;
-
   min-width: 180px;
-
   height: 100vh;
-
   background: #181818;
-
   border-right: 2px solid #333;
 
   display: flex;
-
   flex-direction: column;
 
   padding: 20px 10px;
-
   gap: 14px;
-
-  box-sizing: border-box;
 
   overflow-y: auto;
 }
 
-
 .menu-btn {
+  flex: 0 0 auto;
 
   background: #222;
-
   color: white;
 
   border-radius: 8px;
+  border: 2px solid #444;
 
   font-weight: 600;
-
   padding: 11px 8px;
 
   cursor: pointer;
-
-  border: 2px solid #444;
-
   text-align: center;
 
   transition:
@@ -208,78 +182,74 @@ body {
   word-break: break-word;
 }
 
-
 .menu-btn:hover {
-
   background: var(--gold-1);
-
   color: black;
-
   border-color: var(--gold-1);
-
 }
-
 
 .menu-btn:active {
-
   transform: scale(.97);
-
 }
 
-
 /* =====================================================
-   MAIN CONTENT
+   CONTENT
    ===================================================== */
 
 .content {
-
   flex: 1;
-
   min-width: 0;
+  min-height: 0;
 
   height: 100vh;
 
   display: flex;
-
   justify-content: center;
-
-  align-items: center;
+  align-items: flex-start;
 
   padding: 20px;
 
-  box-sizing: border-box;
-
   overflow: auto;
 }
-
 
 /* =====================================================
    GAME CONTAINERS
    ===================================================== */
 
 .tab-view {
+  flex: 0 0 auto;
 
   width: 90%;
-
-  max-width: 1500px;
+  max-width: none;
 
   margin: 0 auto;
 
-  display: block;
-
+  display: none;
 }
 
+/*
+ * Only the active game is displayed.
+ * This prevents multiple user games from
+ * remaining visible at the same time.
+ */
+
+.tab-view.active {
+  display: block;
+}
+
+/* =====================================================
+   GAME EMBEDS
+   ===================================================== */
 
 .tab-view iframe,
 .tab-view object {
-
   display: block;
 
   width: 100%;
-
   height: 600px;
 
   border: none;
+  outline: none;
 
   background: #000;
 
@@ -288,42 +258,36 @@ body {
   box-sizing: border-box;
 }
 
-
-/* Plumet */
+/* =====================================================
+   PLUMET
+   ===================================================== */
 
 #game-object {
-
   width: 100%;
-
   height: 600px;
 
   display: block;
 
+  margin: 0;
 }
-
 
 /* =====================================================
    SETTINGS BUTTON
    ===================================================== */
 
 #settings-btn {
-
   position: fixed;
 
   bottom: 20px;
-
   right: 20px;
 
   width: 58px;
-
   height: 58px;
 
   background: #222;
-
   color: white;
 
   border: 2px solid #555;
-
   border-radius: 50%;
 
   font-size: 25px;
@@ -340,9 +304,7 @@ body {
   z-index: 1001;
 }
 
-
 #settings-btn:hover {
-
   transform: rotate(30deg) scale(1.08);
 
   background: #333;
@@ -350,13 +312,11 @@ body {
   border-color: var(--gold-1);
 }
 
-
 /* =====================================================
    SETTINGS OVERLAY
    ===================================================== */
 
 #settings-panel {
-
   position: fixed;
 
   inset: 0;
@@ -364,7 +324,6 @@ body {
   display: none;
 
   align-items: center;
-
   justify-content: center;
 
   background: rgba(0,0,0,.72);
@@ -374,24 +333,17 @@ body {
   z-index: 1000;
 
   padding: 15px;
-
-  box-sizing: border-box;
 }
-
 
 #settings-panel.open {
-
   display: flex;
-
 }
-
 
 /* =====================================================
    SETTINGS WINDOW
    ===================================================== */
 
 #settings-panel .panel-inner {
-
   width: min(430px, calc(100vw - 30px));
 
   max-height: calc(100vh - 30px);
@@ -399,11 +351,9 @@ body {
   overflow-y: auto;
 
   background: #181818;
-
   color: white;
 
   border: 1px solid #444;
-
   border-radius: 18px;
 
   padding: 26px;
@@ -414,64 +364,40 @@ body {
 
   text-align: left;
 
-  box-sizing: border-box;
-
   animation: settingsOpen .2s ease;
 }
 
-
 @keyframes settingsOpen {
-
   from {
-
     opacity: 0;
-
-    transform:
-      scale(.92)
-      translateY(10px);
-
+    transform: scale(.92) translateY(10px);
   }
 
   to {
-
     opacity: 1;
-
-    transform:
-      scale(1)
-      translateY(0);
-
+    transform: scale(1) translateY(0);
   }
-
 }
-
 
 /* =====================================================
    SETTINGS HEADER
    ===================================================== */
 
 .settings-header {
-
   display: flex;
 
   justify-content: space-between;
-
   align-items: center;
 
   margin-bottom: 22px;
 }
 
-
 .settings-header h2 {
-
   margin: 0;
-
   font-size: 1.3rem;
-
 }
 
-
 #close-settings {
-
   background: transparent;
 
   color: #aaa;
@@ -487,44 +413,32 @@ body {
   padding: 2px 6px;
 }
 
-
 #close-settings:hover {
-
   color: white;
-
 }
-
 
 /* =====================================================
    SETTINGS SECTIONS
    ===================================================== */
 
 .settings-section {
-
   background: #222;
 
   border: 1px solid #333;
-
   border-radius: 12px;
 
   padding: 16px;
 
   margin-bottom: 14px;
-
 }
 
-
 .settings-section h3 {
-
   margin: 0 0 12px;
 
   font-size: .95rem;
-
 }
 
-
 .setting-description {
-
   color: #999;
 
   font-size: .8rem;
@@ -532,30 +446,21 @@ body {
   line-height: 1.5;
 
   margin: -5px 0 15px;
-
 }
-
 
 /* =====================================================
    SLIDERS
    ===================================================== */
 
 .setting-row {
-
   margin-bottom: 18px;
-
 }
-
 
 .setting-row:last-child {
-
   margin-bottom: 0;
-
 }
 
-
 .setting-label {
-
   display: flex;
 
   justify-content: space-between;
@@ -563,42 +468,32 @@ body {
   margin-bottom: 8px;
 
   font-size: .85rem;
-
 }
 
-
 .setting-value {
-
   color: var(--gold-1);
 
   font-weight: 600;
-
 }
 
-
 .setting-row input[type="range"] {
-
   display: block;
 
   width: 100%;
 
   cursor: pointer;
-
 }
-
 
 /* =====================================================
    HTML UPLOAD
    ===================================================== */
 
 #html-upload {
-
   width: 100%;
 
   padding: 10px;
 
   background: #111;
-
   color: white;
 
   border: 1px dashed #555;
@@ -606,20 +501,13 @@ body {
   border-radius: 8px;
 
   cursor: pointer;
-
-  box-sizing: border-box;
 }
-
 
 #html-upload:hover {
-
   border-color: var(--gold-1);
-
 }
 
-
 .upload-help {
-
   color: #888;
 
   font-size: .75rem;
@@ -627,22 +515,18 @@ body {
   line-height: 1.5;
 
   margin-top: 10px;
-
 }
 
-
 /* =====================================================
-   RESET BUTTON
+   RESET
    ===================================================== */
 
 #reset-settings {
-
   width: 100%;
 
   padding: 10px;
 
   background: #333;
-
   color: white;
 
   border: 1px solid #555;
@@ -654,20 +538,19 @@ body {
   font-weight: 600;
 }
 
-
 #reset-settings:hover {
-
   background: #444;
-
 }
 
-
 /* =====================================================
-   USER GAME LABEL
+   USER GAME
    ===================================================== */
 
-.uploaded-game::before {
+.uploaded-game {
+  position: relative;
+}
 
+.uploaded-game::before {
   content: "USER GAME";
 
   display: block;
@@ -677,11 +560,8 @@ body {
   color: #888;
 
   margin-bottom: 8px;
-
 }
-
-</style>
-
+</style> 
 </head>
 
 
@@ -983,26 +863,92 @@ body {
 
   "use strict";
 
-
   /* =====================================================
-     TAB SYSTEM
+     ELEMENTS
      ===================================================== */
 
-  const tabs =
-    document.querySelectorAll(".menu-btn");
+  const sidebar =
+    document.querySelector(".sidebar");
 
-  const views =
-    document.querySelectorAll(".tab-view");
+  const content =
+    document.querySelector(".content");
 
+  const settingsButton =
+    document.getElementById("settings-btn");
+
+  const settingsPanel =
+    document.getElementById("settings-panel");
+
+  const closeSettings =
+    document.getElementById("close-settings");
+
+  const widthSlider =
+    document.getElementById("game-width");
+
+  const heightSlider =
+    document.getElementById("game-height");
+
+  const widthValue =
+    document.getElementById("width-value");
+
+  const heightValue =
+    document.getElementById("height-value");
+
+  const resetButton =
+    document.getElementById("reset-settings");
+
+  const htmlUpload =
+    document.getElementById("html-upload");
+
+
+  /* =====================================================
+     ACTIVE TAB
+     ===================================================== */
+
+  let activeTab = "plumet";
+
+
+  /* =====================================================
+     SHOW TAB
+     ===================================================== */
 
   function showTab(tabName) {
 
-    views.forEach(function (view) {
+    activeTab = tabName;
 
-      view.style.display = "none";
 
-    });
+    /*
+     * Hide EVERY game first.
+     */
 
+    document
+      .querySelectorAll(".tab-view")
+      .forEach(function (view) {
+
+        view.classList.remove("active");
+
+        view.style.display = "none";
+
+      });
+
+
+    /*
+     * Remove active appearance
+     * from every sidebar button.
+     */
+
+    document
+      .querySelectorAll(".menu-btn")
+      .forEach(function (button) {
+
+        button.classList.remove("active");
+
+      });
+
+
+    /*
+     * Find the requested game.
+     */
 
     const target =
       document.getElementById(
@@ -1010,16 +956,49 @@ body {
       );
 
 
+    /*
+     * If the game exists,
+     * show ONLY that game.
+     */
+
     if (target) {
 
+      target.classList.add("active");
+
       target.style.display = "block";
+
+    }
+
+
+    /*
+     * Highlight its sidebar button.
+     */
+
+    const button =
+      document.querySelector(
+        '.menu-btn[data-tab="' +
+        CSS.escape(tabName) +
+        '"]'
+      );
+
+
+    if (button) {
+
+      button.classList.add("active");
 
     }
 
   }
 
 
-  tabs.forEach(function (button) {
+  /* =====================================================
+     SIDEBAR BUTTONS
+     ===================================================== */
+
+  function connectTabButton(button) {
+
+    if (!button) return;
+
 
     button.addEventListener(
       "click",
@@ -1032,132 +1011,61 @@ body {
       }
     );
 
-  });
+  }
+
+
+  /*
+   * Connect all existing buttons.
+   */
+
+  document
+    .querySelectorAll(".menu-btn")
+    .forEach(connectTabButton);
 
 
   /* =====================================================
-     SETTINGS ELEMENTS
+     SETTINGS
      ===================================================== */
 
-  const settingsButton =
-    document.getElementById(
-      "settings-btn"
-    );
+  function openSettings() {
 
-  const settingsPanel =
-    document.getElementById(
-      "settings-panel"
-    );
-
-  const closeSettings =
-    document.getElementById(
-      "close-settings"
-    );
-
-  const widthSlider =
-    document.getElementById(
-      "game-width"
-    );
-
-  const heightSlider =
-    document.getElementById(
-      "game-height"
-    );
-
-  const widthValue =
-    document.getElementById(
-      "width-value"
-    );
-
-  const heightValue =
-    document.getElementById(
-      "height-value"
-    );
-
-  const resetButton =
-    document.getElementById(
-      "reset-settings"
-    );
-
-  const htmlUpload =
-    document.getElementById(
-      "html-upload"
-    );
-
-
-  /* =====================================================
-     SAFETY CHECK
-     ===================================================== */
-
-  if (
-    !settingsButton ||
-    !settingsPanel ||
-    !closeSettings ||
-    !widthSlider ||
-    !heightSlider ||
-    !widthValue ||
-    !heightValue ||
-    !resetButton ||
-    !htmlUpload
-  ) {
-
-    console.error(
-      "Classroom Settings: required elements are missing."
-    );
-
-    return;
+    settingsPanel.classList.add("open");
 
   }
 
 
-  /* =====================================================
-     OPEN SETTINGS
-     ===================================================== */
+  function closeSettingsPanel() {
+
+    settingsPanel.classList.remove("open");
+
+  }
+
 
   settingsButton.addEventListener(
     "click",
-    function () {
-
-      settingsPanel.classList.add(
-        "open"
-      );
-
-    }
+    openSettings
   );
 
-
-  /* =====================================================
-     CLOSE SETTINGS
-     ===================================================== */
 
   closeSettings.addEventListener(
     "click",
-    function () {
-
-      settingsPanel.classList.remove(
-        "open"
-      );
-
-    }
+    closeSettingsPanel
   );
 
 
-  /* =====================================================
-     CLICK OUTSIDE TO CLOSE
-     ===================================================== */
+  /*
+   * Clicking the dark area closes settings.
+   */
 
   settingsPanel.addEventListener(
     "click",
     function (event) {
 
       if (
-        event.target ===
-        settingsPanel
+        event.target === settingsPanel
       ) {
 
-        settingsPanel.classList.remove(
-          "open"
-        );
+        closeSettingsPanel();
 
       }
 
@@ -1165,9 +1073,9 @@ body {
   );
 
 
-  /* =====================================================
-     ESCAPE TO CLOSE
-     ===================================================== */
+  /*
+   * Escape closes settings.
+   */
 
   document.addEventListener(
     "keydown",
@@ -1177,9 +1085,7 @@ body {
         event.key === "Escape"
       ) {
 
-        settingsPanel.classList.remove(
-          "open"
-        );
+        closeSettingsPanel();
 
       }
 
@@ -1188,7 +1094,7 @@ body {
 
 
   /* =====================================================
-     APPLY GAME SIZE
+     GAME SIZE
      ===================================================== */
 
   function applyGameSize() {
@@ -1200,16 +1106,21 @@ body {
       Number(heightSlider.value);
 
 
+    /*
+     * Update labels.
+     */
+
     widthValue.textContent =
       width + "%";
-
 
     heightValue.textContent =
       height + "px";
 
 
     /*
-     * Resize all game containers.
+     * Resize EVERY game view.
+     *
+     * This includes games uploaded later.
      */
 
     document
@@ -1223,17 +1134,18 @@ body {
 
 
     /*
-     * Resize all iframes.
+     * Resize EVERY iframe.
+     *
+     * This includes uploaded games.
      */
 
     document
       .querySelectorAll(".tab-view iframe")
-      .forEach(function (frame) {
+      .forEach(function (iframe) {
 
-        frame.style.width =
-          "100%";
+        iframe.style.width = "100%";
 
-        frame.style.height =
+        iframe.style.height =
           height + "px";
 
       });
@@ -1251,8 +1163,7 @@ body {
 
     if (gameObject) {
 
-      gameObject.style.width =
-        "100%";
+      gameObject.style.width = "100%";
 
       gameObject.style.height =
         height + "px";
@@ -1261,7 +1172,7 @@ body {
 
 
     /*
-     * Save the settings.
+     * Save settings.
      */
 
     localStorage.setItem(
@@ -1277,19 +1188,11 @@ body {
   }
 
 
-  /* =====================================================
-     WIDTH SLIDER
-     ===================================================== */
-
   widthSlider.addEventListener(
     "input",
     applyGameSize
   );
 
-
-  /* =====================================================
-     HEIGHT SLIDER
-     ===================================================== */
 
   heightSlider.addEventListener(
     "input",
@@ -1314,17 +1217,17 @@ body {
 
   if (savedWidth !== null) {
 
-    const numericWidth =
+    const width =
       Number(savedWidth);
 
-
     if (
-      numericWidth >= 50 &&
-      numericWidth <= 100
+      Number.isFinite(width) &&
+      width >= 50 &&
+      width <= 100
     ) {
 
       widthSlider.value =
-        numericWidth;
+        String(width);
 
     }
 
@@ -1333,17 +1236,17 @@ body {
 
   if (savedHeight !== null) {
 
-    const numericHeight =
+    const height =
       Number(savedHeight);
 
-
     if (
-      numericHeight >= 300 &&
-      numericHeight <= 1200
+      Number.isFinite(height) &&
+      height >= 300 &&
+      height <= 1200
     ) {
 
       heightSlider.value =
-        numericHeight;
+        String(height);
 
     }
 
@@ -1351,7 +1254,7 @@ body {
 
 
   /*
-   * Apply the initial size.
+   * Apply settings immediately.
    */
 
   applyGameSize();
@@ -1365,9 +1268,9 @@ body {
     "click",
     function () {
 
-      widthSlider.value = 90;
+      widthSlider.value = "90";
 
-      heightSlider.value = 600;
+      heightSlider.value = "600";
 
       localStorage.removeItem(
         "classroomGameWidth"
@@ -1402,9 +1305,9 @@ body {
       }
 
 
-      /* ---------------------------------------------
-         Check file type
-         --------------------------------------------- */
+      /*
+       * Check extension.
+       */
 
       const fileName =
         file.name.toLowerCase();
@@ -1426,9 +1329,9 @@ body {
       }
 
 
-      /* ---------------------------------------------
-         Read the HTML file
-         --------------------------------------------- */
+      /*
+       * Read the file.
+       */
 
       const reader =
         new FileReader();
@@ -1441,23 +1344,25 @@ body {
             String(reader.result);
 
 
-          /* -------------------------------------------
-             Unique game ID
-             ------------------------------------------- */
+          /*
+           * Make a truly unique ID.
+           */
 
           const gameId =
             "uploaded-" +
-            Date.now();
+            Date.now() +
+            "-" +
+            Math.random()
+              .toString(36)
+              .slice(2);
 
 
-          /* -------------------------------------------
-             Create sidebar button
-             ------------------------------------------- */
+          /* =============================================
+             SIDEBAR BUTTON
+             ============================================= */
 
           const button =
-            document.createElement(
-              "div"
-            );
+            document.createElement("div");
 
 
           button.className =
@@ -1472,19 +1377,17 @@ body {
             "📄 " + file.name;
 
 
-          document
-            .querySelector(".sidebar")
-            .appendChild(button);
+          sidebar.appendChild(
+            button
+          );
 
 
-          /* -------------------------------------------
-             Create game container
-             ------------------------------------------- */
+          /* =============================================
+             GAME VIEW
+             ============================================= */
 
           const gameView =
-            document.createElement(
-              "div"
-            );
+            document.createElement("div");
 
 
           gameView.id =
@@ -1503,14 +1406,12 @@ body {
             widthSlider.value + "%";
 
 
-          /* -------------------------------------------
-             Create iframe
-             ------------------------------------------- */
+          /* =============================================
+             IFRAME
+             ============================================= */
 
           const iframe =
-            document.createElement(
-              "iframe"
-            );
+            document.createElement("iframe");
 
 
           iframe.title =
@@ -1529,6 +1430,10 @@ body {
             "none";
 
 
+          iframe.style.outline =
+            "none";
+
+
           iframe.style.background =
             "#000";
 
@@ -1538,57 +1443,104 @@ body {
 
 
           /*
-           * Put the uploaded HTML
-           * directly into the iframe.
+           * Allow the types of interaction
+           * that browser games commonly need.
            */
 
-          iframe.srcdoc =
-            html;
+         iframe.setAttribute(
+  "allow",
+  "fullscreen; autoplay; gamepad; pointer-lock"
+);
 
+
+          iframe.setAttribute(
+            "allowfullscreen",
+            ""
+          );
+
+
+          /*
+           * Give the game keyboard focus
+           * when the user clicks it.
+           */
+
+          iframe.addEventListener(
+            "load",
+            function () {
+
+              iframe.contentWindow.focus();
+
+            }
+          );
+
+
+          /*
+           * Put the uploaded HTML into
+           * the iframe.
+           */
+
+          const gameBlob =
+  new Blob(
+    [html],
+    { type: "text/html" }
+  );
+
+const gameURL =
+  URL.createObjectURL(gameBlob);
+
+iframe.src =
+  gameURL;
 
           gameView.appendChild(
             iframe
           );
 
 
-          document
-            .querySelector(".content")
-            .appendChild(gameView);
-
-
-          /* -------------------------------------------
-             Make sidebar button work
-             ------------------------------------------- */
-
-          button.addEventListener(
-            "click",
-            function () {
-
-              showTab(gameId);
-
-            }
+          content.appendChild(
+            gameView
           );
 
 
-          /* -------------------------------------------
-             Open uploaded game
-             ------------------------------------------- */
+          /* =============================================
+             CONNECT NEW SIDEBAR BUTTON
+             ============================================= */
 
-          showTab(gameId);
-
-
-          /* -------------------------------------------
-             Close settings
-             ------------------------------------------- */
-
-          settingsPanel.classList.remove(
-            "open"
+          connectTabButton(
+            button
           );
+
+
+          /* =============================================
+             APPLY CURRENT SIZE
+             ============================================= */
+
+          gameView.style.width =
+            widthSlider.value + "%";
+
+
+          iframe.style.height =
+            heightSlider.value + "px";
+
+
+          /* =============================================
+             SHOW THE NEW GAME
+             ============================================= */
+
+          showTab(
+            gameId
+          );
+
+
+          /* =============================================
+             CLOSE SETTINGS
+             ============================================= */
+
+          closeSettingsPanel();
 
 
           /*
-           * Clear file input so the same file
-           * can be uploaded again later.
+           * Clear input so the same file
+           * can be uploaded again.
            */
 
           htmlUpload.value = "";
@@ -1609,6 +1561,8 @@ body {
             "Could not read that HTML file."
           );
 
+          htmlUpload.value = "";
+
         };
 
 
@@ -1619,7 +1573,7 @@ body {
 
 
   /* =====================================================
-     DEFAULT TAB
+     START WITH PLUMET
      ===================================================== */
 
   showTab("plumet");
@@ -1627,8 +1581,7 @@ body {
 
 })();
 
-</script>
-
+</script>    
 
 </body>
 </html>
