@@ -91,10 +91,14 @@ window.addEventListener("DOMContentLoaded", () => {
  * Code: 3+1+1803
  *******************************************************/
 function openGameInBlank() {
-  plumetPopup = window.open("about:blank", "_blank");
 
-  if (!plumetPopup) {
-    alert("Popup blocked — allow popups for this site.");
+  // Open a new blank tab FIRST.
+  // window.open() with no URL creates an about:blank page.
+  plumetPopup = window.open("", "_blank");
+
+  // Check whether the browser blocked the popup.
+  if (!plumetPopup || plumetPopup.closed) {
+    alert("Popup blocked — please allow popups for this site.");
     return;
   }
 
