@@ -114,13 +114,12 @@ main[role="main"] {
   width: 120% !important;
   max-width: 750px;
   height: 420px !important;
-  border-radius: 14px
-  padding: 16px
+  border-radius: 14px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 /* ✅ LEADERBOARD TABLE */
 table {
   width: 100%;
