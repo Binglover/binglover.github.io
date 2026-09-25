@@ -256,26 +256,19 @@ body {
 /* =====================================================
    GAME CONTAINERS
    ===================================================== */
-
 .tab-view {
-
+  flex: 0 0 auto;
   width: 90%;
-
-  max-width: 1500px;
-
+  max-width: none;
   margin: 0 auto;
-
-  display: block;
-
 }
-
 
 .tab-view iframe,
 .tab-view object {
 
   display: block;
 
-  width: 100%;
+  width: 90%;
 
   height: 600px;
 
@@ -291,14 +284,11 @@ body {
 
 /* Plumet */
 
-#game-object {
-
+#game-object,
+.tab-view iframe {
   width: 100%;
-
-  height: 600px;
-
-  display: block;
-
+  height: 700px;
+  border: none;
 }
 
 
