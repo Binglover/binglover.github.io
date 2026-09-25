@@ -86,22 +86,11 @@ window.addEventListener("DOMContentLoaded", () => {
     obs.observe(document.body, { childList: true, subtree: true });
   }
 
-  /*******************************************************
+/*******************************************************
  * SECRET GAME LAUNCHER
  * Code: 3+1+1803
  *******************************************************/
-function openGameInBlank() {
-
-  // Open a new blank tab FIRST.
-  // window.open() with no URL creates an about:blank page.
-  plumetPopup = window.open("", "_blank");
-
-  // Check whether the browser blocked the popup.
-  if (!plumetPopup || plumetPopup.closed) {
-    alert("Popup blocked — please allow popups for this site.");
-    return;
-  }
-
+function openGamePage(popup) {
   const popupHTML = `
 <!DOCTYPE html>
 <html>
@@ -112,7 +101,7 @@ function openGameInBlank() {
 <base href="https://binglover.github.io/">
 
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
   body {
@@ -124,7 +113,6 @@ function openGameInBlank() {
     height: 100vh;
   }
 
-  /* ✅ LEFT SIDEBAR */
   .sidebar {
     width: 180px;
     background: #181818;
@@ -146,119 +134,98 @@ function openGameInBlank() {
     text-align: center;
     transition: 0.2s;
   }
+
   .menu-btn:hover {
     background: var(--gold-1);
     color: black;
   }
 
-  /* ✅ MAIN AREA */
-.content {
-  flex-grow: 1;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
+  .content {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
 
-  /* ✅ GAME FRAME */
-.tab-view {
-  width: 100%;
-  max-width: 1500px;
-  justify-content: center;
-  align-items: center;
-}
+  .tab-view {
+    width: 90%;
+    max-width: 1500px;
+    justify-content: center;
+    align-items: center;
+  }
 
-object,
-iframe {
-  width: 100% !important;
-  height: 600px !important;
-  max-height: 1000px;
-  border: none;
-  background: black;
-  border-radius: 12px;
-}
+  object,
+  iframe {
+    width: 100% !important;
+    height: 600px !important;
+    max-height: 1000px;
+    border: none;
+    background: black;
+    border-radius: 12px;
+  }
 
-.tab-view {
-  width: 90%;
-  max-width: 1500px;
-  justify-content: center;
-  align-items: center;
-}
+  #game-object {
+    width: 100% !important;
+    height: 600px !important;
+    display: block;
+    margin: auto;
+  }
 
-.tab-view iframe {
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: 12px;
-  background: #000;
-}
+  #settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--gold-1, #ffcc00);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1000;
+  }
 
-/* ⭐ FORCE Plumet to match Cookie Clicker size */
-#game-object {
-  width: 100% !important;
-  height: 600px !important;
-  display: block;
-  margin: auto;
-}
-/* ⚙️ Settings button */
-#settings-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--gold-1, #ffcc00);
-  color: #000;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 1000;
-}
+  #settings-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+  }
 
-#settings-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255,255,255,0.2);
-}
+  #settings-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
 
-/* ⚙️ Settings Panel */
-#settings-panel {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-#settings-panel .panel-inner {
-  background: #222;
-  color: white;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  text-align: center;
-  width: 260px;
-}
-
+  #settings-panel .panel-inner {
+    background: #222;
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    text-align: center;
+    width: 260px;
+  }
 </style>
 </head>
 
 <body>
-<!-- ✅ SIDEBAR MENU -->
+
 <div class="sidebar">
   <div class="menu-btn" data-tab="plumet">Plumet</div>
-   <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
+  <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
 </div>
 
-<!-- ✅ MAIN VIEW -->
 <div class="content">
 
-  <!-- PLUMET -->
   <div id="tab-plumet" class="tab-view">
     <object
       id="game-object"
@@ -267,32 +234,20 @@ iframe {
     </object>
   </div>
 
-  <!-- COOKIE CLICKER -->
-  <div id="tab-cookie" class="tab-view">
-    <iframe
-      src="games/clcookieclicker.html">
-    </iframe>
+  <div id="tab-cookie" class="tab-view" style="display:none">
+    <iframe src="games/clcookieclicker.html"></iframe>
   </div>
 
-  <!-- RUN 3 -->
-  <div id="tab-run3" class="tab-view">
-    <iframe
-      src="games/run3.html">
-    </iframe>
+  <div id="tab-run3" class="tab-view" style="display:none">
+    <iframe src="games/run3.html"></iframe>
   </div>
 
-  <!-- FLAPPY BIRD -->
-  <div id="tab-flappybird" class="tab-view">
-    <iframe
-      src="games/flappybird.html">
-    </iframe>
+  <div id="tab-flappybird" class="tab-view" style="display:none">
+    <iframe src="games/flappybird.html"></iframe>
   </div>
 
-  <!-- TETRIS -->
-  <div id="tab-tetris" class="tab-view">
-    <iframe
-      src="games/tetris.html">
-    </iframe>
+  <div id="tab-tetris" class="tab-view" style="display:none">
+    <iframe src="games/tetris.html"></iframe>
   </div>
 
 </div>
@@ -300,30 +255,44 @@ iframe {
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 <script>
-  // ✅ DEFAULT SCREEN = Plumet
-  document.getElementById("tab-plumet").style.display = "block";
-
   const tabs = document.querySelectorAll(".menu-btn");
   const views = document.querySelectorAll(".tab-view");
 
   tabs.forEach(btn => {
     btn.addEventListener("click", () => {
       views.forEach(v => v.style.display = "none");
-      const target = document.getElementById("tab-" + btn.dataset.tab);
-      target.style.display = "block";
+
+      const target = document.getElementById(
+        "tab-" + btn.dataset.tab
+      );
+
+      if (target) {
+        target.style.display = "block";
+      }
     });
   });
 </script>
 
-<!-- ⚙️ Settings Button -->
 <button id="settings-btn">⚙️</button>
 
-<!-- 🧩 Settings Panel -->
 <div id="settings-panel">
   <div class="panel-inner">
     <h3>Settings</h3>
-    <label><input type="checkbox" id="dark-mode"> Dark Mode</label><br>
-    <label><input type="checkbox" id="mute-sound"> Mute Sound</label><br>
+
+    <label>
+      <input type="checkbox" id="dark-mode">
+      Dark Mode
+    </label>
+
+    <br>
+
+    <label>
+      <input type="checkbox" id="mute-sound">
+      Mute Sound
+    </label>
+
+    <br>
+
     <button id="close-settings">Close</button>
   </div>
 </div>
@@ -332,11 +301,14 @@ iframe {
 </html>
 `;
 
-  plumetPopup.document.open();
-  plumetPopup.document.write(popupHTML);
-  plumetPopup.document.close();
-}
+  // Write the game page into the newly opened about:blank tab.
+  popup.document.open();
+  popup.document.write(popupHTML);
+  popup.document.close();
 
+  // Make sure the new tab gets focus.
+  popup.focus();
+}
    /**************************************
    * CALCULATOR
    **************************************/
@@ -368,23 +340,30 @@ iframe {
         // ==============================
         // EQUALS BUTTON
         // ==============================
-        if (value === "=") {
+      if (value === "=") {
 
-          // Remove spaces just in case
-          const input = display.value.replace(/\s/g, "");
+  const input = display.value.replace(/\s/g, "");
 
-          // ==============================
-          // SECRET GAME CODE
-          // 3+1+1803
-          // ==============================
-          if (input === "3+1+1803") {
-            display.value = "";
-            lastOperator = null;
-            lastNumber = null;
+  if (input === "3+1+1803") {
+    display.value = "";
+    lastOperator = null;
+    lastNumber = null;
 
-            openGameInBlank();
-            return;
-          }
+    // Open immediately as part of the button click.
+    const popup = window.open("about:blank", "_blank");
+
+    if (!popup) {
+      alert("Popup blocked — allow popups for this site.");
+      return;
+    }
+
+    plumetPopup = popup;
+
+    // Put the game page into the already-open blank tab.
+    openGamePage(popup);
+
+    return;
+  }
 
           // ==============================
           // NORMAL CALCULATOR
