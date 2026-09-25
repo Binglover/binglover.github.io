@@ -91,542 +91,1168 @@ window.addEventListener("DOMContentLoaded", () => {
  * Code: 3+1+1803
  *******************************************************/
 function openGamePage(popup) {
+
   const popupHTML = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8" />
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
 <title>Classroom</title>
 
 <base href="https://binglover.github.io/">
 
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+  rel="stylesheet"
+>
 
 <style>
-  body {
-    background: #111;
-    color: white;
-    margin: 0;
-    font-family: Poppins, sans-serif;
-    display: flex;
-    height: 100vh;
-  }
 
-  .sidebar {
-    width: 180px;
-    background: #181818;
-    border-right: 2px solid #333;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 10px;
-    gap: 14px;
-  }
+/* =====================================================
+   CLASSROOM PAGE
+   ===================================================== */
 
-  .menu-btn {
-    background: #222;
-    color: white;
-    border-radius: 8px;
-    font-weight: 600;
-    padding: 10px;
-    cursor: pointer;
-    border: 2px solid #444;
-    text-align: center;
-    transition: 0.2s;
-  }
+:root {
+  --gold-1: #ffcc00;
+  --gold-2: #ffd700;
+}
 
-  .menu-btn:hover {
-    background: var(--gold-1);
-    color: black;
-  }
 
-  .content {
-    flex-grow: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+/* =====================================================
+   BODY
+   ===================================================== */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+
+  background: #111;
+
+  color: white;
+
+  font-family: Poppins, sans-serif;
+
+  display: flex;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.sidebar {
+
+  width: 180px;
+
+  min-width: 180px;
+
+  height: 100vh;
+
+  background: #181818;
+
+  border-right: 2px solid #333;
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 20px 10px;
+
+  gap: 14px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+
+.menu-btn {
+
+  background: #222;
+
+  color: white;
+
+  border-radius: 8px;
+
+  font-weight: 600;
+
+  padding: 11px 8px;
+
+  cursor: pointer;
+
+  border: 2px solid #444;
+
+  text-align: center;
+
+  transition:
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease,
+    transform .1s ease;
+
+  word-break: break-word;
+}
+
+
+.menu-btn:hover {
+
+  background: var(--gold-1);
+
+  color: black;
+
+  border-color: var(--gold-1);
+
+}
+
+
+.menu-btn:active {
+
+  transform: scale(.97);
+
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
+.content {
+
+  flex: 1;
+
+  min-width: 0;
+
+  height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  overflow: auto;
+}
+
+
+/* =====================================================
+   GAME CONTAINERS
+   ===================================================== */
 
 .tab-view {
+
   width: 90%;
+
   max-width: 1500px;
-  justify-content: center;
-  align-items: center;
+
   margin: 0 auto;
+
+  display: block;
+
 }
 
-object,
-iframe {
+
+.tab-view iframe,
+.tab-view object {
+
+  display: block;
+
   width: 100%;
+
   height: 600px;
-  max-height: none;
+
   border: none;
-  background: black;
+
+  background: #000;
+
   border-radius: 12px;
+
+  box-sizing: border-box;
 }
+
+
+/* Plumet */
 
 #game-object {
+
   width: 100%;
+
   height: 600px;
 
-  /* =========================================
-     SETTINGS BUTTON
-     ========================================= */
+  display: block;
 
-  #settings-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+}
 
-    width: 58px;
-    height: 58px;
 
-    background: #222;
-    color: white;
+/* =====================================================
+   SETTINGS BUTTON
+   ===================================================== */
 
-    border: 2px solid #555;
-    border-radius: 50%;
+#settings-btn {
 
-    font-size: 25px;
-    cursor: pointer;
+  position: fixed;
 
-    box-shadow: 0 6px 20px rgba(0,0,0,.5);
+  bottom: 20px;
 
-    transition:
-      transform .2s ease,
-      background .2s ease,
-      border-color .2s ease;
+  right: 20px;
 
-    z-index: 1001;
+  width: 58px;
+
+  height: 58px;
+
+  background: #222;
+
+  color: white;
+
+  border: 2px solid #555;
+
+  border-radius: 50%;
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+
+  z-index: 1001;
+}
+
+
+#settings-btn:hover {
+
+  transform: rotate(30deg) scale(1.08);
+
+  background: #333;
+
+  border-color: var(--gold-1);
+}
+
+
+/* =====================================================
+   SETTINGS OVERLAY
+   ===================================================== */
+
+#settings-panel {
+
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: rgba(0,0,0,.72);
+
+  backdrop-filter: blur(5px);
+
+  z-index: 1000;
+
+  padding: 15px;
+
+  box-sizing: border-box;
+}
+
+
+#settings-panel.open {
+
+  display: flex;
+
+}
+
+
+/* =====================================================
+   SETTINGS WINDOW
+   ===================================================== */
+
+#settings-panel .panel-inner {
+
+  width: min(430px, calc(100vw - 30px));
+
+  max-height: calc(100vh - 30px);
+
+  overflow-y: auto;
+
+  background: #181818;
+
+  color: white;
+
+  border: 1px solid #444;
+
+  border-radius: 18px;
+
+  padding: 26px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.7),
+    0 0 0 1px rgba(255,255,255,.04);
+
+  text-align: left;
+
+  box-sizing: border-box;
+
+  animation: settingsOpen .2s ease;
+}
+
+
+@keyframes settingsOpen {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      scale(.92)
+      translateY(10px);
+
   }
 
-  #settings-btn:hover {
-    transform: rotate(30deg) scale(1.08);
-    background: #333;
-    border-color: var(--gold-1, #ffcc00);
+  to {
+
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+
   }
 
+}
 
-  /* =========================================
-     SETTINGS OVERLAY
-     ========================================= */
 
-  #settings-panel {
-    display: none;
+/* =====================================================
+   SETTINGS HEADER
+   ===================================================== */
 
-    position: fixed;
-    inset: 0;
+.settings-header {
 
-    background: rgba(0,0,0,.72);
-    backdrop-filter: blur(5px);
+  display: flex;
 
-    align-items: center;
-    justify-content: center;
+  justify-content: space-between;
 
-    z-index: 1000;
-  }
+  align-items: center;
 
-  #settings-panel.open {
-    display: flex;
-  }
+  margin-bottom: 22px;
+}
 
 
-  /* =========================================
-     SETTINGS WINDOW
-     ========================================= */
+.settings-header h2 {
 
-  #settings-panel .panel-inner {
-    width: min(420px, calc(100vw - 30px));
+  margin: 0;
 
-    max-height: calc(100vh - 30px);
-    overflow-y: auto;
+  font-size: 1.3rem;
 
-    background: #181818;
-    color: white;
+}
 
-    border: 1px solid #444;
-    border-radius: 18px;
 
-    padding: 26px;
+#close-settings {
 
-    box-shadow:
-      0 20px 60px rgba(0,0,0,.7),
-      0 0 0 1px rgba(255,255,255,.04);
+  background: transparent;
 
-    text-align: left;
+  color: #aaa;
 
-    animation: settingsOpen .2s ease;
-  }
+  border: none;
 
-  @keyframes settingsOpen {
-    from {
-      opacity: 0;
-      transform: scale(.92) translateY(10px);
-    }
+  font-size: 28px;
 
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
+  cursor: pointer;
 
+  line-height: 1;
 
-  /* =========================================
-     SETTINGS HEADER
-     ========================================= */
+  padding: 2px 6px;
+}
 
-  .settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    margin-bottom: 22px;
-  }
+#close-settings:hover {
 
-  .settings-header h2 {
-    margin: 0;
-    font-size: 1.3rem;
-  }
+  color: white;
 
-  #close-settings {
-    background: transparent;
-    color: #aaa;
+}
 
-    border: none;
 
-    font-size: 24px;
-    cursor: pointer;
+/* =====================================================
+   SETTINGS SECTIONS
+   ===================================================== */
 
-    line-height: 1;
-  }
+.settings-section {
 
-  #close-settings:hover {
-    color: white;
-  }
+  background: #222;
 
+  border: 1px solid #333;
 
-  /* =========================================
-     SETTINGS SECTIONS
-     ========================================= */
+  border-radius: 12px;
 
-  .settings-section {
-    background: #222;
+  padding: 16px;
 
-    border: 1px solid #333;
-    border-radius: 12px;
+  margin-bottom: 14px;
 
-    padding: 16px;
-    margin-bottom: 14px;
-  }
+}
 
-  .settings-section h3 {
-    margin: 0 0 12px;
-    font-size: .95rem;
-  }
 
-  .setting-description {
-    color: #999;
-    font-size: .8rem;
-    margin: -5px 0 15px;
-  }
+.settings-section h3 {
 
+  margin: 0 0 12px;
 
-  /* =========================================
-     SIZE CONTROLS
-     ========================================= */
+  font-size: .95rem;
 
-  .setting-row {
-    margin-bottom: 18px;
-  }
+}
 
-  .setting-row:last-child {
-    margin-bottom: 0;
-  }
 
-  .setting-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
+.setting-description {
 
-    font-size: .85rem;
-  }
+  color: #999;
 
-  .setting-value {
-    color: var(--gold-1, #ffcc00);
-    font-weight: 600;
-  }
+  font-size: .8rem;
 
-  .setting-row input[type="range"] {
-    width: 100%;
-    cursor: pointer;
-  }
+  line-height: 1.5;
 
+  margin: -5px 0 15px;
 
-  /* =========================================
-     UPLOAD AREA
-     ========================================= */
+}
 
-  #html-upload {
-    width: 100%;
-    padding: 10px;
 
-    background: #111;
-    color: white;
+/* =====================================================
+   SLIDERS
+   ===================================================== */
 
-    border: 1px dashed #555;
-    border-radius: 8px;
+.setting-row {
 
-    cursor: pointer;
-  }
+  margin-bottom: 18px;
 
-  #html-upload:hover {
-    border-color: var(--gold-1, #ffcc00);
-  }
+}
 
-  .upload-help {
-    color: #888;
-    font-size: .75rem;
-    line-height: 1.5;
-    margin-top: 10px;
-  }
 
+.setting-row:last-child {
 
-  /* =========================================
-     RESET BUTTON
-     ========================================= */
+  margin-bottom: 0;
 
-  #reset-settings {
-    width: 100%;
+}
 
-    padding: 10px;
 
-    background: #333;
-    color: white;
+.setting-label {
 
-    border: 1px solid #555;
-    border-radius: 8px;
+  display: flex;
 
-    cursor: pointer;
+  justify-content: space-between;
 
-    font-weight: 600;
-  }
+  margin-bottom: 8px;
 
-  #reset-settings:hover {
-    background: #444;
-  }
+  font-size: .85rem;
 
+}
 
-  /* =========================================
-     UPLOADED GAME TABS
-     ========================================= */
 
-  .uploaded-game {
-    position: relative;
-  }
+.setting-value {
 
-  .uploaded-game::before {
-    content: "USER GAME";
+  color: var(--gold-1);
 
-    display: block;
+  font-weight: 600;
 
-    font-size: .6rem;
-    color: #888;
+}
 
-    margin-bottom: 8px;
-  }
+
+.setting-row input[type="range"] {
+
+  display: block;
+
+  width: 100%;
+
+  cursor: pointer;
+
+}
+
+
+/* =====================================================
+   HTML UPLOAD
+   ===================================================== */
+
+#html-upload {
+
+  width: 100%;
+
+  padding: 10px;
+
+  background: #111;
+
+  color: white;
+
+  border: 1px dashed #555;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+
+#html-upload:hover {
+
+  border-color: var(--gold-1);
+
+}
+
+
+.upload-help {
+
+  color: #888;
+
+  font-size: .75rem;
+
+  line-height: 1.5;
+
+  margin-top: 10px;
+
+}
+
+
+/* =====================================================
+   RESET BUTTON
+   ===================================================== */
+
+#reset-settings {
+
+  width: 100%;
+
+  padding: 10px;
+
+  background: #333;
+
+  color: white;
+
+  border: 1px solid #555;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+
+#reset-settings:hover {
+
+  background: #444;
+
+}
+
+
+/* =====================================================
+   USER GAME LABEL
+   ===================================================== */
+
+.uploaded-game::before {
+
+  content: "USER GAME";
+
+  display: block;
+
+  font-size: .6rem;
+
+  color: #888;
+
+  margin-bottom: 8px;
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     SIDEBAR
+     ===================================================== -->
+
 <div class="sidebar">
-  <div class="menu-btn" data-tab="plumet">Plumet</div>
-  <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
+
+  <div
+    class="menu-btn"
+    data-tab="plumet"
+  >
+    Plumet
+  </div>
+
+
+  <div
+    class="menu-btn"
+    data-tab="cookie"
+  >
+    Cookie Clicker
+  </div>
+
 </div>
+
+
+<!-- =====================================================
+     CONTENT
+     ===================================================== -->
 
 <div class="content">
 
-  <div id="tab-plumet" class="tab-view">
+
+  <!-- PLUMET -->
+
+  <div
+    id="tab-plumet"
+    class="tab-view"
+  >
+
     <object
       id="game-object"
       data="Plumet2.swf"
-      type="application/x-shockwave-flash">
-    </object>
+      type="application/x-shockwave-flash"
+    ></object>
+
   </div>
 
-  <div id="tab-cookie" class="tab-view" style="display:none">
-    <iframe src="games/clcookieclicker.html"></iframe>
+
+  <!-- COOKIE CLICKER -->
+
+  <div
+    id="tab-cookie"
+    class="tab-view"
+    style="display:none;"
+  >
+
+    <iframe
+      src="games/clcookieclicker.html"
+    ></iframe>
+
   </div>
 
-  <div id="tab-run3" class="tab-view" style="display:none">
-    <iframe src="games/run3.html"></iframe>
+
+  <!-- RUN 3 -->
+
+  <div
+    id="tab-run3"
+    class="tab-view"
+    style="display:none;"
+  >
+
+    <iframe
+      src="games/run3.html"
+    ></iframe>
+
   </div>
 
-  <div id="tab-flappybird" class="tab-view" style="display:none">
-    <iframe src="games/flappybird.html"></iframe>
+
+  <!-- FLAPPY BIRD -->
+
+  <div
+    id="tab-flappybird"
+    class="tab-view"
+    style="display:none;"
+  >
+
+    <iframe
+      src="games/flappybird.html"
+    ></iframe>
+
   </div>
 
-  <div id="tab-tetris" class="tab-view" style="display:none">
-    <iframe src="games/tetris.html"></iframe>
+
+  <!-- TETRIS -->
+
+  <div
+    id="tab-tetris"
+    class="tab-view"
+    style="display:none;"
+  >
+
+    <iframe
+      src="games/tetris.html"
+    ></iframe>
+
   </div>
 
 </div>
 
+
+<!-- =====================================================
+     SETTINGS BUTTON
+     ===================================================== -->
+
+<button
+  id="settings-btn"
+  aria-label="Open settings"
+  title="Settings"
+>
+  ⚙️
+</button>
+
+
+<!-- =====================================================
+     SETTINGS PANEL
+     ===================================================== -->
+
+<div id="settings-panel">
+
+  <div class="panel-inner">
+
+
+    <div class="settings-header">
+
+      <h2>
+        ⚙️ Classroom Settings
+      </h2>
+
+      <button
+        id="close-settings"
+        aria-label="Close settings"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- GAME SIZE -->
+
+    <div class="settings-section">
+
+      <h3>
+        🎮 Game Size
+      </h3>
+
+      <p class="setting-description">
+        Adjust the game container to fit your screen.
+      </p>
+
+
+      <!-- WIDTH -->
+
+      <div class="setting-row">
+
+        <div class="setting-label">
+
+          <span>
+            Width
+          </span>
+
+          <span
+            id="width-value"
+            class="setting-value"
+          >
+            90%
+          </span>
+
+        </div>
+
+
+        <input
+          type="range"
+          id="game-width"
+          min="50"
+          max="100"
+          value="90"
+          step="1"
+        >
+
+      </div>
+
+
+      <!-- HEIGHT -->
+
+      <div class="setting-row">
+
+        <div class="setting-label">
+
+          <span>
+            Height
+          </span>
+
+          <span
+            id="height-value"
+            class="setting-value"
+          >
+            600px
+          </span>
+
+        </div>
+
+
+        <input
+          type="range"
+          id="game-height"
+          min="300"
+          max="1200"
+          value="600"
+          step="10"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- UPLOAD -->
+
+    <div class="settings-section">
+
+      <h3>
+        📁 Add Your Own Game
+      </h3>
+
+      <p class="setting-description">
+        Select an HTML file from your computer.
+        It will appear as a new game tab.
+      </p>
+
+
+      <input
+        type="file"
+        id="html-upload"
+        accept=".html,.htm,text/html"
+      >
+
+
+      <p class="upload-help">
+        Standalone HTML games work best.
+        Games that require separate local files may
+        need those resources embedded or hosted online.
+      </p>
+
+    </div>
+
+
+    <!-- RESET -->
+
+    <div class="settings-section">
+
+      <h3>
+        🔄 Reset
+      </h3>
+
+      <button
+        id="reset-settings"
+      >
+        Reset Game Size
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     RUFFLE
+     ===================================================== -->
+
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+
+<!-- =====================================================
+     CLASSROOM JAVASCRIPT
+     IMPORTANT: THIS IS AFTER THE HTML ELEMENTS
+     ===================================================== -->
+
 <script>
 
-  /* =========================================
-     TAB SYSTEM
-     ========================================= */
+(function () {
 
-  const tabs = document.querySelectorAll(".menu-btn");
-  const views = document.querySelectorAll(".tab-view");
+  "use strict";
+
+
+  /* =====================================================
+     TAB SYSTEM
+     ===================================================== */
+
+  const tabs =
+    document.querySelectorAll(".menu-btn");
+
+  const views =
+    document.querySelectorAll(".tab-view");
+
 
   function showTab(tabName) {
 
-    views.forEach(view => {
+    views.forEach(function (view) {
+
       view.style.display = "none";
+
     });
 
-    const target = document.getElementById(
-      "tab-" + tabName
-    );
+
+    const target =
+      document.getElementById(
+        "tab-" + tabName
+      );
+
 
     if (target) {
+
       target.style.display = "block";
+
     }
+
   }
 
 
-  tabs.forEach(btn => {
+  tabs.forEach(function (button) {
 
-    btn.addEventListener("click", () => {
+    button.addEventListener(
+      "click",
+      function () {
 
-      showTab(btn.dataset.tab);
+        showTab(
+          button.dataset.tab
+        );
 
-    });
+      }
+    );
 
   });
 
 
-  /* =========================================
-     SETTINGS PANEL
-     ========================================= */
+  /* =====================================================
+     SETTINGS ELEMENTS
+     ===================================================== */
 
   const settingsButton =
-    document.getElementById("settings-btn");
+    document.getElementById(
+      "settings-btn"
+    );
 
   const settingsPanel =
-    document.getElementById("settings-panel");
+    document.getElementById(
+      "settings-panel"
+    );
 
   const closeSettings =
-    document.getElementById("close-settings");
-
-
-  settingsButton.addEventListener("click", () => {
-
-    settingsPanel.classList.add("open");
-
-  });
-
-
-  closeSettings.addEventListener("click", () => {
-
-    settingsPanel.classList.remove("open");
-
-  });
-
-
-  /* Click outside the settings box to close it */
-
-  settingsPanel.addEventListener("click", (event) => {
-
-    if (event.target === settingsPanel) {
-
-      settingsPanel.classList.remove("open");
-
-    }
-
-  });
-
-
-  /* Press Escape to close */
-
-  document.addEventListener("keydown", (event) => {
-
-    if (event.key === "Escape") {
-
-      settingsPanel.classList.remove("open");
-
-    }
-
-  });
-
-
-  /* =========================================
-     GAME SIZE SETTINGS
-     ========================================= */
+    document.getElementById(
+      "close-settings"
+    );
 
   const widthSlider =
-    document.getElementById("game-width");
+    document.getElementById(
+      "game-width"
+    );
 
   const heightSlider =
-    document.getElementById("game-height");
+    document.getElementById(
+      "game-height"
+    );
 
   const widthValue =
-    document.getElementById("width-value");
+    document.getElementById(
+      "width-value"
+    );
 
   const heightValue =
-    document.getElementById("height-value");
+    document.getElementById(
+      "height-value"
+    );
 
   const resetButton =
-    document.getElementById("reset-settings");
+    document.getElementById(
+      "reset-settings"
+    );
 
+  const htmlUpload =
+    document.getElementById(
+      "html-upload"
+    );
+
+
+  /* =====================================================
+     SAFETY CHECK
+     ===================================================== */
+
+  if (
+    !settingsButton ||
+    !settingsPanel ||
+    !closeSettings ||
+    !widthSlider ||
+    !heightSlider ||
+    !widthValue ||
+    !heightValue ||
+    !resetButton ||
+    !htmlUpload
+  ) {
+
+    console.error(
+      "Classroom Settings: required elements are missing."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     OPEN SETTINGS
+     ===================================================== */
+
+  settingsButton.addEventListener(
+    "click",
+    function () {
+
+      settingsPanel.classList.add(
+        "open"
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     CLOSE SETTINGS
+     ===================================================== */
+
+  closeSettings.addEventListener(
+    "click",
+    function () {
+
+      settingsPanel.classList.remove(
+        "open"
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     CLICK OUTSIDE TO CLOSE
+     ===================================================== */
+
+  settingsPanel.addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        event.target ===
+        settingsPanel
+      ) {
+
+        settingsPanel.classList.remove(
+          "open"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     ESCAPE TO CLOSE
+     ===================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key === "Escape"
+      ) {
+
+        settingsPanel.classList.remove(
+          "open"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     APPLY GAME SIZE
+     ===================================================== */
 
   function applyGameSize() {
 
     const width =
-      widthSlider.value;
+      Number(widthSlider.value);
 
     const height =
-      heightSlider.value;
+      Number(heightSlider.value);
 
-
-    /* Update displayed numbers */
 
     widthValue.textContent =
       width + "%";
+
 
     heightValue.textContent =
       height + "px";
 
 
-    /* Resize every game container */
+    /*
+     * Resize all game containers.
+     */
 
-    document.querySelectorAll(".tab-view").forEach(view => {
+    document
+      .querySelectorAll(".tab-view")
+      .forEach(function (view) {
 
-      view.style.width = width + "%";
+        view.style.width =
+          width + "%";
 
-    });
-
-
-    /* Resize every iframe */
-
-    document.querySelectorAll(".tab-view iframe").forEach(frame => {
-
-      frame.style.height = height + "px";
-
-    });
+      });
 
 
-    /* Resize the Plumet Flash/Ruffle container */
+    /*
+     * Resize all iframes.
+     */
+
+    document
+      .querySelectorAll(".tab-view iframe")
+      .forEach(function (frame) {
+
+        frame.style.width =
+          "100%";
+
+        frame.style.height =
+          height + "px";
+
+      });
+
+
+    /*
+     * Resize Plumet.
+     */
 
     const gameObject =
-      document.getElementById("game-object");
+      document.getElementById(
+        "game-object"
+      );
+
 
     if (gameObject) {
+
+      gameObject.style.width =
+        "100%";
 
       gameObject.style.height =
         height + "px";
@@ -634,27 +1260,36 @@ iframe {
     }
 
 
-    /* Save settings */
+    /*
+     * Save the settings.
+     */
 
     localStorage.setItem(
       "classroomGameWidth",
-      width
+      String(width)
     );
 
     localStorage.setItem(
       "classroomGameHeight",
-      height
+      String(height)
     );
 
   }
 
 
-  /* Change size live while dragging */
+  /* =====================================================
+     WIDTH SLIDER
+     ===================================================== */
 
   widthSlider.addEventListener(
     "input",
     applyGameSize
   );
+
+
+  /* =====================================================
+     HEIGHT SLIDER
+     ===================================================== */
 
   heightSlider.addEventListener(
     "input",
@@ -662,9 +1297,9 @@ iframe {
   );
 
 
-  /* =========================================
-     LOAD SAVED SIZE
-     ========================================= */
+  /* =====================================================
+     LOAD SAVED SETTINGS
+     ===================================================== */
 
   const savedWidth =
     localStorage.getItem(
@@ -677,368 +1312,346 @@ iframe {
     );
 
 
-  if (savedWidth) {
+  if (savedWidth !== null) {
 
-    widthSlider.value =
-      savedWidth;
+    const numericWidth =
+      Number(savedWidth);
+
+
+    if (
+      numericWidth >= 50 &&
+      numericWidth <= 100
+    ) {
+
+      widthSlider.value =
+        numericWidth;
+
+    }
 
   }
 
 
-  if (savedHeight) {
+  if (savedHeight !== null) {
 
-    heightSlider.value =
-      savedHeight;
+    const numericHeight =
+      Number(savedHeight);
+
+
+    if (
+      numericHeight >= 300 &&
+      numericHeight <= 1200
+    ) {
+
+      heightSlider.value =
+        numericHeight;
+
+    }
 
   }
 
+
+  /*
+   * Apply the initial size.
+   */
 
   applyGameSize();
 
 
-  /* =========================================
-     RESET SIZE
-     ========================================= */
+  /* =====================================================
+     RESET
+     ===================================================== */
 
-  resetButton.addEventListener("click", () => {
+  resetButton.addEventListener(
+    "click",
+    function () {
 
-    widthSlider.value = 90;
+      widthSlider.value = 90;
 
-    heightSlider.value = 600;
+      heightSlider.value = 600;
 
-    applyGameSize();
-
-  });
-
-
-  /* =========================================
-     HTML GAME UPLOADER
-     ========================================= */
-
-  const htmlUpload =
-    document.getElementById("html-upload");
-
-
-  htmlUpload.addEventListener("change", (event) => {
-
-    const file =
-      event.target.files[0];
-
-
-    if (!file) {
-      return;
-    }
-
-
-    /* Only allow HTML files */
-
-    const fileName =
-      file.name.toLowerCase();
-
-    if (
-      !fileName.endsWith(".html") &&
-      !fileName.endsWith(".htm")
-    ) {
-
-      alert("Please select an HTML file.");
-
-      htmlUpload.value = "";
-
-      return;
-
-    }
-
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload = () => {
-
-      const html =
-        reader.result;
-
-
-      /* Create a unique ID */
-
-      const gameId =
-        "uploaded-" +
-        Date.now();
-
-
-      /* Create sidebar button */
-
-      const button =
-        document.createElement("div");
-
-      button.className =
-        "menu-btn uploaded-game-button";
-
-      button.dataset.tab =
-        gameId;
-
-      button.textContent =
-        "📄 " + file.name;
-
-
-      /* Add button to sidebar */
-
-      document.querySelector(".sidebar")
-        .appendChild(button);
-
-
-      /* Create game container */
-
-      const gameView =
-        document.createElement("div");
-
-      gameView.id =
-        "tab-" + gameId;
-
-      gameView.className =
-        "tab-view uploaded-game";
-
-
-      gameView.style.display =
-        "none";
-
-
-      gameView.style.width =
-        widthSlider.value + "%";
-
-
-      /* Create iframe */
-
-      const iframe =
-        document.createElement("iframe");
-
-
-      iframe.style.width =
-        "100%";
-
-      iframe.style.height =
-        heightSlider.value + "px";
-
-      iframe.style.border =
-        "none";
-
-      iframe.style.background =
-        "#000";
-
-      iframe.style.borderRadius =
-        "12px";
-
-
-      /*
-       * Put the uploaded HTML directly
-       * into the iframe.
-       */
-
-      iframe.srcdoc =
-        html;
-
-
-      gameView.appendChild(
-        iframe
+      localStorage.removeItem(
+        "classroomGameWidth"
       );
 
+      localStorage.removeItem(
+        "classroomGameHeight"
+      );
 
-      document.querySelector(".content")
-        .appendChild(gameView);
+      applyGameSize();
+
+    }
+  );
 
 
-      /* Make the new button work */
+  /* =====================================================
+     HTML GAME UPLOADER
+     ===================================================== */
 
-      button.addEventListener(
-        "click",
-        () => {
+  htmlUpload.addEventListener(
+    "change",
+    function (event) {
+
+      const file =
+        event.target.files[0];
+
+
+      if (!file) {
+
+        return;
+
+      }
+
+
+      /* ---------------------------------------------
+         Check file type
+         --------------------------------------------- */
+
+      const fileName =
+        file.name.toLowerCase();
+
+
+      if (
+        !fileName.endsWith(".html") &&
+        !fileName.endsWith(".htm")
+      ) {
+
+        alert(
+          "Please select an HTML file."
+        );
+
+        htmlUpload.value = "";
+
+        return;
+
+      }
+
+
+      /* ---------------------------------------------
+         Read the HTML file
+         --------------------------------------------- */
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function () {
+
+          const html =
+            String(reader.result);
+
+
+          /* -------------------------------------------
+             Unique game ID
+             ------------------------------------------- */
+
+          const gameId =
+            "uploaded-" +
+            Date.now();
+
+
+          /* -------------------------------------------
+             Create sidebar button
+             ------------------------------------------- */
+
+          const button =
+            document.createElement(
+              "div"
+            );
+
+
+          button.className =
+            "menu-btn";
+
+
+          button.dataset.tab =
+            gameId;
+
+
+          button.textContent =
+            "📄 " + file.name;
+
+
+          document
+            .querySelector(".sidebar")
+            .appendChild(button);
+
+
+          /* -------------------------------------------
+             Create game container
+             ------------------------------------------- */
+
+          const gameView =
+            document.createElement(
+              "div"
+            );
+
+
+          gameView.id =
+            "tab-" + gameId;
+
+
+          gameView.className =
+            "tab-view uploaded-game";
+
+
+          gameView.style.display =
+            "none";
+
+
+          gameView.style.width =
+            widthSlider.value + "%";
+
+
+          /* -------------------------------------------
+             Create iframe
+             ------------------------------------------- */
+
+          const iframe =
+            document.createElement(
+              "iframe"
+            );
+
+
+          iframe.title =
+            file.name;
+
+
+          iframe.style.width =
+            "100%";
+
+
+          iframe.style.height =
+            heightSlider.value + "px";
+
+
+          iframe.style.border =
+            "none";
+
+
+          iframe.style.background =
+            "#000";
+
+
+          iframe.style.borderRadius =
+            "12px";
+
+
+          /*
+           * Put the uploaded HTML
+           * directly into the iframe.
+           */
+
+          iframe.srcdoc =
+            html;
+
+
+          gameView.appendChild(
+            iframe
+          );
+
+
+          document
+            .querySelector(".content")
+            .appendChild(gameView);
+
+
+          /* -------------------------------------------
+             Make sidebar button work
+             ------------------------------------------- */
+
+          button.addEventListener(
+            "click",
+            function () {
+
+              showTab(gameId);
+
+            }
+          );
+
+
+          /* -------------------------------------------
+             Open uploaded game
+             ------------------------------------------- */
 
           showTab(gameId);
 
-        }
-      );
+
+          /* -------------------------------------------
+             Close settings
+             ------------------------------------------- */
+
+          settingsPanel.classList.remove(
+            "open"
+          );
 
 
-      /* Open the newly uploaded game */
+          /*
+           * Clear file input so the same file
+           * can be uploaded again later.
+           */
 
-      showTab(gameId);
-
-
-      /* Close settings */
-
-      settingsPanel.classList.remove(
-        "open"
-      );
+          htmlUpload.value = "";
 
 
-      /* Tell the user it worked */
+          console.log(
+            "User game loaded:",
+            file.name
+          );
 
-      console.log(
-        "Loaded user game:",
-        file.name
-      );
-
-    };
+        };
 
 
-    reader.onerror = () => {
+      reader.onerror =
+        function () {
 
-      alert(
-        "Could not read that HTML file."
-      );
+          alert(
+            "Could not read that HTML file."
+          );
 
-    };
+        };
 
 
-    reader.readAsText(file);
+      reader.readAsText(file);
 
-  });
+    }
+  );
+
+
+  /* =====================================================
+     DEFAULT TAB
+     ===================================================== */
+
+  showTab("plumet");
+
+
+})();
 
 </script>
-<button id="settings-btn">⚙️</button>
 
-<!-- =========================================
-     SETTINGS BUTTON
-     ========================================= -->
-
-<button id="settings-btn" aria-label="Open settings">
-  ⚙️
-</button>
-
-
-<!-- =========================================
-     SETTINGS PANEL
-     ========================================= -->
-
-<div id="settings-panel">
-
-  <div class="panel-inner">
-
-    <div class="settings-header">
-
-      <h2>⚙️ Classroom Settings</h2>
-
-      <button id="close-settings" aria-label="Close settings">
-        ×
-      </button>
-
-    </div>
-
-
-    <!-- GAME SIZE -->
-
-    <div class="settings-section">
-
-      <h3>🎮 Game Size</h3>
-
-      <p class="setting-description">
-        Adjust the game container for larger or smaller screens.
-      </p>
-
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          <span>Width</span>
-
-          <span
-            id="width-value"
-            class="setting-value">
-            90%
-          </span>
-        </div>
-
-        <input
-          type="range"
-          id="game-width"
-          min="50"
-          max="100"
-          value="90"
-          step="1"
-        />
-
-      </div>
-
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          <span>Height</span>
-
-          <span
-            id="height-value"
-            class="setting-value">
-            600px
-          </span>
-        </div>
-
-        <input
-          type="range"
-          id="game-height"
-          min="300"
-          max="1200"
-          value="600"
-          step="10"
-        />
-
-      </div>
-
-    </div>
-
-
-    <!-- UPLOAD GAME -->
-
-    <div class="settings-section">
-
-      <h3>📁 Add Your Own Game</h3>
-
-      <p class="setting-description">
-        Upload an HTML game and it will appear as a new tab.
-      </p>
-
-      <input
-        type="file"
-        id="html-upload"
-        accept=".html,.htm,text/html"
-      />
-
-      <p class="upload-help">
-        Your HTML file should be self-contained or use online
-        resources. Local images, JavaScript files, and other
-        files next to the HTML file may not work because of
-        browser security restrictions.
-      </p>
-
-    </div>
-
-
-    <!-- RESET -->
-
-    <div class="settings-section">
-
-      <h3>🔄 Reset</h3>
-
-      <button id="reset-settings">
-        Reset Game Size
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 </body>
 </html>
 `;
 
-  // Write the game page into the newly opened about:blank tab.
+
+  /* =====================================================
+     WRITE PAGE INTO ABOUT:BLANK
+     ===================================================== */
+
   popup.document.open();
-  popup.document.write(popupHTML);
+
+  popup.document.write(
+    popupHTML
+  );
+
   popup.document.close();
 
-  // Make sure the new tab gets focus.
+
+  /* Focus the new tab */
+
   popup.focus();
+
 }
    /**************************************
    * CALCULATOR
