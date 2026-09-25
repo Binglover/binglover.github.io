@@ -16,19 +16,12 @@
 	var SAVESUFFIX='';
 	var App=typeof App==='undefined'?0:App;
 	var PRESETMODS=[];
-	var LOCAL=(App || !window.location.hostname || window.location.hostname!=='localhost' || window.location.hostname!=='127.0.0.1');
-</script>
-
-<!-- external -->
-<script type="text/javascript">
-	if (!LOCAL)
-	{
-		window.cookieconsent_options={"message":"Unsurprisingly, this website uses cookies for ads and traffic analysis.","dismiss":"Got it!","learnMore":"Learn more","link":"//orteil.dashnet.org/cookieconsentpolicy.html","target":"_blank","theme":"//orteil.dashnet.org/cookieconsent.css","domain":"dashnet.org"};
-		
-		var script=document.createElement('script');
-		script.src='//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js';
-		document.head.appendChild(script);
-	}
+var LOCAL = (
+    App ||
+    !window.location.hostname ||
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1'
+);
 </script>
 
 <!--<link href="https://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">-->
@@ -65,36 +58,6 @@ Feel free to alter this code to your liking, but please do not re-host it, do no
 <link href="style.css?v=10c" rel="stylesheet" type="text/css">
 <script src="main2.js?v=13g"></script>
 
-<!-- ad -->
-<script type="text/javascript">
-	if (LOCAL)
-	{
-		adsbygoogle=window.adsbygoogle={
-			enabled:true,
-			loaded:true,
-			push:function(){return;},
-			google_ad_client:"",
-			enable_page_level_ads:true
-		}
-	}
-</script>
-<script src="showads.js"></script><!-- this just detects adblockers so we can adjust the layout and play nice -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-5622691057838054",
-          enable_page_level_ads: true
-     });
-</script>
-<!-- /ad -->
-
-<!--[if IE]>
-<style type="text/css">
-	#ifIE9{display:block;}
-</style>
-<![endif]-->
-
-<!--[if lt IE9]><script src="excanvas.compiled.js"></script><![endif]-->
 </head>
 <body>
 
@@ -320,5 +283,5 @@ Feel free to alter this code to your liking, but please do not re-host it, do no
 
 </div>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bf37e3c0d41c1c8',t:'MTc2ODYyODE2Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
