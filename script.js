@@ -733,9 +733,12 @@ body {
     style="display:none;"
   >
 
-    <iframe
-      src="games/clcookieclicker.html"
-    ></iframe>
+  <iframe
+  src="games/clcookieclicker.html"
+  title="Cookie Clicker"
+  allow="fullscreen; autoplay; gamepad; pointer-lock"
+  allowfullscreen
+</iframe>
 
   </div>
 
