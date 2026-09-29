@@ -1,7 +1,3 @@
-
-stuff
-Loiselle, Luke <luke.loiselle@tcu2905.us>	Tue, Sep 29, 2026 at 11:40 AM
-To: Luke Loiselle <luke.loiselle@tcu2905.us>
 AddLanguage('EN','english',{
 "": {
 "language": "en",
