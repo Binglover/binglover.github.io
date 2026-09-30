@@ -32954,7 +32954,7 @@ window.onload = function () {
           LoadLang("loc/EN.js?v=" + Game.version, next);
         },
         function (next) {
-          LoadLang("loc='games/cookieclicker/loc/'+lang+'.js';?v=" + Game.version, next);
+          LoadLang("loc='loc/'+lang+'.js';?v=" + Game.version, next);
         },
         function (next) {
           locStringsFallback = locStrings;
