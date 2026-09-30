@@ -736,8 +736,8 @@ a.orangeLink:hover,#topBar a.orangeLink:hover
 {
 	height:100%;
 	position:absolute;
-	top:0px;
-	right:0px;
+	top:100px;
+	right:200px;
 	overflow-x:hidden;
 	overflow-y:scroll;
 	/*background:url(img/panelBG.png);*/
