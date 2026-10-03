@@ -1648,7 +1648,6 @@ body {
 }
 /**************************************
  * CALCULATOR
- * Decimal.js-powered calculator
  **************************************/
 
 const display = el("calc-display");
@@ -1656,76 +1655,34 @@ const buttons = document.querySelectorAll(
   "#calculator .calc-buttons button"
 );
 
-let lastExpression = null;
-let justCalculated = false;
+let lastAnswer = null;
 
 
 /* ======================================
-   NUMBER FORMATTING
+   CLEAN NUMBER
    ====================================== */
 
-function formatResult(value) {
-  try {
-    const number = new Decimal(value);
-
-    if (!number.isFinite()) {
-      return "Error";
-    }
-
-    // Avoid unnecessary trailing zeros.
-    // Decimal.js keeps the value accurate while
-    // toSignificantDigits prevents ugly floating-point
-    // output.
-    return number
-      .toSignificantDigits(30)
-      .toString();
-  } catch {
-    return "Error";
+function cleanNumber(number) {
+  if (!Number.isFinite(number)) {
+    throw new Error("Invalid number");
   }
-}
 
-
-/* ======================================
-   NORMALIZE EXPRESSION
-   ====================================== */
-
-function normalizeExpression(expression) {
-  let result = expression
-    .replace(/\s+/g, "")
-    .replace(/×/g, "*")
-    .replace(/÷/g, "/")
-    .replace(/−/g, "-");
-
-  return result;
-}
-
-
-/* ======================================
-   PERCENTAGE SUPPORT
-   ====================================== */
-
-/*
- * Converts:
- *
- *   50%       -> (50/100)
- *   25%+10    -> (25/100)+10
- *
- * Percent is treated as a postfix operator.
- */
-
-function convertPercentages(expression) {
-  return expression.replace(
-    /(\d+(?:\.\d+)?|\([^()]*\))%/g,
-    "($1/100)"
+  // Fix normal floating-point artifacts such as:
+  // 0.30000000000000004 -> 0.3
+  const rounded = Number.parseFloat(
+    Number(number).toPrecision(15)
   );
+
+  return String(rounded);
 }
 
 
 /* ======================================
-   TOKENIZER
+   TOKENIZE
    ====================================== */
 
 function tokenize(expression) {
+
   const tokens = [];
   let i = 0;
 
@@ -1746,14 +1703,15 @@ function tokenize(expression) {
         i++;
       }
 
-      // Reject things like 1.2.3
-      if ((number.match(/\./g) || []).length > 1) {
+      if (
+        (number.match(/\./g) || []).length > 1
+      ) {
         throw new Error("Invalid number");
       }
 
       tokens.push({
         type: "number",
-        value: number
+        value: Number(number)
       });
 
       continue;
@@ -1761,7 +1719,7 @@ function tokenize(expression) {
 
 
     // Operators
-    if ("+-*/".includes(char)) {
+    if ("+-*/%".includes(char)) {
 
       tokens.push({
         type: "operator",
@@ -1777,7 +1735,7 @@ function tokenize(expression) {
     if (char === "(" || char === ")") {
 
       tokens.push({
-        type: "parenthesis",
+        type: "paren",
         value: char
       });
 
@@ -1794,343 +1752,226 @@ function tokenize(expression) {
 
 
 /* ======================================
-   SHUNTING-YARD EXPRESSION PARSER
+   CALCULATE EXPRESSION
    ====================================== */
 
-function evaluateExpression(expression) {
+function calculateExpression(expression) {
 
-  expression = normalizeExpression(expression);
-  expression = convertPercentages(expression);
+  expression = expression
+    .replace(/\s/g, "")
+    .replace(/×/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/−/g, "-");
+
 
   const tokens = tokenize(expression);
 
-  const output = [];
-  const operators = [];
-
-  let previous = null;
+  let position = 0;
 
 
-  function precedence(operator) {
-    if (operator === "+" || operator === "-") {
-      return 1;
-    }
+  // Primary:
+  // numbers, parentheses, unary minus
+  function parsePrimary() {
 
-    if (operator === "*" || operator === "/") {
-      return 2;
-    }
+    const token = tokens[position];
 
-    // Unary minus
-    if (operator === "u-") {
-      return 3;
-    }
-
-    return 0;
-  }
-
-
-  function isRightAssociative(operator) {
-    return operator === "u-";
-  }
-
-
-  for (const token of tokens) {
-
-    // ----------------------------
-    // NUMBER
-    // ----------------------------
-
-    if (token.type === "number") {
-
-      output.push(token);
-
-      previous = token;
-
-      continue;
+    if (!token) {
+      throw new Error("Expected number");
     }
 
 
-    // ----------------------------
-    // LEFT PARENTHESIS
-    // ----------------------------
-
+    // Unary + or -
     if (
-      token.type === "parenthesis" &&
+      token.type === "operator" &&
+      (token.value === "+" || token.value === "-")
+    ) {
+
+      position++;
+
+      const value = parsePrimary();
+
+      return token.value === "-"
+        ? -value
+        : value;
+    }
+
+
+    // Parentheses
+    if (
+      token.type === "paren" &&
       token.value === "("
     ) {
 
-      operators.push(token);
+      position++;
 
-      previous = token;
-
-      continue;
-    }
-
-
-    // ----------------------------
-    // RIGHT PARENTHESIS
-    // ----------------------------
-
-    if (
-      token.type === "parenthesis" &&
-      token.value === ")"
-    ) {
-
-      let foundLeft = false;
-
-      while (operators.length) {
-
-        const operator = operators.pop();
-
-        if (
-          operator.type === "parenthesis" &&
-          operator.value === "("
-        ) {
-          foundLeft = true;
-          break;
-        }
-
-        output.push(operator);
-      }
-
-      if (!foundLeft) {
-        throw new Error("Mismatched parentheses");
-      }
-
-      previous = token;
-
-      continue;
-    }
-
-
-    // ----------------------------
-    // OPERATOR
-    // ----------------------------
-
-    if (token.type === "operator") {
-
-      let operator = token.value;
-
-
-      /*
-       * Detect unary minus.
-       *
-       * Examples:
-       *
-       * -5
-       * 5*-2
-       * (-10)
-       */
+      const value = parseAddSub();
 
       if (
-        operator === "-" &&
-        (
-          previous === null ||
-          (
-            previous.type === "operator"
-          ) ||
-          (
-            previous.type === "parenthesis" &&
-            previous.value === "("
-          )
-        )
+        !tokens[position] ||
+        tokens[position].type !== "paren" ||
+        tokens[position].value !== ")"
       ) {
-        operator = "u-";
+        throw new Error("Missing )");
       }
 
+      position++;
 
-      const current = {
-        type: "operator",
-        value: operator
-      };
-
-
-      while (operators.length) {
-
-        const top = operators[operators.length - 1];
-
-        if (top.type !== "operator") {
-          break;
-        }
-
-
-        const currentPrecedence =
-          precedence(operator);
-
-        const topPrecedence =
-          precedence(top.value);
-
-
-        const shouldPop =
-          isRightAssociative(operator)
-            ? currentPrecedence < topPrecedence
-            : currentPrecedence <= topPrecedence;
-
-
-        if (!shouldPop) {
-          break;
-        }
-
-
-        output.push(operators.pop());
-      }
-
-
-      operators.push(current);
-
-      previous = current;
-
-      continue;
-    }
-  }
-
-
-  // Empty expression
-  if (output.length === 0) {
-    throw new Error("Empty expression");
-  }
-
-
-  // Drain operators
-  while (operators.length) {
-
-    const operator = operators.pop();
-
-    if (
-      operator.type === "parenthesis"
-    ) {
-      throw new Error("Mismatched parentheses");
+      return value;
     }
 
-    output.push(operator);
-  }
-
-
-  /* ==================================
-     EVALUATE RPN
-     ================================== */
-
-  const stack = [];
-
-
-  for (const token of output) {
 
     // Number
     if (token.type === "number") {
 
-      stack.push(
-        new Decimal(token.value)
-      );
+      position++;
 
-      continue;
+      return token.value;
     }
 
 
-    // Unary minus
-    if (
-      token.type === "operator" &&
-      token.value === "u-"
-    ) {
-
-      if (stack.length < 1) {
-        throw new Error("Invalid expression");
-      }
-
-      const value = stack.pop();
-
-      stack.push(value.neg());
-
-      continue;
-    }
-
-
-    // Binary operator
-    if (token.type === "operator") {
-
-      if (stack.length < 2) {
-        throw new Error("Invalid expression");
-      }
-
-      const right = stack.pop();
-      const left = stack.pop();
-
-      let result;
-
-
-      switch (token.value) {
-
-        case "+":
-          result = left.plus(right);
-          break;
-
-        case "-":
-          result = left.minus(right);
-          break;
-
-        case "*":
-          result = left.times(right);
-          break;
-
-        case "/":
-
-          if (right.isZero()) {
-            throw new Error("Division by zero");
-          }
-
-          result = left.div(right);
-
-          break;
-
-        default:
-          throw new Error("Unknown operator");
-      }
-
-
-      stack.push(result);
-    }
+    throw new Error("Expected number");
   }
 
 
-  if (stack.length !== 1) {
+  // Percentage
+  function parsePercent() {
+
+    let value = parsePrimary();
+
+    while (
+      tokens[position] &&
+      tokens[position].type === "operator" &&
+      tokens[position].value === "%"
+    ) {
+
+      position++;
+
+      value = value / 100;
+    }
+
+    return value;
+  }
+
+
+  // Multiplication / division
+  function parseMultiplyDivide() {
+
+    let value = parsePercent();
+
+
+    while (
+      tokens[position] &&
+      tokens[position].type === "operator" &&
+      (
+        tokens[position].value === "*" ||
+        tokens[position].value === "/"
+      )
+    ) {
+
+      const operator =
+        tokens[position].value;
+
+      position++;
+
+      const right = parsePercent();
+
+
+      if (
+        operator === "/" &&
+        right === 0
+      ) {
+        throw new Error("Division by zero");
+      }
+
+
+      if (operator === "*") {
+        value *= right;
+      } else {
+        value /= right;
+      }
+    }
+
+
+    return value;
+  }
+
+
+  // Addition / subtraction
+  function parseAddSub() {
+
+    let value =
+      parseMultiplyDivide();
+
+
+    while (
+      tokens[position] &&
+      tokens[position].type === "operator" &&
+      (
+        tokens[position].value === "+" ||
+        tokens[position].value === "-"
+      )
+    ) {
+
+      const operator =
+        tokens[position].value;
+
+      position++;
+
+      const right =
+        parseMultiplyDivide();
+
+
+      if (operator === "+") {
+        value += right;
+      } else {
+        value -= right;
+      }
+    }
+
+
+    return value;
+  }
+
+
+  const result = parseAddSub();
+
+
+  // Make sure nothing is left over
+  if (position !== tokens.length) {
     throw new Error("Invalid expression");
   }
 
 
-  return stack[0];
+  return result;
 }
 
 
 /* ======================================
-   CALCULATE DISPLAY
+   CALCULATE
    ====================================== */
 
 function calculate() {
 
-  const input = display.value.trim();
+  const input =
+    display.value.replace(/\s/g, "");
+
 
   if (!input) {
     return;
   }
 
 
-  /*
-   * Secret game code stays intact.
-   */
-
-  if (
-    input.replace(/\s/g, "") ===
-    "3+1+1803"
-  ) {
+  // Secret game code
+  if (input === "3+1+1803") {
 
     display.value = "";
 
     const popup =
-      window.open(
-        "about:blank",
-        "_blank"
-      );
+      window.open("about:blank", "_blank");
 
 
     if (!popup) {
+
       alert(
         "Popup blocked — allow popups for this site."
       );
@@ -2150,15 +1991,14 @@ function calculate() {
   try {
 
     const result =
-      evaluateExpression(input);
+      calculateExpression(input);
 
 
     display.value =
-      formatResult(result);
+      cleanNumber(result);
 
 
-    lastExpression = input;
-    justCalculated = true;
+    lastAnswer = result;
 
   } catch (error) {
 
@@ -2168,15 +2008,13 @@ function calculate() {
     );
 
     display.value = "Error";
-
-    lastExpression = null;
-    justCalculated = true;
+    lastAnswer = null;
   }
 }
 
 
 /* ======================================
-   BUTTON HANDLING
+   BUTTONS
    ====================================== */
 
 if (display && buttons.length) {
@@ -2198,25 +2036,17 @@ if (display && buttons.length) {
       }
 
 
-      /* ================================
-         CLEAR
-         ================================= */
-
+      // CLEAR
       if (value === "C") {
 
         display.value = "";
-
-        lastExpression = null;
-        justCalculated = false;
+        lastAnswer = null;
 
         return;
       }
 
 
-      /* ================================
-         EQUALS
-         ================================= */
-
+      // EQUALS
       if (value === "=") {
 
         calculate();
@@ -2225,46 +2055,51 @@ if (display && buttons.length) {
       }
 
 
-      /* ================================
-         AFTER CALCULATION
-         ================================= */
-
-      if (justCalculated) {
-
-        /*
-         * If the user starts with an operator,
-         * continue using the answer.
-         *
-         * Example:
-         *
-         * 5 =
-         * + 2 =
-         *
-         * -> 7
-         */
+      // Percent
+      if (value === "%") {
 
         if (
-          "+-*/%".includes(value)
+          display.value &&
+          /[\d)]$/.test(display.value)
         ) {
-
-          justCalculated = false;
-
-        } else {
-
-          /*
-           * Starting a new number/expression.
-           */
-
-          display.value = "";
-          justCalculated = false;
+          display.value += "%";
         }
+
+        return;
       }
 
 
-      /* ================================
-         PARENTHESES
-         ================================= */
+      // Decimal point
+      if (value === ".") {
 
+        /*
+         * Find the current number.
+         * This prevents:
+         *
+         * 5.2.3
+         */
+
+        const parts =
+          display.value.split(
+            /[+\-*/()]/
+          );
+
+        const current =
+          parts[parts.length - 1];
+
+
+        if (current.includes(".")) {
+          return;
+        }
+
+
+        display.value += ".";
+
+        return;
+      }
+
+
+      // Parentheses
       if (
         value === "(" ||
         value === ")"
@@ -2276,70 +2111,11 @@ if (display && buttons.length) {
       }
 
 
-      /* ================================
-         DECIMAL
-         ================================= */
-
-      if (value === ".") {
-
-        /*
-         * Don't allow two decimal points
-         * in the same number.
-         */
-
-        const parts =
-          display.value.split(
-            /[+\-*/()]/
-          );
-
-        const currentNumber =
-          parts[parts.length - 1];
-
-
-        if (currentNumber.includes(".")) {
-          return;
-        }
-
-
-        display.value += ".";
-
-        return;
-      }
-
-
-      /* ================================
-         PERCENT
-         ================================= */
-
-      if (value === "%") {
-
-        /*
-         * Only allow % after something
-         * that can represent a number.
-         */
-
-        if (
-          display.value &&
-          /[\d)]$/.test(display.value)
-        ) {
-
-          display.value += "%";
-        }
-
-        return;
-      }
-
-
-      /* ================================
-         OPERATORS
-         ================================= */
-
+      // Operators
       if ("+-*/".includes(value)) {
 
         /*
-         * Allow unary minus.
-         *
-         * Examples:
+         * Allow negative numbers:
          *
          * -5
          * 5*-2
@@ -2363,12 +2139,11 @@ if (display && buttons.length) {
 
 
         /*
-         * Don't allow operators such as:
+         * Replace an existing operator
+         * instead of allowing:
          *
-         * 5+++
-         * 5**/
-         *
-         * Replace the previous operator instead.
+         * 5++2
+         * 5**2
          */
 
         if (
@@ -2391,11 +2166,13 @@ if (display && buttons.length) {
       }
 
 
-      /* ================================
-         NUMBERS / OTHER BUTTONS
-         ================================= */
+      // Number buttons
+      if (/^\d$/.test(value)) {
 
-      display.value += value;
+        display.value += value;
+
+        return;
+      }
 
     });
 
@@ -2403,16 +2180,16 @@ if (display && buttons.length) {
 
 
   /* ====================================
-     ENTER KEY
+     KEYBOARD
      ==================================== */
 
   document.addEventListener(
     "keydown",
-    (e) => {
+    (event) => {
 
-      if (e.key === "Enter") {
+      if (event.key === "Enter") {
 
-        e.preventDefault();
+        event.preventDefault();
 
         calculate();
 
@@ -2420,36 +2197,16 @@ if (display && buttons.length) {
       }
 
 
-      /*
-       * Keyboard Escape clears calculator.
-       */
-
-      if (e.key === "Escape") {
+      if (event.key === "Escape") {
 
         display.value = "";
-
-        lastExpression = null;
-        justCalculated = false;
+        lastAnswer = null;
 
         return;
       }
 
-
-      /*
-       * Keyboard %.
-       */
-
-      if (e.key === "%") {
-
-        if (
-          display.value &&
-          /[\d)]$/.test(display.value)
-        ) {
-
-          display.value += "%";
-        }
-      }
-
     }
+  );
+}
   );
 }
