@@ -1646,567 +1646,116 @@ body {
   popup.focus();
 
 }
-/**************************************
- * CALCULATOR
- **************************************/
+   /**************************************
+   * CALCULATOR
+   **************************************/
+  const display = el("calc-display");
+  const buttons = document.querySelectorAll("#calculator .calc-buttons button");
 
-const display = el("calc-display");
-const buttons = document.querySelectorAll(
-  "#calculator .calc-buttons button"
-);
+  let lastOperator = null;
+  let lastNumber = null;
 
-let lastAnswer = null;
+  if (display && buttons.length) {
 
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
 
-/* ======================================
-   CLEAN NUMBER
-   ====================================== */
+        const value = (btn.innerText || btn.textContent || "").trim();
 
-function cleanNumber(number) {
-  if (!Number.isFinite(number)) {
-    throw new Error("Invalid number");
-  }
+        if (!value) return;
 
-  // Fix normal floating-point artifacts such as:
-  // 0.30000000000000004 -> 0.3
-  const rounded = Number.parseFloat(
-    Number(number).toPrecision(15)
-  );
+        // ==============================
+        // CLEAR BUTTON
+        // ==============================
+        if (value === "C") {
+          display.value = "";
+          lastOperator = null;
+          lastNumber = null;
+          return;
+        }
 
-  return String(rounded);
-}
+        // ==============================
+        // EQUALS BUTTON
+        // ==============================
+      if (value === "=") {
 
+  const input = display.value.replace(/\s/g, "");
 
-/* ======================================
-   TOKENIZE
-   ====================================== */
-
-function tokenize(expression) {
-
-  const tokens = [];
-  let i = 0;
-
-  while (i < expression.length) {
-
-    const char = expression[i];
-
-    // Number
-    if (/[0-9.]/.test(char)) {
-
-      let number = "";
-
-      while (
-        i < expression.length &&
-        /[0-9.]/.test(expression[i])
-      ) {
-        number += expression[i];
-        i++;
-      }
-
-      if (
-        (number.match(/\./g) || []).length > 1
-      ) {
-        throw new Error("Invalid number");
-      }
-
-      tokens.push({
-        type: "number",
-        value: Number(number)
-      });
-
-      continue;
-    }
-
-
-    // Operators
-    if ("+-*/%".includes(char)) {
-
-      tokens.push({
-        type: "operator",
-        value: char
-      });
-
-      i++;
-      continue;
-    }
-
-
-    // Parentheses
-    if (char === "(" || char === ")") {
-
-      tokens.push({
-        type: "paren",
-        value: char
-      });
-
-      i++;
-      continue;
-    }
-
-
-    throw new Error("Invalid character");
-  }
-
-  return tokens;
-}
-
-
-/* ======================================
-   CALCULATE EXPRESSION
-   ====================================== */
-
-function calculateExpression(expression) {
-
-  expression = expression
-    .replace(/\s/g, "")
-    .replace(/×/g, "*")
-    .replace(/÷/g, "/")
-    .replace(/−/g, "-");
-
-
-  const tokens = tokenize(expression);
-
-  let position = 0;
-
-
-  // Primary:
-  // numbers, parentheses, unary minus
-  function parsePrimary() {
-
-    const token = tokens[position];
-
-    if (!token) {
-      throw new Error("Expected number");
-    }
-
-
-    // Unary + or -
-    if (
-      token.type === "operator" &&
-      (token.value === "+" || token.value === "-")
-    ) {
-
-      position++;
-
-      const value = parsePrimary();
-
-      return token.value === "-"
-        ? -value
-        : value;
-    }
-
-
-    // Parentheses
-    if (
-      token.type === "paren" &&
-      token.value === "("
-    ) {
-
-      position++;
-
-      const value = parseAddSub();
-
-      if (
-        !tokens[position] ||
-        tokens[position].type !== "paren" ||
-        tokens[position].value !== ")"
-      ) {
-        throw new Error("Missing )");
-      }
-
-      position++;
-
-      return value;
-    }
-
-
-    // Number
-    if (token.type === "number") {
-
-      position++;
-
-      return token.value;
-    }
-
-
-    throw new Error("Expected number");
-  }
-
-
-  // Percentage
-  function parsePercent() {
-
-    let value = parsePrimary();
-
-    while (
-      tokens[position] &&
-      tokens[position].type === "operator" &&
-      tokens[position].value === "%"
-    ) {
-
-      position++;
-
-      value = value / 100;
-    }
-
-    return value;
-  }
-
-
-  // Multiplication / division
-  function parseMultiplyDivide() {
-
-    let value = parsePercent();
-
-
-    while (
-      tokens[position] &&
-      tokens[position].type === "operator" &&
-      (
-        tokens[position].value === "*" ||
-        tokens[position].value === "/"
-      )
-    ) {
-
-      const operator =
-        tokens[position].value;
-
-      position++;
-
-      const right = parsePercent();
-
-
-      if (
-        operator === "/" &&
-        right === 0
-      ) {
-        throw new Error("Division by zero");
-      }
-
-
-      if (operator === "*") {
-        value *= right;
-      } else {
-        value /= right;
-      }
-    }
-
-
-    return value;
-  }
-
-
-  // Addition / subtraction
-  function parseAddSub() {
-
-    let value =
-      parseMultiplyDivide();
-
-
-    while (
-      tokens[position] &&
-      tokens[position].type === "operator" &&
-      (
-        tokens[position].value === "+" ||
-        tokens[position].value === "-"
-      )
-    ) {
-
-      const operator =
-        tokens[position].value;
-
-      position++;
-
-      const right =
-        parseMultiplyDivide();
-
-
-      if (operator === "+") {
-        value += right;
-      } else {
-        value -= right;
-      }
-    }
-
-
-    return value;
-  }
-
-
-  const result = parseAddSub();
-
-
-  // Make sure nothing is left over
-  if (position !== tokens.length) {
-    throw new Error("Invalid expression");
-  }
-
-
-  return result;
-}
-
-
-/* ======================================
-   CALCULATE
-   ====================================== */
-
-function calculate() {
-
-  const input =
-    display.value.replace(/\s/g, "");
-
-
-  if (!input) {
-    return;
-  }
-
-
-  // Secret game code
   if (input === "3+1+1803") {
-
     display.value = "";
+    lastOperator = null;
+    lastNumber = null;
 
-    const popup =
-      window.open("about:blank", "_blank");
-
+    // Open immediately as part of the button click.
+    const popup = window.open("about:blank", "_blank");
 
     if (!popup) {
-
-      alert(
-        "Popup blocked — allow popups for this site."
-      );
-
+      alert("Popup blocked — allow popups for this site.");
       return;
     }
 
-
     plumetPopup = popup;
 
+    // Put the game page into the already-open blank tab.
     openGamePage(popup);
 
     return;
   }
 
+          // ==============================
+          // NORMAL CALCULATOR
+          // ==============================
+          try {
+            if (lastOperator && lastNumber !== null) {
+              display.value = String(
+                eval(display.value + lastOperator + lastNumber)
+              );
+            } else {
 
-  try {
+              const match = display.value.match(
+                /([\d.]+)([+\-*/])([\d.]+)$/
+              );
 
-    const result =
-      calculateExpression(input);
+              if (match) {
+                lastOperator = match[2];
+                lastNumber = match[3];
+              }
 
+              display.value = String(eval(display.value));
+            }
 
-    display.value =
-      cleanNumber(result);
-
-
-    lastAnswer = result;
-
-  } catch (error) {
-
-    console.error(
-      "Calculator error:",
-      error
-    );
-
-    display.value = "Error";
-    lastAnswer = null;
-  }
-}
-
-
-/* ======================================
-   BUTTONS
-   ====================================== */
-
-if (display && buttons.length) {
-
-  buttons.forEach((btn) => {
-
-    btn.addEventListener("click", () => {
-
-      const value =
-        (
-          btn.innerText ||
-          btn.textContent ||
-          ""
-        ).trim();
-
-
-      if (!value) {
-        return;
-      }
-
-
-      // CLEAR
-      if (value === "C") {
-
-        display.value = "";
-        lastAnswer = null;
-
-        return;
-      }
-
-
-      // EQUALS
-      if (value === "=") {
-
-        calculate();
-
-        return;
-      }
-
-
-      // Percent
-      if (value === "%") {
-
-        if (
-          display.value &&
-          /[\d)]$/.test(display.value)
-        ) {
-          display.value += "%";
-        }
-
-        return;
-      }
-
-
-      // Decimal point
-      if (value === ".") {
-
-        /*
-         * Find the current number.
-         * This prevents:
-         *
-         * 5.2.3
-         */
-
-        const parts =
-          display.value.split(
-            /[+\-*/()]/
-          );
-
-        const current =
-          parts[parts.length - 1];
-
-
-        if (current.includes(".")) {
-          return;
-        }
-
-
-        display.value += ".";
-
-        return;
-      }
-
-
-      // Parentheses
-      if (
-        value === "(" ||
-        value === ")"
-      ) {
-
-        display.value += value;
-
-        return;
-      }
-
-
-      // Operators
-      if ("+-*/".includes(value)) {
-
-        /*
-         * Allow negative numbers:
-         *
-         * -5
-         * 5*-2
-         * (-3)
-         */
-
-        if (
-          value === "-" &&
-          (
-            display.value === "" ||
-            /[+\-*/(]$/.test(
-              display.value
-            )
-          )
-        ) {
-
-          display.value += "-";
+          } catch {
+            display.value = "Error";
+          }
 
           return;
         }
 
-
-        /*
-         * Replace an existing operator
-         * instead of allowing:
-         *
-         * 5++2
-         * 5**2
-         */
-
-        if (
-          /[+\-*/]$/.test(
-            display.value
-          )
-        ) {
-
-          display.value =
-            display.value.slice(0, -1) +
-            value;
-
-          return;
+        // ==============================
+        // OPERATOR BUTTON
+        // ==============================
+        if ("+-*/".includes(value)) {
+          lastOperator = null;
+          lastNumber = null;
         }
 
-
+        // Add button value to display
         display.value += value;
-
-        return;
-      }
-
-
-      // Number buttons
-      if (/^\d$/.test(value)) {
-
-        display.value += value;
-
-        return;
-      }
-
+      });
     });
 
-  });
+    // ==============================
+    // ENTER KEY
+    // ==============================
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const eq = Array.from(buttons).find(
+          (b) =>
+            (b.innerText || b.textContent || "").trim() === "="
+        );
 
-
-  /* ====================================
-     KEYBOARD
-     ==================================== */
-
-  document.addEventListener(
-    "keydown",
-    (event) => {
-
-      if (event.key === "Enter") {
-
-        event.preventDefault();
-
-        calculate();
-
-        return;
+        if (eq) eq.click();
       }
-
-
-      if (event.key === "Escape") {
-
-        display.value = "";
-        lastAnswer = null;
-
-        return;
-      }
-
-    }
-  );
-}
-  );
-}
+    });
+  }
+});
