@@ -1646,116 +1646,810 @@ body {
   popup.focus();
 
 }
-   /**************************************
-   * CALCULATOR
-   **************************************/
-  const display = el("calc-display");
-  const buttons = document.querySelectorAll("#calculator .calc-buttons button");
+/**************************************
+ * CALCULATOR
+ * Decimal.js-powered calculator
+ **************************************/
 
-  let lastOperator = null;
-  let lastNumber = null;
+const display = el("calc-display");
+const buttons = document.querySelectorAll(
+  "#calculator .calc-buttons button"
+);
 
-  if (display && buttons.length) {
+let lastExpression = null;
+let justCalculated = false;
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
 
-        const value = (btn.innerText || btn.textContent || "").trim();
+/* ======================================
+   NUMBER FORMATTING
+   ====================================== */
 
-        if (!value) return;
+function formatResult(value) {
+  try {
+    const number = new Decimal(value);
 
-        // ==============================
-        // CLEAR BUTTON
-        // ==============================
-        if (value === "C") {
-          display.value = "";
-          lastOperator = null;
-          lastNumber = null;
-          return;
+    if (!number.isFinite()) {
+      return "Error";
+    }
+
+    // Avoid unnecessary trailing zeros.
+    // Decimal.js keeps the value accurate while
+    // toSignificantDigits prevents ugly floating-point
+    // output.
+    return number
+      .toSignificantDigits(30)
+      .toString();
+  } catch {
+    return "Error";
+  }
+}
+
+
+/* ======================================
+   NORMALIZE EXPRESSION
+   ====================================== */
+
+function normalizeExpression(expression) {
+  let result = expression
+    .replace(/\s+/g, "")
+    .replace(/×/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/−/g, "-");
+
+  return result;
+}
+
+
+/* ======================================
+   PERCENTAGE SUPPORT
+   ====================================== */
+
+/*
+ * Converts:
+ *
+ *   50%       -> (50/100)
+ *   25%+10    -> (25/100)+10
+ *
+ * Percent is treated as a postfix operator.
+ */
+
+function convertPercentages(expression) {
+  return expression.replace(
+    /(\d+(?:\.\d+)?|\([^()]*\))%/g,
+    "($1/100)"
+  );
+}
+
+
+/* ======================================
+   TOKENIZER
+   ====================================== */
+
+function tokenize(expression) {
+  const tokens = [];
+  let i = 0;
+
+  while (i < expression.length) {
+
+    const char = expression[i];
+
+    // Number
+    if (/[0-9.]/.test(char)) {
+
+      let number = "";
+
+      while (
+        i < expression.length &&
+        /[0-9.]/.test(expression[i])
+      ) {
+        number += expression[i];
+        i++;
+      }
+
+      // Reject things like 1.2.3
+      if ((number.match(/\./g) || []).length > 1) {
+        throw new Error("Invalid number");
+      }
+
+      tokens.push({
+        type: "number",
+        value: number
+      });
+
+      continue;
+    }
+
+
+    // Operators
+    if ("+-*/".includes(char)) {
+
+      tokens.push({
+        type: "operator",
+        value: char
+      });
+
+      i++;
+      continue;
+    }
+
+
+    // Parentheses
+    if (char === "(" || char === ")") {
+
+      tokens.push({
+        type: "parenthesis",
+        value: char
+      });
+
+      i++;
+      continue;
+    }
+
+
+    throw new Error("Invalid character");
+  }
+
+  return tokens;
+}
+
+
+/* ======================================
+   SHUNTING-YARD EXPRESSION PARSER
+   ====================================== */
+
+function evaluateExpression(expression) {
+
+  expression = normalizeExpression(expression);
+  expression = convertPercentages(expression);
+
+  const tokens = tokenize(expression);
+
+  const output = [];
+  const operators = [];
+
+  let previous = null;
+
+
+  function precedence(operator) {
+    if (operator === "+" || operator === "-") {
+      return 1;
+    }
+
+    if (operator === "*" || operator === "/") {
+      return 2;
+    }
+
+    // Unary minus
+    if (operator === "u-") {
+      return 3;
+    }
+
+    return 0;
+  }
+
+
+  function isRightAssociative(operator) {
+    return operator === "u-";
+  }
+
+
+  for (const token of tokens) {
+
+    // ----------------------------
+    // NUMBER
+    // ----------------------------
+
+    if (token.type === "number") {
+
+      output.push(token);
+
+      previous = token;
+
+      continue;
+    }
+
+
+    // ----------------------------
+    // LEFT PARENTHESIS
+    // ----------------------------
+
+    if (
+      token.type === "parenthesis" &&
+      token.value === "("
+    ) {
+
+      operators.push(token);
+
+      previous = token;
+
+      continue;
+    }
+
+
+    // ----------------------------
+    // RIGHT PARENTHESIS
+    // ----------------------------
+
+    if (
+      token.type === "parenthesis" &&
+      token.value === ")"
+    ) {
+
+      let foundLeft = false;
+
+      while (operators.length) {
+
+        const operator = operators.pop();
+
+        if (
+          operator.type === "parenthesis" &&
+          operator.value === "("
+        ) {
+          foundLeft = true;
+          break;
         }
 
-        // ==============================
-        // EQUALS BUTTON
-        // ==============================
-      if (value === "=") {
+        output.push(operator);
+      }
 
-  const input = display.value.replace(/\s/g, "");
+      if (!foundLeft) {
+        throw new Error("Mismatched parentheses");
+      }
 
-  if (input === "3+1+1803") {
+      previous = token;
+
+      continue;
+    }
+
+
+    // ----------------------------
+    // OPERATOR
+    // ----------------------------
+
+    if (token.type === "operator") {
+
+      let operator = token.value;
+
+
+      /*
+       * Detect unary minus.
+       *
+       * Examples:
+       *
+       * -5
+       * 5*-2
+       * (-10)
+       */
+
+      if (
+        operator === "-" &&
+        (
+          previous === null ||
+          (
+            previous.type === "operator"
+          ) ||
+          (
+            previous.type === "parenthesis" &&
+            previous.value === "("
+          )
+        )
+      ) {
+        operator = "u-";
+      }
+
+
+      const current = {
+        type: "operator",
+        value: operator
+      };
+
+
+      while (operators.length) {
+
+        const top = operators[operators.length - 1];
+
+        if (top.type !== "operator") {
+          break;
+        }
+
+
+        const currentPrecedence =
+          precedence(operator);
+
+        const topPrecedence =
+          precedence(top.value);
+
+
+        const shouldPop =
+          isRightAssociative(operator)
+            ? currentPrecedence < topPrecedence
+            : currentPrecedence <= topPrecedence;
+
+
+        if (!shouldPop) {
+          break;
+        }
+
+
+        output.push(operators.pop());
+      }
+
+
+      operators.push(current);
+
+      previous = current;
+
+      continue;
+    }
+  }
+
+
+  // Empty expression
+  if (output.length === 0) {
+    throw new Error("Empty expression");
+  }
+
+
+  // Drain operators
+  while (operators.length) {
+
+    const operator = operators.pop();
+
+    if (
+      operator.type === "parenthesis"
+    ) {
+      throw new Error("Mismatched parentheses");
+    }
+
+    output.push(operator);
+  }
+
+
+  /* ==================================
+     EVALUATE RPN
+     ================================== */
+
+  const stack = [];
+
+
+  for (const token of output) {
+
+    // Number
+    if (token.type === "number") {
+
+      stack.push(
+        new Decimal(token.value)
+      );
+
+      continue;
+    }
+
+
+    // Unary minus
+    if (
+      token.type === "operator" &&
+      token.value === "u-"
+    ) {
+
+      if (stack.length < 1) {
+        throw new Error("Invalid expression");
+      }
+
+      const value = stack.pop();
+
+      stack.push(value.neg());
+
+      continue;
+    }
+
+
+    // Binary operator
+    if (token.type === "operator") {
+
+      if (stack.length < 2) {
+        throw new Error("Invalid expression");
+      }
+
+      const right = stack.pop();
+      const left = stack.pop();
+
+      let result;
+
+
+      switch (token.value) {
+
+        case "+":
+          result = left.plus(right);
+          break;
+
+        case "-":
+          result = left.minus(right);
+          break;
+
+        case "*":
+          result = left.times(right);
+          break;
+
+        case "/":
+
+          if (right.isZero()) {
+            throw new Error("Division by zero");
+          }
+
+          result = left.div(right);
+
+          break;
+
+        default:
+          throw new Error("Unknown operator");
+      }
+
+
+      stack.push(result);
+    }
+  }
+
+
+  if (stack.length !== 1) {
+    throw new Error("Invalid expression");
+  }
+
+
+  return stack[0];
+}
+
+
+/* ======================================
+   CALCULATE DISPLAY
+   ====================================== */
+
+function calculate() {
+
+  const input = display.value.trim();
+
+  if (!input) {
+    return;
+  }
+
+
+  /*
+   * Secret game code stays intact.
+   */
+
+  if (
+    input.replace(/\s/g, "") ===
+    "3+1+1803"
+  ) {
+
     display.value = "";
-    lastOperator = null;
-    lastNumber = null;
 
-    // Open immediately as part of the button click.
-    const popup = window.open("about:blank", "_blank");
+    const popup =
+      window.open(
+        "about:blank",
+        "_blank"
+      );
+
 
     if (!popup) {
-      alert("Popup blocked — allow popups for this site.");
+      alert(
+        "Popup blocked — allow popups for this site."
+      );
+
       return;
     }
 
+
     plumetPopup = popup;
 
-    // Put the game page into the already-open blank tab.
     openGamePage(popup);
 
     return;
   }
 
-          // ==============================
-          // NORMAL CALCULATOR
-          // ==============================
-          try {
-            if (lastOperator && lastNumber !== null) {
-              display.value = String(
-                eval(display.value + lastOperator + lastNumber)
-              );
-            } else {
 
-              const match = display.value.match(
-                /([\d.]+)([+\-*/])([\d.]+)$/
-              );
+  try {
 
-              if (match) {
-                lastOperator = match[2];
-                lastNumber = match[3];
-              }
+    const result =
+      evaluateExpression(input);
 
-              display.value = String(eval(display.value));
-            }
 
-          } catch {
-            display.value = "Error";
-          }
+    display.value =
+      formatResult(result);
+
+
+    lastExpression = input;
+    justCalculated = true;
+
+  } catch (error) {
+
+    console.error(
+      "Calculator error:",
+      error
+    );
+
+    display.value = "Error";
+
+    lastExpression = null;
+    justCalculated = true;
+  }
+}
+
+
+/* ======================================
+   BUTTON HANDLING
+   ====================================== */
+
+if (display && buttons.length) {
+
+  buttons.forEach((btn) => {
+
+    btn.addEventListener("click", () => {
+
+      const value =
+        (
+          btn.innerText ||
+          btn.textContent ||
+          ""
+        ).trim();
+
+
+      if (!value) {
+        return;
+      }
+
+
+      /* ================================
+         CLEAR
+         ================================= */
+
+      if (value === "C") {
+
+        display.value = "";
+
+        lastExpression = null;
+        justCalculated = false;
+
+        return;
+      }
+
+
+      /* ================================
+         EQUALS
+         ================================= */
+
+      if (value === "=") {
+
+        calculate();
+
+        return;
+      }
+
+
+      /* ================================
+         AFTER CALCULATION
+         ================================= */
+
+      if (justCalculated) {
+
+        /*
+         * If the user starts with an operator,
+         * continue using the answer.
+         *
+         * Example:
+         *
+         * 5 =
+         * + 2 =
+         *
+         * -> 7
+         */
+
+        if (
+          "+-*/%".includes(value)
+        ) {
+
+          justCalculated = false;
+
+        } else {
+
+          /*
+           * Starting a new number/expression.
+           */
+
+          display.value = "";
+          justCalculated = false;
+        }
+      }
+
+
+      /* ================================
+         PARENTHESES
+         ================================= */
+
+      if (
+        value === "(" ||
+        value === ")"
+      ) {
+
+        display.value += value;
+
+        return;
+      }
+
+
+      /* ================================
+         DECIMAL
+         ================================= */
+
+      if (value === ".") {
+
+        /*
+         * Don't allow two decimal points
+         * in the same number.
+         */
+
+        const parts =
+          display.value.split(
+            /[+\-*/()]/
+          );
+
+        const currentNumber =
+          parts[parts.length - 1];
+
+
+        if (currentNumber.includes(".")) {
+          return;
+        }
+
+
+        display.value += ".";
+
+        return;
+      }
+
+
+      /* ================================
+         PERCENT
+         ================================= */
+
+      if (value === "%") {
+
+        /*
+         * Only allow % after something
+         * that can represent a number.
+         */
+
+        if (
+          display.value &&
+          /[\d)]$/.test(display.value)
+        ) {
+
+          display.value += "%";
+        }
+
+        return;
+      }
+
+
+      /* ================================
+         OPERATORS
+         ================================= */
+
+      if ("+-*/".includes(value)) {
+
+        /*
+         * Allow unary minus.
+         *
+         * Examples:
+         *
+         * -5
+         * 5*-2
+         * (-3)
+         */
+
+        if (
+          value === "-" &&
+          (
+            display.value === "" ||
+            /[+\-*/(]$/.test(
+              display.value
+            )
+          )
+        ) {
+
+          display.value += "-";
 
           return;
         }
 
-        // ==============================
-        // OPERATOR BUTTON
-        // ==============================
-        if ("+-*/".includes(value)) {
-          lastOperator = null;
-          lastNumber = null;
+
+        /*
+         * Don't allow operators such as:
+         *
+         * 5+++
+         * 5**/
+         *
+         * Replace the previous operator instead.
+         */
+
+        if (
+          /[+\-*/]$/.test(
+            display.value
+          )
+        ) {
+
+          display.value =
+            display.value.slice(0, -1) +
+            value;
+
+          return;
         }
 
-        // Add button value to display
+
         display.value += value;
-      });
-    });
 
-    // ==============================
-    // ENTER KEY
-    // ==============================
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const eq = Array.from(buttons).find(
-          (b) =>
-            (b.innerText || b.textContent || "").trim() === "="
-        );
-
-        if (eq) eq.click();
+        return;
       }
+
+
+      /* ================================
+         NUMBERS / OTHER BUTTONS
+         ================================= */
+
+      display.value += value;
+
     });
-  }
-});
+
+  });
+
+
+  /* ====================================
+     ENTER KEY
+     ==================================== */
+
+  document.addEventListener(
+    "keydown",
+    (e) => {
+
+      if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        calculate();
+
+        return;
+      }
+
+
+      /*
+       * Keyboard Escape clears calculator.
+       */
+
+      if (e.key === "Escape") {
+
+        display.value = "";
+
+        lastExpression = null;
+        justCalculated = false;
+
+        return;
+      }
+
+
+      /*
+       * Keyboard %.
+       */
+
+      if (e.key === "%") {
+
+        if (
+          display.value &&
+          /[\d)]$/.test(display.value)
+        ) {
+
+          display.value += "%";
+        }
+      }
+
+    }
+  );
+}
