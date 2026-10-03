@@ -14473,23 +14473,22 @@ Game.Launch = function () {
 
       Game.Loader.waitForLoad([img, imgAddons], function () {
         //accessing pixel data not allowed locally; set img and imgAddons to base64-encoded image strings for testing
-        if (!App && Game.local) {
-          ctx.drawImage(Pic(img), 0, 0);
-        } else {
-          ctx.drawImage(Pic(img), 0, 0);
-          var canvasAddon = document.createElement("canvas");
-          canvasAddon.width = 32;
-          canvasAddon.height = 32;
-          ctxAddon = canvasAddon.getContext("2d");
-          var canvasCols = document.createElement("canvas");
-          var colsN = 64;
-          canvasCols.width = 8;
-          canvasCols.height = colsN;
-          var ctxCols = canvasCols.getContext("2d");
-          ctxCols.drawImage(Pic(imgAddons), 0, 0, 8, colsN, 0, 0, 8, colsN);
-          var imgDataCols = ctxCols.getImageData(0, 0, 8, colsN);
-          var dataCols = imgDataCols.data;
-          var cols = [];
+
+ctx.drawImage(Pic(img), 0, 0);
+		  
+var canvasAddon = document.createElement("canvas");
+canvasAddon.width = 32;
+canvasAddon.height = 32;
+ctxAddon = canvasAddon.getContext("2d");
+var canvasCols = document.createElement("canvas");
+var colsN = 64;
+canvasCols.width = 8;
+canvasCols.height = colsN;
+var ctxCols = canvasCols.getContext("2d");
+ctxCols.drawImage(Pic(imgAddons), 0, 0, 8, colsN, 0, 0, 8, colsN);
+var imgDataCols = ctxCols.getImageData(0, 0, 8, colsN);
+var dataCols = imgDataCols.data;
+var cols = [];
           for (var i = 0; i < colsN; i++) {
             cols[i] = [
               [
