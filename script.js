@@ -699,8 +699,13 @@ body {
     Cookie Clicker
   </div>
 
-</div>
 
+ <div
+    class="menu-btn"
+    data-tab="endacopia"
+  >
+    Endacopia
+  </div>
 
 <!-- =====================================================
      CONTENT
@@ -743,16 +748,17 @@ body {
   </div>
 
 
-  <!-- RUN 3 -->
+  <!-- ENDACOPIA -->
 
   <div
-    id="tab-run3"
+    id="tab-endacopia"
     class="tab-view"
     style="display:none;"
   >
 
     <iframe
-      src="games/run3.html"
+      src="games/index.html
+      title="Endacopia
     ></iframe>
 
   </div>
