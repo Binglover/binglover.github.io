@@ -759,6 +759,8 @@ body {
     <iframe
       src="games/index.html
       title="Endacopia
+      allow="fullscreen; autoplay; gamepad; pointer-lock"
+      allowfullscreen
     ></iframe>
 
   </div>
