@@ -676,14 +676,14 @@ body {
     Cookie Clicker
   </div>
 
-</div>
 
-
-  <div
+ <div
     class="menu-btn"
     data-tab="ovo"
   >
     Ovo
+    </div>
+    
   </div>
 <!-- =====================================================
      CONTENT
@@ -736,7 +736,7 @@ body {
 
     <iframe
       src="games/ovo/index.html"
-      title="OVO"
+      title="Ovo"
        allow="fullscreen; autoplay; gamepad; pointer-lock"
        allowfullscreen
     ></iframe>
