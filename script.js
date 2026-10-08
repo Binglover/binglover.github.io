@@ -688,7 +688,7 @@ body {
     class="menu-btn"
     data-tab="plumet"
   >
-    Plumet 2
+    Plumet
   </div>
 
 
@@ -699,13 +699,8 @@ body {
     Cookie Clicker
   </div>
 
+</div>
 
- <div
-    class="menu-btn"
-    data-tab="endacopia"
-  >
-    Endacopia
-  </div>
 
 <!-- =====================================================
      CONTENT
@@ -748,19 +743,16 @@ body {
   </div>
 
 
-  <!-- OVO -->
+  <!-- RUN 3 -->
 
   <div
-    id="tab-ovo"
+    id="tab-run3"
     class="tab-view"
     style="display:none;"
   >
 
     <iframe
-      src="games/ovo/index.html
-      title="Ovo"
-      allow="fullscreen; autoplay; gamepad; pointer-lock"
-      allowfullscreen
+      src="games/run3.html"
     ></iframe>
 
   </div>
