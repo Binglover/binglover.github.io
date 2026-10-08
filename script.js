@@ -688,7 +688,7 @@ body {
     class="menu-btn"
     data-tab="plumet"
   >
-    Plumet
+    Plumet 2
   </div>
 
 
@@ -748,17 +748,17 @@ body {
   </div>
 
 
-  <!-- ENDACOPIA -->
+  <!-- OVO -->
 
   <div
-    id="tab-endacopia"
+    id="tab-ovo"
     class="tab-view"
     style="display:none;"
   >
 
     <iframe
-      src="games/index.html
-      title="Endacopia
+      src="games/ovo/index.html
+      title="Ovo"
       allow="fullscreen; autoplay; gamepad; pointer-lock"
       allowfullscreen
     ></iframe>
