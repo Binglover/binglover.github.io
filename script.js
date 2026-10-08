@@ -231,10 +231,6 @@ body {
    MAIN CONTENT
    ===================================================== */
 
-/* =====================================================
-   MAIN CONTENT
-   ===================================================== */
-
 .content {
   flex: 1;
   min-width: 0;
@@ -252,11 +248,8 @@ body {
 
 .tab-view {
   width: 90%;
-  max-width: none;
   margin: 0 auto;
-  box-sizing: border-box;
 }
-
 
 .tab-view iframe,
 .tab-view object {
@@ -266,18 +259,13 @@ body {
   border: none;
   background: #000;
   border-radius: 12px;
-  box-sizing: border-box;
 }
-
 
 /* =====================================================
    PLUMET
    ===================================================== */
-
 #game-object {
-  width: 100%;
   height: 700px;
-  border: none;
 }
 
 
