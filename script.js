@@ -668,7 +668,6 @@ body {
     Plumet
   </div>
 
-
   <div
     class="menu-btn"
     data-tab="cookie"
@@ -676,15 +675,14 @@ body {
     Cookie Clicker
   </div>
 
-
- <div
+  <div
     class="menu-btn"
     data-tab="ovo"
   >
-    Ovo
-    </div>
-    
+    OVO
   </div>
+
+</div>
 <!-- =====================================================
      CONTENT
      ===================================================== -->
@@ -726,22 +724,22 @@ body {
   </div>
 
 
-  <!-- RUN 3 -->
+  <!-- OVO -->
 
-  <div
-    id="tab-ovo"
-    class="tab-view"
-    style="display:none;"
-  >
+<div
+  id="tab-ovo"
+  class="tab-view"
+  style="display:none;"
+>
 
-    <iframe
-      src="games/ovo/index.html"
-      title="Ovo"
-       allow="fullscreen; autoplay; gamepad; pointer-lock"
-       allowfullscreen
-    ></iframe>
+  <iframe
+    src="games/ovo/index.html"
+    title="OVO"
+    allow="fullscreen; autoplay; gamepad; pointer-lock"
+    allowfullscreen
+  ></iframe>
 
-  </div>
+</div>
 
 
   <!-- FLAPPY BIRD -->
