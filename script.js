@@ -231,61 +231,50 @@ body {
    MAIN CONTENT
    ===================================================== */
 
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
 .content {
-
   flex: 1;
-
   min-width: 0;
-
   height: 100vh;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
   padding: 20px;
-
   box-sizing: border-box;
-
   overflow: auto;
+  display: block;
 }
 
 
 /* =====================================================
    GAME CONTAINERS
    ===================================================== */
+
 .tab-view {
-  flex: 0 0 auto;
   width: 90%;
   max-width: none;
   margin: 0 auto;
-}
-
-.tab-view iframe,
-.tab-view object {
-
-  display: block;
-
-  width: 90%;
-
-  height: 600px;
-
-  border: none;
-
-  background: #000;
-
-  border-radius: 12px;
-
   box-sizing: border-box;
 }
 
 
-/* Plumet */
+.tab-view iframe,
+.tab-view object {
+  display: block;
+  width: 100%;
+  height: 600px;
+  border: none;
+  background: #000;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
 
-#game-object,
-.tab-view iframe {
+
+/* =====================================================
+   PLUMET
+   ===================================================== */
+
+#game-object {
   width: 100%;
   height: 700px;
   border: none;
