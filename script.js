@@ -1364,235 +1364,84 @@ body {
      HTML GAME UPLOADER
      ===================================================== */
 
-  htmlUpload.addEventListener(
-    "change",
-    function (event) {
-
-      const file =
-        event.target.files[0];
-
-
-      if (!file) {
-
-        return;
-
-      }
-
-
-      /* ---------------------------------------------
-         Check file type
-         --------------------------------------------- */
-
-      const fileName =
-        file.name.toLowerCase();
-
-
-      if (
-        !fileName.endsWith(".html") &&
-        !fileName.endsWith(".htm")
-      ) {
-
-        alert(
-          "Please select an HTML file."
-        );
-
-        htmlUpload.value = "";
-
-        return;
-
-      }
-
-
-      /* ---------------------------------------------
-         Read the HTML file
-         --------------------------------------------- */
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function () {
-
-          const html =
-            String(reader.result);
-
-
-          /* -------------------------------------------
-             Unique game ID
-             ------------------------------------------- */
-
-          const gameId =
-            "uploaded-" +
-            Date.now();
-
-
-          /* -------------------------------------------
-             Create sidebar button
-             ------------------------------------------- */
-
-          const button =
-            document.createElement(
-              "div"
-            );
-
-
-          button.className =
-            "menu-btn";
-
-
-          button.dataset.tab =
-            gameId;
-
-
-          button.textContent =
-            "📄 " + file.name;
-
-
-          document
-            .querySelector(".sidebar")
-            .appendChild(button);
-
-
-          /* -------------------------------------------
-             Create game container
-             ------------------------------------------- */
-
-          const gameView =
-            document.createElement(
-              "div"
-            );
-
-
-          gameView.id =
-            "tab-" + gameId;
-
-
-          gameView.className =
-            "tab-view uploaded-game";
-
-
-          gameView.style.display =
-            "none";
-
-
-          gameView.style.width =
-            widthSlider.value + "%";
-
-
-          /* -------------------------------------------
-             Create iframe
-             ------------------------------------------- */
-
-          const iframe =
-            document.createElement(
-              "iframe"
-            );
-
-
-          iframe.title =
-            file.name;
-
-
-          iframe.style.width =
-            "100%";
-
-
-          iframe.style.height =
-            heightSlider.value + "px";
-
-
-          iframe.style.border =
-            "none";
-
-
-          iframe.style.background =
-            "#000";
-
-
-          iframe.style.borderRadius =
-            "12px";
-
-
-          /*
-           * Put the uploaded HTML
-           * directly into the iframe.
-           */
-
-          iframe.srcdoc =
-            html;
-
-
-          gameView.appendChild(
-            iframe
-          );
-
-
-          document
-            .querySelector(".content")
-            .appendChild(gameView);
-
-
-          /* -------------------------------------------
-             Make sidebar button work
-             ------------------------------------------- */
-
-          button.addEventListener(
-            "click",
-            function () {
-
-              showTab(gameId);
-
-            }
-          );
-
-
-          /* -------------------------------------------
-             Open uploaded game
-             ------------------------------------------- */
-
-          showTab(gameId);
-
-
-          /* -------------------------------------------
-             Close settings
-             ------------------------------------------- */
-
-          settingsPanel.classList.remove(
-            "open"
-          );
-
-
-          /*
-           * Clear file input so the same file
-           * can be uploaded again later.
-           */
-
-          htmlUpload.value = "";
-
-
-          console.log(
-            "User game loaded:",
-            file.name
-          );
-
-        };
-
-
-      reader.onerror =
-        function () {
-
-          alert(
-            "Could not read that HTML file."
-          );
-
-        };
-
-
-      reader.readAsText(file);
-
-    }
-  );
+ 
+htmlUpload.addEventListener("change", function (event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const fileName = file.name.toLowerCase();
+
+  if (!fileName.endsWith(".html") && !fileName.endsWith(".htm")) {
+    alert("Please select an HTML file.");
+    htmlUpload.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function () {
+    const html = String(reader.result);
+
+    // Generate a unique ID for this imported game.
+    const gameId =
+      "uploaded-" + Date.now() + "-" +
+      Math.random().toString(36).slice(2, 8);
+
+    // Create its own sidebar button.
+    const button = document.createElement("div");
+    button.className = "menu-btn";
+    button.dataset.tab = gameId;
+    button.textContent = "📄 " + file.name;
+
+    // Create its own content container.
+    const gameView = document.createElement("div");
+    gameView.id = "tab-" + gameId;
+    gameView.className = "tab-view uploaded-game";
+    gameView.style.display = "none";
+    gameView.style.width = widthSlider.value + "%";
+
+    // Create a dedicated iframe for this HTML file.
+    const iframe = document.createElement("iframe");
+    iframe.title = file.name;
+    iframe.style.width = "100%";
+    iframe.style.height = heightSlider.value + "px";
+    iframe.style.border = "none";
+    iframe.style.background = "#000";
+    iframe.style.borderRadius = "12px";
+    iframe.setAttribute(
+      "allow",
+      "fullscreen; autoplay; gamepad; pointer-lock"
+    );
+    iframe.allowFullscreen = true;
+    iframe.srcdoc = html;
+
+    gameView.appendChild(iframe);
+
+    // Append the new elements without touching existing tabs.
+    document.querySelector(".sidebar").appendChild(button);
+    document.querySelector(".content").appendChild(gameView);
+
+    // Give the new button its own tab action.
+    button.addEventListener("click", function () {
+      showTab(gameId);
+    });
+
+    showTab(gameId);
+
+    settingsPanel.classList.remove("open");
+    htmlUpload.value = "";
+
+    console.log("User game loaded:", file.name);
+  };
+
+  reader.onerror = function () {
+    alert("Could not read that HTML file.");
+    htmlUpload.value = "";
+  };
+
+  reader.readAsText(file);
+});
 
 
   /* =====================================================
