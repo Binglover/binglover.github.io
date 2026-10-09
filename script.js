@@ -733,7 +733,7 @@ body {
 >
 
   <iframe
-    src="games/index.html"
+    src="games/ovo.html"
     title="OVO"
     allow="fullscreen; autoplay; gamepad; pointer-lock"
     allowfullscreen
