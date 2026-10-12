@@ -717,8 +717,7 @@ body {
   <iframe
   src="games/clcookieclicker.html"
   title="Cookie Clicker"
-  allow="fullscreen; autoplay; gamepad; pointer-lock"
-  allowfullscreen
+  allow="fullscreen; autoplay; gamepad;"
 </iframe>
 
   </div>
@@ -733,10 +732,9 @@ body {
 >
 
   <iframe
-    src="games/index.html"
+    src="games/ovo/ovo.html"
     title="OVO"
-    allow="fullscreen; autoplay; gamepad; pointer-lock"
-    allowfullscreen
+    allow="fullscreen; autoplay; gamepad;"
   ></iframe>
 
 </div>
