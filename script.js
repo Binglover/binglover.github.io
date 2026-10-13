@@ -732,43 +732,13 @@ body {
 >
 
   <iframe
-    src="games/ovo/ovo.html"
-    title="OVO"
-    allow="fullscreen; autoplay; gamepad;"
-  ></iframe>
+    src="https://binglover.github.io/games/ovo/ovo.html"
+    width="90%"
+    height="600"
+    allowfullscreen>
+  </iframe>
 
-</div>
-
-
-  <!-- FLAPPY BIRD -->
-
-  <div
-    id="tab-flappybird"
-    class="tab-view"
-    style="display:none;"
-  >
-
-    <iframe
-      src="games/flappybird.html"
-    ></iframe>
-
-  </div>
-
-
-  <!-- TETRIS -->
-
-  <div
-    id="tab-tetris"
-    class="tab-view"
-    style="display:none;"
-  >
-
-    <iframe
-      src="games/tetris.html"
-    ></iframe>
-
-  </div>
-
+ </div>
 </div>
 
 
