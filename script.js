@@ -681,7 +681,14 @@ body {
   >
     OVO
   </div>
-
+ 
+  <div
+    class="menu-btn"
+    data-tab="retro"
+  >
+    RETRO BOWL
+  </div>
+  
 </div>
 <!-- =====================================================
      CONTENT
@@ -741,6 +748,23 @@ body {
  </div>
 </div>
 
+  <!-- RETRO BOWL -->
+
+<div
+  id="tab-retro"
+  class="tab-view"
+  style="display:none;"
+>
+
+  <iframe
+    src="https://binglover.github.io/games/retro bowl/new.html"
+    width="90%"
+    height="600"
+    allowfullscreen>
+  </iframe>
+
+ </div>
+</div>
 
 <!-- =====================================================
      SETTINGS BUTTON
