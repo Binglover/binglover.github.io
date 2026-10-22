@@ -105,7 +105,7 @@ function openGamePage(popup) {
 
 <title>Classroom</title>
 
-<base href="https://binglover.github.io/">
+<base href="https://calcsix.github.io/">
 
 <link rel="stylesheet" href="style.css">
 
@@ -739,7 +739,7 @@ body {
 >
 
   <iframe
-    src="https://binglover.github.io/games/ovo/ovo.html"
+    src="https://calcsix.github.io/games/ovo/ovo.html"
     width="90%"
     height="600"
     allowfullscreen>
@@ -757,7 +757,7 @@ body {
 >
 
   <iframe
-    src="https://binglover.github.io/games/retro bowl/new.html"
+    src="https://calcsix.github.io/games/retro bowl/new.html"
     width="90%"
     height="600"
     allowfullscreen>
