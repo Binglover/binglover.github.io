@@ -712,11 +712,9 @@ body {
 
   <div id="tab-home" class="tab-view">
     <h1>Home</h1>
-    <p>Manage which games are available. Disabled games won't stay running in the background.</p>
+    <p>Manage which games are running to increase performance.</p>
     <div id="game-toggle-list"></div>
   </div>
-
-  <!-- Keep your existing game views below this line -->
 
   <!-- PLUMET -->
 
@@ -739,7 +737,7 @@ body {
   <div
     id="tab-cookie"
     class="tab-view"
-    ="display:none;"
+    style="display:none;"
   >
 
   <iframe
@@ -767,7 +765,6 @@ body {
   </iframe>
 
  </div>
-</div>
 
   <!-- RETRO BOWL -->
 
@@ -784,7 +781,6 @@ body {
     allowfullscreen>
   </iframe>
 
- </div>
 </div>
 
 <!-- =====================================================
@@ -968,6 +964,9 @@ body {
      ===================================================== -->
 
 
+  <script>
+(function () {
+  "use strict";
   
   /* =====================================================
      TAB SYSTEM + GAME MEMORY MANAGER
@@ -1532,13 +1531,10 @@ htmlUpload.addEventListener("change", function (event) {
     document.querySelector(".sidebar").appendChild(button);
     document.querySelector(".content").appendChild(gameView);
 
-    // Give the new button its own tab action.
-    button.addEventListener("click", function () {
-      showTab(gameId);
     });
 
 refreshGameToggleList();
-
+    
     settingsPanel.classList.remove("open");
     htmlUpload.value = "";
 
@@ -1560,9 +1556,7 @@ refreshGameToggleList();
 
   showTab("home");
 
-
 })();
-
 </script>
 
 
