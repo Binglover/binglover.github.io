@@ -678,14 +678,17 @@ body {
     Retro Bowl
   </div>
 
+</div>
+
 <!-- CONTENT -->
 <div class="content">
 
-  <div id="tab-home" class="tab-view">
-    <h1>Classroom Home</h1>
-    <p>Manage which games are running for better performance.</p>
-    <div id="game-toggle-list"></div>
-  </div>
+<div id="tab-home" class="tab-view">
+  <h1>Home</h1>
+  <p>Manage which games are loaded to make them run better.</p>
+
+  <div id="game-toggle-list"></div>
+</div>
   
   <!-- COOKIE CLICKER -->
   <div id="tab-cookie" class="tab-view" style="display:none;">
@@ -913,175 +916,56 @@ body {
 
   "use strict";
 
+
   /* =====================================================
-     TAB SYSTEM + GAME MEMORY MANAGER
+     TAB SYSTEM
      ===================================================== */
 
-  const sidebar = document.querySelector(".sidebar");
-  const toggleList = document.getElementById("game-toggle-list");
+  const tabs =
+    document.querySelectorAll(".menu-btn");
 
-  function getGameButton(tabName) {
-    return Array.from(document.querySelectorAll(".menu-btn"))
-      .find(button => button.dataset.tab === tabName);
-  }
+  const views =
+    document.querySelectorAll(".tab-view");
 
-  function unloadGameView(view) {
-    if (!view) return;
-
-    view.querySelectorAll("iframe").forEach(frame => {
-      if (frame.dataset.uploadedHtml !== undefined) {
-        // Stop uploaded HTML games but keep their HTML available.
-        frame.srcdoc = "";
-      } else {
-        // Stop hosted games and release their active page.
-        frame.removeAttribute("src");
-      }
-    });
-
-    view.querySelectorAll("object[data-game-src]").forEach(gameObject => {
-      gameObject.removeAttribute("data");
-    });
-  }
-
-  function loadGameView(view) {
-    if (!view) return;
-
-    view.querySelectorAll("iframe[data-game-src]").forEach(frame => {
-      if (!frame.hasAttribute("src")) {
-        frame.setAttribute("src", frame.dataset.gameSrc);
-      }
-    });
-
-    view.querySelectorAll("iframe").forEach(frame => {
-      if (
-        frame.dataset.uploadedHtml !== undefined &&
-        !frame.srcdoc
-      ) {
-        frame.srcdoc = frame.dataset.uploadedHtml;
-      }
-    });
-
-    view.querySelectorAll("object[data-game-src]").forEach(gameObject => {
-      if (!gameObject.hasAttribute("data")) {
-        gameObject.setAttribute("data", gameObject.dataset.gameSrc);
-      }
-    });
-  }
 
   function showTab(tabName) {
-    const target = document.getElementById("tab-" + tabName);
 
-    // Don't open a game that has been disabled.
-    const button = getGameButton(tabName);
-    if (
-      !target ||
-      (tabName !== "home" && (!button || button.dataset.disabled === "true"))
-    ) {
-      tabName = "home";
-    }
+    views.forEach(function (view) {
 
-    const activeView = document.getElementById("tab-" + tabName);
+      view.style.display = "none";
 
-    document.querySelectorAll(".tab-view").forEach(view => {
-      if (view !== activeView) {
-        unloadGameView(view);
-      }
-
-      view.style.display = view === activeView ? "block" : "none";
     });
 
-    if (tabName !== "home") {
-      loadGameView(activeView);
-    }
 
-    document.querySelectorAll(".menu-btn").forEach(item => {
-      item.setAttribute(
-        "aria-current",
-        item.dataset.tab === tabName ? "page" : "false"
+    const target =
+      document.getElementById(
+        "tab-" + tabName
       );
-    });
+
+
+    if (target) {
+
+      target.style.display = "block";
+
+    }
+
   }
 
-  function refreshGameToggleList() {
-    if (!toggleList) return;
 
-    toggleList.replaceChildren();
+  tabs.forEach(function (button) {
 
-    document.querySelectorAll(".menu-btn").forEach(button => {
-      const tabName = button.dataset.tab;
+    button.addEventListener(
+      "click",
+      function () {
 
-      if (!tabName || tabName === "home") return;
+        showTab(
+          button.dataset.tab
+        );
 
-      const row = document.createElement("div");
-      row.className = "game-toggle-row";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = "toggle-" + tabName;
-      checkbox.checked = button.dataset.disabled !== "true";
-
-      const label = document.createElement("label");
-      label.htmlFor = checkbox.id;
-
-      const gameName = document.createElement("span");
-      gameName.textContent = button.textContent.trim();
-
-      const status = document.createElement("span");
-      status.className = "game-toggle-status";
-      status.textContent = checkbox.checked
-        ? "Enabled"
-        : "Disabled — not running";
-
-      label.append(gameName, status);
-      row.append(checkbox, label);
-      toggleList.appendChild(row);
-
-      checkbox.addEventListener("change", () => {
-        const enabled = checkbox.checked;
-
-        button.dataset.disabled = String(!enabled);
-        button.style.display = enabled ? "" : "none";
-        status.textContent = enabled
-          ? "Enabled"
-          : "Disabled — not running";
-
-        if (!enabled) {
-          const view = document.getElementById("tab-" + tabName);
-          unloadGameView(view);
-
-          if (view && view.style.display !== "none") {
-            showTab("home");
-          }
-        }
-      });
-
-      button.style.display =
-        button.dataset.disabled === "true" ? "none" : "";
-    });
-  }
-
-  // Delegated click handler also works for games uploaded later.
-  if (sidebar) {
-    sidebar.addEventListener("click", event => {
-      const button = event.target.closest(".menu-btn");
-
-      if (!button || !sidebar.contains(button)) return;
-
-      const tabName = button.dataset.tab;
-      if (!tabName) return;
-
-      if (
-        tabName !== "home" &&
-        button.dataset.disabled === "true"
-      ) {
-        return;
       }
+    );
 
-      showTab(tabName);
-    });
-  }
-
-  refreshGameToggleList();
+  });
 
 
   /* =====================================================
@@ -1486,7 +1370,7 @@ htmlUpload.addEventListener("change", function (event) {
       "fullscreen; autoplay; gamepad; pointer-lock"
     );
     iframe.allowFullscreen = true;
-    iframe.dataset.uploadedHtml = html;
+    iframe.srcdoc = html;
 
     gameView.appendChild(iframe);
 
@@ -1494,9 +1378,12 @@ htmlUpload.addEventListener("change", function (event) {
     document.querySelector(".sidebar").appendChild(button);
     document.querySelector(".content").appendChild(gameView);
 
-showTab(gameId)
-   
-    refreshGameToggleList();
+    // Give the new button its own tab action.
+    button.addEventListener("click", function () {
+      showTab(gameId);
+    });
+
+    showTab(gameId);
 
     settingsPanel.classList.remove("open");
     htmlUpload.value = "";
@@ -1517,7 +1404,7 @@ showTab(gameId)
      DEFAULT TAB
      ===================================================== */
 
- showTab("home");
+  showTab("plumet");
 
 
 })();
