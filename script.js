@@ -663,13 +663,6 @@ body {
 
   <div
     class="menu-btn"
-    data-tab="plumet"
-  >
-    Plumet
-  </div>
-
-  <div
-    class="menu-btn"
     data-tab="cookie"
   >
     Cookie Clicker
@@ -680,6 +673,15 @@ body {
     data-tab="ovo"
   >
     OVO
+  </div>
+ 
+ <div class="sidebar">
+
+  <div
+    class="menu-btn"
+    data-tab="plumet"
+  >
+    Plumet
   </div>
  
   <div
