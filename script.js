@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
     target.classList.add("slotting");
 
     const timer = setInterval(() => {
-      target.textContent = pool[i++ % pool.length];
+      target.text = pool[i++ % pool.length];
     }, interval);
 
     setTimeout(() => {
@@ -657,10 +657,6 @@ body {
 
 
 <!-- SIDEBAR -->
-
-<div class="menu-btn" data-tab="home">
-  Home
-</div>
   
   <div class="menu-btn" data-tab="cookie">
     Cookie Clicker
@@ -682,18 +678,11 @@ body {
 
 <!-- CONTENT -->
 <div class="content">
-
-<div id="tab-home" class="tab-view">
-  <h1>Home</h1>
-  <p>Manage which games are loaded to make them run better.</p>
-
-  <div id="game-toggle-list"></div>
-</div>
   
   <!-- COOKIE CLICKER -->
   <div id="tab-cookie" class="tab-view" style="display:none;">
     <iframe
-      data-game-src="games/cookieclicker/clcookieclicker.html"
+      src="games/cookieclicker/clcookieclicker.html"
       title="Cookie Clicker"
       allow="fullscreen; autoplay; gamepad;">
     </iframe>
@@ -702,7 +691,7 @@ body {
   <!-- OVO -->
   <div id="tab-ovo" class="tab-view" style="display:none;">
     <iframe
-      data-game-src="https://calcsix.github.io/games/ovo/ovo.html"
+      src="https://calcsix.github.io/games/ovo/ovo.html"
       width="90%"
       height="600"
       allowfullscreen>
@@ -713,7 +702,7 @@ body {
   <div id="tab-plumet" class="tab-view">
     <object
       id="game-object"
-      data-game-src="Plumet2.swf"
+      src="Plumet2.swf"
       type="application/x-shockwave-flash">
     </object>
   </div>
@@ -721,7 +710,7 @@ body {
   <!-- RETRO BOWL -->
   <div id="tab-retro" class="tab-view" style="display:none;">
     <iframe
-      data-game-src="https://calcsix.github.io/games/retro%20bowl/new.html"
+      src="https://calcsix.github.io/games/retro%20bowl/new.html"
       width="90%"
       height="600"
       allowfullscreen>
