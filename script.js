@@ -655,117 +655,69 @@ body {
 <body>
 
 
-<!-- =====================================================
-     SIDEBAR
-     ===================================================== -->
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-  <div
-    class="menu-btn"
-    data-tab="cookie"
-  >
+  <div class="menu-btn" data-tab="cookie">
     Cookie Clicker
   </div>
 
-  <div
-    class="menu-btn"
-    data-tab="ovo"
-  >
+  <div class="menu-btn" data-tab="ovo">
     OVO
   </div>
- 
- <div class="sidebar">
 
-  <div
-    class="menu-btn"
-    data-tab="plumet"
-  >
+  <div class="menu-btn" data-tab="plumet">
     Plumet
   </div>
- 
-  <div
-    class="menu-btn"
-    data-tab="retro"
-  >
+
+  <div class="menu-btn" data-tab="retro">
     RETRO BOWL
   </div>
-  
-</div>
-<!-- =====================================================
-     CONTENT
-     ===================================================== -->
 
+</div>
+
+<!-- CONTENT -->
 <div class="content">
 
+  <!-- COOKIE CLICKER -->
+  <div id="tab-cookie" class="tab-view" style="display:none;">
+    <iframe
+      src="games/cookieclicker/clcookieclicker.html"
+      title="Cookie Clicker"
+      allow="fullscreen; autoplay; gamepad;">
+    </iframe>
+  </div>
+
+  <!-- OVO -->
+  <div id="tab-ovo" class="tab-view" style="display:none;">
+    <iframe
+      src="https://calcsix.github.io/games/ovo/ovo.html"
+      width="90%"
+      height="600"
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <!-- PLUMET -->
-
-  <div
-    id="tab-plumet"
-    class="tab-view"
-  >
-
+  <div id="tab-plumet" class="tab-view">
     <object
       id="game-object"
       data="Plumet2.swf"
-      type="application/x-shockwave-flash"
-    ></object>
-
+      type="application/x-shockwave-flash">
+    </object>
   </div>
-
-
-  <!-- COOKIE CLICKER -->
-
-  <div
-    id="tab-cookie"
-    class="tab-view"
-    style="display:none;"
-  >
-
-  <iframe
-  src="games/cookieclicker/clcookieclicker.html"
-  title="Cookie Clicker"
-  allow="fullscreen; autoplay; gamepad;">
-</iframe>
-
-  </div>
-
-
-  <!-- OVO -->
-
-<div
-  id="tab-ovo"
-  class="tab-view"
-  style="display:none;"
->
-
-  <iframe
-    src="https://calcsix.github.io/games/ovo/ovo.html"
-    width="90%"
-    height="600"
-    allowfullscreen>
-  </iframe>
-
- </div>
-</div>
 
   <!-- RETRO BOWL -->
+  <div id="tab-retro" class="tab-view" style="display:none;">
+    <iframe
+      src="https://calcsix.github.io/games/retro%20bowl/new.html"
+      width="90%"
+      height="600"
+      allowfullscreen>
+    </iframe>
+  </div>
 
-<div
-  id="tab-retro"
-  class="tab-view"
-  style="display:none;"
->
-
-  <iframe
-    src="https://calcsix.github.io/games/retro bowl/new.html"
-    width="90%"
-    height="600"
-    allowfullscreen>
-  </iframe>
-
- </div>
 </div>
 
 <!-- =====================================================
