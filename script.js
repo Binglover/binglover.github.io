@@ -103,7 +103,7 @@ function openGamePage(popup) {
 <meta name="viewport"
       content="width=device-width, initial-scale=1">
 
-<title>Classroom</title>
+<title>Classroomx</title>
 
 <base href="https://calcsix.github.io/">
 
@@ -647,6 +647,49 @@ body {
 
 }
 
+
+/* HOME GAME MANAGER */
+#tab-home h1 {
+  margin-top: 0;
+}
+
+#game-toggle-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.game-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: #202020;
+  border: 1px solid #444;
+  border-radius: 10px;
+}
+
+.game-toggle-row input {
+  width: 19px;
+  height: 19px;
+  accent-color: #ffcc00;
+  cursor: pointer;
+}
+
+.game-toggle-row label {
+  flex: 1;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.game-toggle-status {
+  display: block;
+  margin-top: 4px;
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
 </style>
 
 </head>
@@ -655,47 +698,25 @@ body {
 <body>
 
 
-<!-- =====================================================
-     SIDEBAR
-     ===================================================== -->
-
+<!-- SIDEBAR -->
 <div class="sidebar">
-
-  <div
-    class="menu-btn"
-    data-tab="plumet"
-  >
-    Plumet
-  </div>
-
-  <div
-    class="menu-btn"
-    data-tab="cookie"
-  >
-    Cookie Clicker
-  </div>
-
-  <div
-    class="menu-btn"
-    data-tab="ovo"
-  >
-    OVO
-  </div>
- 
-  <div
-    class="menu-btn"
-    data-tab="retro"
-  >
-    RETRO BOWL
-  </div>
-  
+  <div class="menu-btn" data-tab="home">Home</div>
+  <div class="menu-btn" data-tab="cookie">Cookie Clicker</div>
+  <div class="menu-btn" data-tab="ovo">OVO</div>
+  <div class="menu-btn" data-tab="plumet">Plumet 2</div>
+  <div class="menu-btn" data-tab="retro">Retro Bowl</div>
 </div>
-<!-- =====================================================
-     CONTENT
-     ===================================================== -->
 
+<!-- CONTENT -->
 <div class="content">
 
+  <div id="tab-home" class="tab-view">
+    <h1>Home</h1>
+    <p>Manage which games are available. Disabled games won't stay running in the background.</p>
+    <div id="game-toggle-list"></div>
+  </div>
+
+  <!-- Keep your existing game views below this line -->
 
   <!-- PLUMET -->
 
@@ -706,7 +727,7 @@ body {
 
     <object
       id="game-object"
-      data="Plumet2.swf"
+      data-game-src="Plumet2.swf"
       type="application/x-shockwave-flash"
     ></object>
 
@@ -718,11 +739,11 @@ body {
   <div
     id="tab-cookie"
     class="tab-view"
-    style="display:none;"
+    ="display:none;"
   >
 
   <iframe
-  src="games/cookieclicker/clcookieclicker.html"
+  data-game-src="games/cookieclicker/clcookieclicker.html"
   title="Cookie Clicker"
   allow="fullscreen; autoplay; gamepad;">
 </iframe>
@@ -739,7 +760,7 @@ body {
 >
 
   <iframe
-    src="https://calcsix.github.io/games/ovo/ovo.html"
+    data-game-src="https://calcsix.github.io/games/ovo/ovo.html"
     width="90%"
     height="600"
     allowfullscreen>
@@ -757,7 +778,7 @@ body {
 >
 
   <iframe
-    src="https://calcsix.github.io/games/retro bowl/new.html"
+    data-game-src="https://calcsix.github.io/games/retro bowl/new.html"
     width="90%"
     height="600"
     allowfullscreen>
@@ -946,63 +967,160 @@ body {
      IMPORTANT: THIS IS AFTER THE HTML ELEMENTS
      ===================================================== -->
 
-<script>
 
-(function () {
-
-  "use strict";
-
-
+  
   /* =====================================================
-     TAB SYSTEM
+     TAB SYSTEM + GAME MEMORY MANAGER
      ===================================================== */
 
-  const tabs =
-    document.querySelectorAll(".menu-btn");
+  const sidebar = document.querySelector(".sidebar");
+  const toggleList = document.getElementById("game-toggle-list");
 
-  const views =
-    document.querySelectorAll(".tab-view");
-
-
-  function showTab(tabName) {
-
-    views.forEach(function (view) {
-
-      view.style.display = "none";
-
-    });
-
-
-    const target =
-      document.getElementById(
-        "tab-" + tabName
-      );
-
-
-    if (target) {
-
-      target.style.display = "block";
-
-    }
-
+  function getGameButton(tabName) {
+    return Array.from(document.querySelectorAll(".menu-btn"))
+      .find(button => button.dataset.tab === tabName);
   }
 
+  function unloadGameView(view) {
+    if (!view) return;
 
-  tabs.forEach(function (button) {
+    view.querySelectorAll("iframe[data-game-src]").forEach(frame => {
+      frame.removeAttribute("src");
+    });
 
-    button.addEventListener(
-      "click",
-      function () {
+    view.querySelectorAll("iframe[data-uploaded-html]").forEach(frame => {
+      frame.srcdoc = "";
+    });
 
-        showTab(
-          button.dataset.tab
-        );
+    view.querySelectorAll("object[data-game-src]").forEach(gameObject => {
+      gameObject.removeAttribute("data");
+    });
+  }
 
+  function loadGameView(view) {
+    if (!view) return;
+
+    view.querySelectorAll("iframe[data-game-src]").forEach(frame => {
+      if (!frame.hasAttribute("src")) {
+        frame.src = frame.dataset.gameSrc;
       }
-    );
+    });
 
-  });
+    view.querySelectorAll("iframe[data-uploaded-html]").forEach(frame => {
+      if (!frame.srcdoc) {
+        frame.srcdoc = frame.dataset.uploadedHtml;
+      }
+    });
 
+    view.querySelectorAll("object[data-game-src]").forEach(gameObject => {
+      if (!gameObject.hasAttribute("data")) {
+        gameObject.data = gameObject.dataset.gameSrc;
+      }
+    });
+  }
+
+  function showTab(tabName) {
+    let activeView = document.getElementById("tab-" + tabName);
+    const button = getGameButton(tabName);
+
+    if (
+      !activeView ||
+      (tabName !== "home" &&
+        (!button || button.dataset.disabled === "true"))
+    ) {
+      tabName = "home";
+      activeView = document.getElementById("tab-home");
+    }
+
+    document.querySelectorAll(".tab-view").forEach(view => {
+      if (view !== activeView) {
+        unloadGameView(view);
+        view.style.display = "none";
+      }
+    });
+
+    if (activeView) {
+      activeView.style.display = "block";
+
+      if (tabName !== "home") {
+        loadGameView(activeView);
+      }
+    }
+
+    document.querySelectorAll(".menu-btn").forEach(item => {
+      item.classList.toggle("active", item.dataset.tab === tabName);
+    });
+  }
+
+  function refreshGameToggleList() {
+    if (!toggleList) return;
+
+    toggleList.replaceChildren();
+
+    document.querySelectorAll(".menu-btn").forEach(button => {
+      const tabName = button.dataset.tab;
+      if (!tabName || tabName === "home") return;
+
+      const row = document.createElement("div");
+      row.className = "game-toggle-row";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "toggle-" + tabName;
+      checkbox.checked = button.dataset.disabled !== "true";
+
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+
+      const name = document.createElement("span");
+      name.textContent = button.textContent.trim();
+
+      const status = document.createElement("span");
+      status.className = "game-toggle-status";
+
+      function updateStatus() {
+        status.textContent = checkbox.checked
+          ? "Enabled"
+          : "Disabled — not running";
+      }
+
+      updateStatus();
+      label.append(name, status);
+      row.append(checkbox, label);
+      toggleList.appendChild(row);
+
+      button.style.display = checkbox.checked ? "" : "none";
+
+      checkbox.addEventListener("change", () => {
+        button.dataset.disabled = String(!checkbox.checked);
+        button.style.display = checkbox.checked ? "" : "none";
+        updateStatus();
+
+        if (!checkbox.checked) {
+          const view = document.getElementById("tab-" + tabName);
+
+          if (view) {
+            unloadGameView(view);
+
+            if (view.style.display !== "none") {
+              showTab("home");
+            }
+          }
+        }
+      });
+    });
+  }
+
+  if (sidebar) {
+    sidebar.addEventListener("click", event => {
+      const button = event.target.closest(".menu-btn");
+      if (!button || !sidebar.contains(button)) return;
+
+      showTab(button.dataset.tab);
+    });
+  }
+
+  refreshGameToggleList();
 
   /* =====================================================
      SETTINGS ELEMENTS
@@ -1406,7 +1524,7 @@ htmlUpload.addEventListener("change", function (event) {
       "fullscreen; autoplay; gamepad; pointer-lock"
     );
     iframe.allowFullscreen = true;
-    iframe.srcdoc = html;
+    iframe.dataset.uploadedHtml = html;
 
     gameView.appendChild(iframe);
 
@@ -1419,7 +1537,7 @@ htmlUpload.addEventListener("change", function (event) {
       showTab(gameId);
     });
 
-    showTab(gameId);
+refreshGameToggleList();
 
     settingsPanel.classList.remove("open");
     htmlUpload.value = "";
@@ -1440,7 +1558,7 @@ htmlUpload.addEventListener("change", function (event) {
      DEFAULT TAB
      ===================================================== */
 
-  showTab("plumet");
+  showTab("home");
 
 
 })();
