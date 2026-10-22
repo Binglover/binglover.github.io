@@ -722,7 +722,7 @@ body {
   >
 
   <iframe
-  src="games/clcookieclicker.html"
+  src="games/cookieclicker/clcookieclicker.html"
   title="Cookie Clicker"
   allow="fullscreen; autoplay; gamepad;">
 </iframe>
