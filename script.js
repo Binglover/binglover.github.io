@@ -657,8 +657,11 @@ body {
 
 
 <!-- SIDEBAR -->
-<div class="sidebar">
 
+<div class="menu-btn" data-tab="home">
+  Home
+</div>
+  
   <div class="menu-btn" data-tab="cookie">
     Cookie Clicker
   </div>
@@ -672,7 +675,7 @@ body {
   </div>
 
   <div class="menu-btn" data-tab="retro">
-    RETRO BOWL
+    Retro Bowl
   </div>
 
 </div>
@@ -680,10 +683,17 @@ body {
 <!-- CONTENT -->
 <div class="content">
 
+<div id="tab-home" class="tab-view">
+  <h1>Home</h1>
+  <p>Manage which games are loaded to make them run better.</p>
+
+  <div id="game-toggle-list"></div>
+</div>
+  
   <!-- COOKIE CLICKER -->
   <div id="tab-cookie" class="tab-view" style="display:none;">
     <iframe
-      src="games/cookieclicker/clcookieclicker.html"
+      data-game-src="games/cookieclicker/clcookieclicker.html"
       title="Cookie Clicker"
       allow="fullscreen; autoplay; gamepad;">
     </iframe>
@@ -692,7 +702,7 @@ body {
   <!-- OVO -->
   <div id="tab-ovo" class="tab-view" style="display:none;">
     <iframe
-      src="https://calcsix.github.io/games/ovo/ovo.html"
+      data-game-src="https://calcsix.github.io/games/ovo/ovo.html"
       width="90%"
       height="600"
       allowfullscreen>
@@ -703,7 +713,7 @@ body {
   <div id="tab-plumet" class="tab-view">
     <object
       id="game-object"
-      data="Plumet2.swf"
+      data-game-src="Plumet2.swf"
       type="application/x-shockwave-flash">
     </object>
   </div>
@@ -711,7 +721,7 @@ body {
   <!-- RETRO BOWL -->
   <div id="tab-retro" class="tab-view" style="display:none;">
     <iframe
-      src="https://calcsix.github.io/games/retro%20bowl/new.html"
+      data-game-src="https://calcsix.github.io/games/retro%20bowl/new.html"
       width="90%"
       height="600"
       allowfullscreen>
