@@ -951,6 +951,15 @@ body {
      RUFFLE
      ===================================================== -->
 
+<script>
+  window.RufflePlayer = window.RufflePlayer || {};
+  window.RufflePlayer.config = {
+    ...(window.RufflePlayer.config || {}),
+    logLevel: "info",
+    autoplay: "on",
+    backgroundColor: "#FFFFFF"
+  };
+</script>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
