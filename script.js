@@ -1473,81 +1473,73 @@ body {
      HTML GAME UPLOADER
      ===================================================== */
 
- 
-htmlUpload.addEventListener("change", function (event) {
-  const file = event.target.files[0];
+  htmlUpload.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  if (!file) return;
+    const fileName = file.name.toLowerCase();
 
-  const fileName = file.name.toLowerCase();
+    if (!fileName.endsWith(".html") &&
+        !fileName.endsWith(".htm")) {
+      alert("Please select an HTML file.");
+      htmlUpload.value = "";
+      return;
+    }
 
-  if (!fileName.endsWith(".html") && !fileName.endsWith(".htm")) {
-    alert("Please select an HTML file.");
-    htmlUpload.value = "";
-    return;
-  }
+    const reader = new FileReader();
 
-  const reader = new FileReader();
+    reader.onload = function () {
+      const html = String(reader.result);
 
-  reader.onload = function () {
-    const html = String(reader.result);
+      const gameId =
+        "uploaded-" + Date.now() + "-" +
+        Math.random().toString(36).slice(2, 8);
 
-    // Generate a unique ID for this imported game.
-    const gameId =
-      "uploaded-" + Date.now() + "-" +
-      Math.random().toString(36).slice(2, 8);
+      const button = document.createElement("div");
+      button.className = "menu-btn";
+      button.dataset.tab = gameId;
+      button.textContent = "📄 " + file.name;
 
-    // Create its own sidebar button.
-    const button = document.createElement("div");
-    button.className = "menu-btn";
-    button.dataset.tab = gameId;
-    button.textContent = "📄 " + file.name;
+      const gameView = document.createElement("div");
+      gameView.id = "tab-" + gameId;
+      gameView.className = "tab-view uploaded-game";
+      gameView.style.display = "none";
+      gameView.style.width = widthSlider.value + "%";
 
-    // Create its own content container.
-    const gameView = document.createElement("div");
-    gameView.id = "tab-" + gameId;
-    gameView.className = "tab-view uploaded-game";
-    gameView.style.display = "none";
-    gameView.style.width = widthSlider.value + "%";
+      const iframe = document.createElement("iframe");
+      iframe.title = file.name;
+      iframe.style.width = "100%";
+      iframe.style.height = heightSlider.value + "px";
+      iframe.style.border = "none";
+      iframe.style.background = "#000";
+      iframe.style.borderRadius = "12px";
+      iframe.setAttribute(
+        "allow",
+        "fullscreen; autoplay; gamepad; pointer-lock"
+      );
+      iframe.allowFullscreen = true;
+      iframe.dataset.uploadedHtml = html;
 
-    // Create a dedicated iframe for this HTML file.
-    const iframe = document.createElement("iframe");
-    iframe.title = file.name;
-    iframe.style.width = "100%";
-    iframe.style.height = heightSlider.value + "px";
-    iframe.style.border = "none";
-    iframe.style.background = "#000";
-    iframe.style.borderRadius = "12px";
-    iframe.setAttribute(
-      "allow",
-      "fullscreen; autoplay; gamepad; pointer-lock"
-    );
-    iframe.allowFullscreen = true;
-    iframe.dataset.uploadedHtml = html;
+      gameView.appendChild(iframe);
 
-    gameView.appendChild(iframe);
+      sidebar.appendChild(button);
+      document.querySelector(".content").appendChild(gameView);
 
-    // Append the new elements without touching existing tabs.
-    document.querySelector(".sidebar").appendChild(button);
-    document.querySelector(".content").appendChild(gameView);
+      refreshGameToggleList();
 
-    });
+      settingsPanel.classList.remove("open");
+      htmlUpload.value = "";
 
-refreshGameToggleList();
-    
-    settingsPanel.classList.remove("open");
-    htmlUpload.value = "";
+      console.log("User game loaded:", file.name);
+    };
 
-    console.log("User game loaded:", file.name);
-  };
+    reader.onerror = function () {
+      alert("Could not read that HTML file.");
+      htmlUpload.value = "";
+    };
 
-  reader.onerror = function () {
-    alert("Could not read that HTML file.");
-    htmlUpload.value = "";
-  };
-
-  reader.readAsText(file);
-});
+    reader.readAsText(file);
+  });
 
 
   /* =====================================================
