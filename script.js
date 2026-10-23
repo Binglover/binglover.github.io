@@ -763,7 +763,6 @@ body {
     height="600"
     allowfullscreen>
   </iframe>
-
  </div>
 
   <!-- RETRO BOWL -->
@@ -773,17 +772,10 @@ body {
   class="tab-view"
   style="display:none;"
 >
-
-
-<div
-  id="tab-retro"
-  class="tab-view"
-  style="display:none;"
->
   <iframe
     data-game-src="https://calcsix.github.io/games/retro%20bowl/new.html"
     title="Retro Bowl"
-    width="100%"
+    width="90%"
     height="600"
     allow="fullscreen; autoplay; gamepad"
     allowfullscreen>
@@ -950,11 +942,6 @@ body {
       >
         Reset Game Size
       </button>
-
-    </div>
-
-  </div>
-
 </div>
 
 
@@ -962,15 +949,11 @@ body {
      RUFFLE
      ===================================================== -->
 
+
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-
-<!-- =====================================================
-     CLASSROOM JAVASCRIPT
-     IMPORTANT: THIS IS AFTER THE HTML ELEMENTS
-     ===================================================== -->
-
-
+<!-- CLASSROOM JAVASCRIPT -->
+  
   <script>
 (function () {
   "use strict";
