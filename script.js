@@ -725,7 +725,11 @@ body {
     class="tab-view"
   >
 
-<div id="plumet-player"></div>
+<object
+  id="game-object"
+  data-game-src="Plumet2.swf"
+  type="application/x-shockwave-flash"
+></object>
   </div>
 
 
@@ -965,43 +969,6 @@ body {
   <script>
 (function () {
   "use strict";
-    
-    // ===== PLUMET 2 / RUFFLE LOADER =====
-
- function loadPlumet() {
-  if (plumetLoaded) return;
-
-  const container = document.getElementById("plumet-player");
-
-  if (!container) {
-    console.error("Plumet 2: #plumet-player was not found.");
-    return;
-  }
-
-  if (!window.RufflePlayer) {
-    console.error("Plumet 2: Ruffle has not loaded.");
-    return;
-  }
-
-  const ruffle = window.RufflePlayer.newest();
-  const player = ruffle.createPlayer();
-
-  player.style.width = "100%";
-  player.style.height = "600px";
-
-  container.replaceChildren(player);
-
-  player.ruffle().load({
-    url: "https://calcsix.github.io/Plumet2.swf",
-    autoplay: "on",
-    logLevel: "info"
-  }).then(() => {
-    plumetLoaded = true;
-    console.log("Plumet 2 loaded successfully.");
-  }).catch(error => {
-    console.error("Plumet 2 loading error:", error);
-  });
-}
  
   /* =====================================================
      TAB SYSTEM + GAME MEMORY MANAGER
@@ -1153,9 +1120,6 @@ body {
       showTab(button.dataset.tab);
     });
   }
-    if (tabName === "plumet") {
-      loadPlumet();
-    }
     
   refreshGameToggleList();
 
