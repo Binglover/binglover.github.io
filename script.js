@@ -725,12 +725,7 @@ body {
     class="tab-view"
   >
 
-<object
-  id="game-object"
-  data-game-src="Plumet2.swf"
-  type="application/x-shockwave-flash"
-></object>
-  </div>
+<div id="plumet-player"></div>
 
 
   <!-- COOKIE CLICKER -->
@@ -970,6 +965,53 @@ body {
 (function () {
   "use strict";
  
+  // =====================================================
+  // PLUMET 2 — EXPLICIT RUFFLE LOADER
+  // =====================================================
+
+  let plumetPlayer = null;
+  let plumetLoaded = false;
+
+  function loadPlumet() {
+    const container = document.getElementById("plumet-player");
+
+    if (!container || plumetLoaded) return;
+
+    if (!window.RufflePlayer) {
+      console.error("Plumet 2: Ruffle did not load.");
+      return;
+    }
+
+    const ruffle = window.RufflePlayer.newest();
+    plumetPlayer = ruffle.createPlayer();
+
+    plumetPlayer.style.width = "100%";
+    plumetPlayer.style.height = "600px";
+    container.replaceChildren(plumetPlayer);
+
+    // Mark it as initialized to prevent duplicate players.
+    plumetLoaded = true;
+
+    plumetPlayer.load({
+      url: "https://calcsix.github.io/Plumet2.swf",
+      autoplay: "on"
+    }).catch(error => {
+      console.error("Plumet 2 Ruffle error:", error);
+      plumetLoaded = false;
+    });
+  }
+
+  function unloadPlumet() {
+    const container = document.getElementById("plumet-player");
+
+    if (container) {
+      container.replaceChildren();
+    }
+
+    plumetPlayer = null;
+    plumetLoaded = false;
+  }
+
   /* =====================================================
      TAB SYSTEM + GAME MEMORY MANAGER
      ===================================================== */
@@ -985,6 +1027,9 @@ body {
   function unloadGameView(view) {
     if (!view) return;
 
+    if (view.id === "tab-plumet") {
+  unloadPlumet();
+}
     view.querySelectorAll("iframe[data-game-src]").forEach(frame => {
       frame.removeAttribute("src");
     });
@@ -1041,12 +1086,16 @@ body {
     });
 
     if (activeView) {
-      activeView.style.display = "block";
+  activeView.style.display = "block";
 
-      if (tabName !== "home") {
-        loadGameView(activeView);
-      }
-    }
+  if (tabName !== "home") {
+    loadGameView(activeView);
+  }
+
+  if (tabName === "plumet") {
+    loadPlumet();
+  }
+}
 
     document.querySelectorAll(".menu-btn").forEach(item => {
       item.classList.toggle("active", item.dataset.tab === tabName);
@@ -1331,22 +1380,15 @@ body {
      * Resize Plumet.
      */
 
-    const gameObject =
-      document.getElementById(
-        "game-object"
-      );
+const plumetContainer = document.getElementById("plumet-player");
 
+if (plumetContainer) {
+  plumetContainer.style.height = height + "px";
 
-    if (gameObject) {
-
-      gameObject.style.width =
-        "100%";
-
-      gameObject.style.height =
-        height + "px";
-
-    }
-
+  if (plumetPlayer) {
+    plumetPlayer.style.height = height + "px";
+  }
+}
 
     /*
      * Save the settings.
