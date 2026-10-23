@@ -774,13 +774,20 @@ body {
   style="display:none;"
 >
 
+
+<div
+  id="tab-retro"
+  class="tab-view"
+  style="display:none;"
+>
   <iframe
-    data-game-src="https://calcsix.github.io/games/retro bowl/new.html"
-    width="90%"
+    data-game-src="https://calcsix.github.io/games/retro%20bowl/new.html"
+    title="Retro Bowl"
+    width="100%"
     height="600"
+    allow="fullscreen; autoplay; gamepad"
     allowfullscreen>
   </iframe>
-
 </div>
 
 <!-- =====================================================
